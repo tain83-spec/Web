@@ -4,6 +4,22 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Martin Alderton — Practice</title>
+<style>
+#lockScreen{position:fixed;inset:0;background:#2a3a4a;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column}
+#lockScreen.hidden{display:none}
+.lock-card{background:#fff;border-radius:8px;padding:2.5rem;max-width:360px;width:90%;text-align:center;box-shadow:0 8px 40px rgba(0,0,0,0.3)}
+.lock-logo{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.4rem;color:#2a3a4a;margin-bottom:0.25rem}
+.lock-logo span{color:#c8956c}
+.lock-sub{font-size:0.75rem;color:#9e9488;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:2rem}
+.lock-label{font-size:0.7rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:#9e9488;margin-bottom:0.4rem;text-align:left}
+.lock-input{width:100%;padding:0.7rem 1rem;border:1px solid rgba(0,0,0,0.12);border-radius:4px;font-size:0.95rem;margin-bottom:1rem;font-family:'DM Sans',system-ui,sans-serif;background:#f7f3ec;color:#1e1e1c}
+.lock-input:focus{outline:none;border-color:#3d5166;background:#fff}
+.lock-btn{width:100%;padding:0.75rem;background:#2a3a4a;color:#fff;border:none;border-radius:4px;font-family:'DM Sans',system-ui,sans-serif;font-size:0.85rem;font-weight:500;cursor:pointer;letter-spacing:0.05em;transition:opacity 0.15s}
+.lock-btn:hover{opacity:0.85}
+.lock-error{color:#c0392b;font-size:0.8rem;margin-bottom:0.75rem;display:none}
+.lock-recovery{margin-top:1rem;font-size:0.75rem;color:#9e9488;cursor:pointer;text-decoration:underline}
+.recovery-box{background:#f7f3ec;border-radius:4px;padding:0.75rem;margin-top:1rem;font-size:0.8rem;color:#4a4a46;display:none;text-align:left;line-height:1.6}
+</style>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -177,6 +193,20 @@ hr.divider{border:none;border-top:1px solid var(--warm);margin:1.25rem 0}
 </style>
 </head>
 <body>
+
+<!-- LOCK SCREEN -->
+<div id="lockScreen">
+  <div class="lock-card">
+    <div class="lock-logo">Martin Alderton &nbsp;|&nbsp; <span>Practice</span></div>
+    <div class="lock-sub">Confidential</div>
+    <div class="lock-label">Password</div>
+    <input type="password" class="lock-input" id="lockInput" placeholder="Enter password" onkeydown="if(event.key==='Enter')unlock()">
+    <div class="lock-error" id="lockError">Incorrect password. Try again.</div>
+    <button class="lock-btn" onclick="unlock()">Unlock</button>
+    <div class="lock-recovery" onclick="toggleRecovery()">Forgot password?</div>
+    <div class="recovery-box" id="recoveryBox"></div>
+  </div>
+</div>
 
 <header>
   <div class="header-brand">Martin Alderton &nbsp;|&nbsp; <span>Practice</span></div>
@@ -700,6 +730,18 @@ hr.divider{border:none;border-top:1px solid var(--warm);margin:1.25rem 0}
     </div>
   </div>
 
+  <div class="card">
+    <div class="card-header"><div class="card-title">Change Password</div></div>
+    <div class="form-grid cols-3">
+      <div class="form-group"><label>Current Password</label><input type="password" id="set_pw_current"></div>
+      <div class="form-group"><label>New Password</label><input type="password" id="set_pw_new"></div>
+      <div class="form-group"><label>Confirm New Password</label><input type="password" id="set_pw_confirm"></div>
+    </div>
+    <div style="margin-top:0.75rem;display:flex;align-items:center;gap:1rem">
+      <button class="btn btn-primary" onclick="changePassword()">Update Password</button>
+      <span id="set_pw_msg" style="font-size:0.82rem"></span>
+    </div>
+  </div>
   <div class="btn-group">
     <button class="btn btn-primary" onclick="saveSettings()">Save Settings</button>
     <button class="btn btn-outline" onclick="exportData()">Export Data</button>
@@ -897,6 +939,61 @@ hr.divider{border:none;border-top:1px solid var(--warm);margin:1.25rem 0}
 
 <script>
 // ══════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════
+// PASSWORD / LOCK
+// ══════════════════════════════════════════════════════════
+const DEFAULT_PW = 'password';
+const RECOVERY_CODE = 'MA-' + btoa('martinalderton').slice(0,8).toUpperCase();
+
+function getPassword() {
+  return localStorage.getItem('practicePassword') || DEFAULT_PW;
+}
+
+function unlock() {
+  const input = document.getElementById('lockInput').value;
+  const err = document.getElementById('lockError');
+  if (input === getPassword() || input === ('MA-' + btoa('martinalderton').slice(0,8).toUpperCase())) {
+    document.getElementById('lockScreen').classList.add('hidden');
+    sessionStorage.setItem('practiceUnlocked', '1');
+    err.style.display = 'none';
+    document.getElementById('lockInput').value = '';
+  } else {
+    err.style.display = 'block';
+    document.getElementById('lockInput').value = '';
+    document.getElementById('lockInput').focus();
+  }
+}
+
+function toggleRecovery() {
+  const box = document.getElementById('recoveryBox');
+  const code = 'MA-' + btoa('martinalderton').slice(0,8).toUpperCase();
+  if (box.style.display === 'none' || !box.style.display) {
+    box.style.display = 'block';
+    box.innerHTML = '<strong>Recovery Code</strong><br>' + code + '<br><br>Enter this code as your password to unlock. Then go to Settings to set a new password. Store this code somewhere safe.';
+  } else { box.style.display = 'none'; }
+}
+
+function changePassword() {
+  const current = document.getElementById('set_pw_current').value;
+  const newPw = document.getElementById('set_pw_new').value;
+  const confirm = document.getElementById('set_pw_confirm').value;
+  const msg = document.getElementById('set_pw_msg');
+  const code = 'MA-' + btoa('martinalderton').slice(0,8).toUpperCase();
+  if (current !== getPassword() && current !== code) {
+    msg.textContent = 'Current password incorrect.'; msg.style.color = '#c0392b'; return;
+  }
+  if (!newPw || newPw.length < 4) {
+    msg.textContent = 'New password must be at least 4 characters.'; msg.style.color = '#c0392b'; return;
+  }
+  if (newPw !== confirm) {
+    msg.textContent = 'Passwords do not match.'; msg.style.color = '#c0392b'; return;
+  }
+  localStorage.setItem('practicePassword', newPw);
+  msg.textContent = 'Password updated successfully.'; msg.style.color = '#27ae60';
+  document.getElementById('set_pw_current').value = '';
+  document.getElementById('set_pw_new').value = '';
+  document.getElementById('set_pw_confirm').value = '';
+}
 // DATA STORE
 // ══════════════════════════════════════════════════════════
 let data = {
@@ -1837,6 +1934,12 @@ function clearAllData() {
 // ══════════════════════════════════════════════════════════
 // INIT
 // ══════════════════════════════════════════════════════════
+// Check lock on load
+if (!sessionStorage.getItem('practiceUnlocked')) {
+  document.getElementById('lockScreen').classList.remove('hidden');
+} else {
+  document.getElementById('lockScreen').classList.add('hidden');
+}
 load();
 renderDashboard();
 document.getElementById('headerDate').textContent = new Date().toLocaleDateString('en-GB', { weekday:'long', day:'numeric', month:'long' });
