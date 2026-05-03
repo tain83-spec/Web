@@ -138,12 +138,27 @@ tbody tr:last-child td{border-bottom:none}
 .notes-mode-tabs{display:flex;gap:0;margin-bottom:1.5rem;border-bottom:2px solid var(--warm)}
 .notes-mode-tab{padding:0.65rem 1.25rem;font-size:0.75rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--stone);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all 0.15s}
 .notes-mode-tab.active{color:var(--gold);border-bottom-color:var(--gold)}
-.notes-section{margin-bottom:1.5rem}
-.notes-section-title{font-family:var(--serif);font-size:1rem;color:var(--slate-dk);margin-bottom:0.75rem;padding-bottom:0.5rem;border-bottom:1px solid var(--warm)}
-.notes-question{margin-bottom:1rem}
-.notes-question label{display:block;font-size:0.78rem;font-weight:500;color:var(--ink-lt);margin-bottom:0.35rem;line-height:1.4}
-.notes-question .clinical-note{font-size:0.68rem;color:var(--stone);font-style:italic;margin-top:0.2rem}
 .layer-indicator{display:inline-block;padding:0.15rem 0.5rem;border-radius:3px;font-size:0.62rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;background:var(--warm);color:var(--slate);margin-left:0.5rem}
+/* ONE-AT-A-TIME NOTES */
+.q-screen{display:none;flex-direction:column;min-height:420px}
+.q-screen.active{display:flex}
+.q-progress{display:flex;align-items:center;gap:0.75rem;margin-bottom:2rem}
+.q-progress-bar{flex:1;height:3px;background:var(--warm);border-radius:2px;overflow:hidden}
+.q-progress-fill{height:100%;background:var(--gold);border-radius:2px;transition:width 0.3s ease}
+.q-progress-text{font-size:0.7rem;color:var(--stone);letter-spacing:0.08em;white-space:nowrap}
+.q-section-label{font-size:0.65rem;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin-bottom:0.5rem}
+.q-question{font-family:var(--serif);font-size:1.5rem;color:var(--slate-dk);line-height:1.35;margin-bottom:0.6rem;font-weight:400}
+.q-hint{font-size:0.78rem;color:var(--stone);font-style:italic;margin-bottom:1.5rem;line-height:1.5}
+.q-textarea{width:100%;padding:1rem;border:1px solid rgba(0,0,0,0.1);border-radius:6px;font-family:var(--sans);font-size:0.95rem;color:var(--ink);background:var(--cream);resize:none;min-height:160px;transition:border-color 0.15s;line-height:1.6}
+.q-textarea:focus{outline:none;border-color:var(--slate-lt);background:var(--white)}
+.q-nav{display:flex;align-items:center;justify-content:space-between;margin-top:1.5rem}
+.q-skip{font-size:0.75rem;color:var(--stone);cursor:pointer;text-decoration:underline}
+.q-counter{font-size:0.72rem;color:var(--stone)}
+.q-complete{text-align:center;padding:3rem 1rem;display:none;flex-direction:column;align-items:center}
+.q-complete.active{display:flex}
+.q-complete-icon{font-size:2.5rem;margin-bottom:1rem}
+.q-complete-title{font-family:var(--serif);font-size:1.4rem;color:var(--slate-dk);margin-bottom:0.5rem}
+.q-complete-sub{font-size:0.85rem;color:var(--stone);margin-bottom:1.5rem}
 
 /* ── INVOICE PREVIEW ── */
 .invoice-preview{background:#fff;border:1px solid var(--warm);border-radius:var(--radius);padding:2.5rem 3rem;margin-top:1rem;box-shadow:var(--shadow)}
@@ -349,297 +364,58 @@ hr.divider{border:none;border-top:1px solid var(--warm);margin:1.25rem 0}
       <div class="notes-mode-tab" onclick="showNotesMode('history')">History</div>
     </div>
 
-    <!-- INTAKE -->
+    <!-- INTAKE one-at-a-time -->
     <div id="notesMode-intake">
       <div class="card">
-        <div class="card-header">
-          <div class="card-title">Intake & Assessment</div>
-          <button class="btn btn-primary btn-sm" onclick="saveNotes('intake')">Save</button>
-        </div>
-
-        <div class="notes-section">
-          <div class="notes-section-title">Presenting</div>
-          <div class="notes-question">
-            <label>What brings this person to therapy now — and why now?</label>
-            <div class="clinical-note">The timing is often as significant as the content. What has shifted that made this the moment to seek help?</div>
-            <textarea id="intake_presenting" rows="3" placeholder="Present the concern in their own language where possible"></textarea>
+        <div id="intake-q-wrap"></div>
+        <div class="q-complete" id="intake-complete">
+          <div class="q-complete-icon">✓</div>
+          <div class="q-complete-title">Intake saved.</div>
+          <div class="q-complete-sub">You can return to any question using the back button, or review everything in the History tab.</div>
+          <div class="btn-group" style="justify-content:center">
+            <button class="btn btn-outline" onclick="startQuestions('intake',0)">Review from start</button>
+            <button class="btn btn-primary" onclick="showNotesMode('formulation')">Move to Formulation →</button>
           </div>
-          <div class="notes-question">
-            <label>How long has this difficulty been present?</label>
-            <textarea id="intake_duration" rows="2"></textarea>
-          </div>
-          <div class="notes-question">
-            <label>What has been tried, and what has and hasn't helped?</label>
-            <textarea id="intake_tried" rows="2"></textarea>
-          </div>
-        </div>
-
-        <div class="notes-section">
-          <div class="notes-section-title">Background</div>
-          <div class="notes-question">
-            <label>Family background — atmosphere, relational dynamics, physical environment growing up</label>
-            <div class="clinical-note">Attend to what is said and how it is said. The narrative style itself carries attachment information.</div>
-            <textarea id="intake_family" rows="4"></textarea>
-          </div>
-          <div class="notes-question">
-            <label>Current life situation</label>
-            <textarea id="intake_current" rows="3"></textarea>
-          </div>
-          <div class="notes-question">
-            <label>Social support network</label>
-            <textarea id="intake_support" rows="2"></textarea>
-          </div>
-          <div class="notes-question">
-            <label>Previous therapy experience — what was useful, what wasn't</label>
-            <div class="clinical-note">Previous therapeutic experience often carries information about relational expectation and the working alliance.</div>
-            <textarea id="intake_previous_therapy" rows="3"></textarea>
-          </div>
-        </div>
-
-        <div class="notes-section">
-          <div class="notes-section-title">Additional History</div>
-          <div class="notes-question">
-            <label>Additional major life events not already covered</label>
-            <textarea id="intake_events" rows="3"></textarea>
-          </div>
-          <div class="notes-question">
-            <label>Psychiatric history — any diagnosis, medication, contact with mental health services</label>
-            <div class="clinical-note">Note the person's relationship to any diagnosis or medication as well as the facts.</div>
-            <textarea id="intake_psychiatric" rows="3"></textarea>
-          </div>
-          <div class="notes-question">
-            <label>Risk — current thoughts of self-harm or ending life; any previous actions</label>
-            <div class="clinical-note">Record clearly. Risk assessment is ongoing — this is the baseline.</div>
-            <textarea id="intake_risk" rows="3"></textarea>
-          </div>
-        </div>
-
-        <div class="notes-section">
-          <div class="notes-section-title">Goals & Hopes</div>
-          <div class="notes-question">
-            <label>What does this person hope will be different?</label>
-            <textarea id="intake_goals" rows="3"></textarea>
-          </div>
-          <div class="notes-question">
-            <label>What would they notice first if things began to shift?</label>
-            <textarea id="intake_markers" rows="2"></textarea>
-          </div>
-        </div>
-
-        <div class="notes-section">
-          <div class="notes-section-title">Initial Observations</div>
-          <div class="notes-question">
-            <label>Presentation — affect, relatedness, body language, quality of contact</label>
-            <div class="clinical-note">What did you notice before they spoke? Somatic countertransference from the first moment.</div>
-            <textarea id="intake_presentation" rows="3"></textarea>
-          </div>
-          <div class="notes-question">
-            <label>What did this person activate in you?</label>
-            <div class="clinical-note">Countertransference at intake is clinically significant. Note honestly.</div>
-            <textarea id="intake_counter" rows="2"></textarea>
-          </div>
-        </div>
-
-        <div style="text-align:right;margin-top:1rem">
-          <button class="btn btn-primary" onclick="saveNotes('intake')">Save Intake Notes</button>
         </div>
       </div>
     </div>
 
-    <!-- FORMULATION -->
+    <!-- FORMULATION one-at-a-time -->
     <div id="notesMode-formulation" style="display:none">
       <div class="card">
-        <div class="card-header">
-          <div class="card-title">Clinical Formulation</div>
-          <button class="btn btn-primary btn-sm" onclick="saveNotes('formulation')">Save</button>
-        </div>
-        <p style="font-size:0.82rem;color:var(--stone);margin-bottom:1.5rem;font-style:italic">Your reading of the intake material through the model. This is your clinical thinking — not a summary of what the person said.</p>
-
-        <div class="notes-section">
-          <div class="notes-section-title">Developmental Reading</div>
-          <div class="notes-question">
-            <label>Where does the presenting difficulty appear to root? <span class="layer-indicator">Balint / Winnicott / Mahler / Fonagy</span></label>
-            <div class="clinical-note">Which developmental layer is most live? Pre-symbolic (basic fault)? True/false self? Separation-individuation? Mentalization failure? More than one may be present — name the primary level and any secondary.</div>
-            <textarea id="form_developmental" rows="4"></textarea>
+        <div id="formulation-q-wrap"></div>
+        <div class="q-complete" id="formulation-complete">
+          <div class="q-complete-icon">✓</div>
+          <div class="q-complete-title">Formulation saved.</div>
+          <div class="q-complete-sub">Review in the History tab at any time. Update as the work develops.</div>
+          <div class="btn-group" style="justify-content:center">
+            <button class="btn btn-outline" onclick="startQuestions('formulation',0)">Review from start</button>
+            <button class="btn btn-primary" onclick="showNotesMode('session')">Go to Session Update →</button>
           </div>
-          <div class="notes-question">
-            <label>What did this person need that they didn't receive?</label>
-            <div class="clinical-note">Be specific. Generic warmth does not repair a specific wound. The reparation must match the developmental level.</div>
-            <textarea id="form_needed" rows="3"></textarea>
-          </div>
-          <div class="notes-question">
-            <label>What formed instead — the adaptive strategy</label>
-            <div class="clinical-note">This is not pathology. It is the logical adaptation to what was available. Name it with respect.</div>
-            <textarea id="form_adaptation" rows="3"></textarea>
-          </div>
-        </div>
-
-        <div class="notes-section">
-          <div class="notes-section-title">Relational Pattern <span class="layer-indicator">RIG / CCRT</span></div>
-          <div class="notes-question">
-            <label>What is the core relational pattern — the RIG — that keeps repeating?</label>
-            <div class="clinical-note">In Stern's terms: what does this person expect to happen when they bring the full weight of something to another person? This is the destructive RIG that the therapeutic relationship must provide a new version of.</div>
-            <textarea id="form_rig" rows="4"></textarea>
-          </div>
-          <div class="notes-question">
-            <label>What is the reparative RIG — the precise inversion of the destructive pattern?</label>
-            <div class="clinical-note">Generic warmth does not repair a specific wound. Name the specific relational provision required.</div>
-            <textarea id="form_reparative_rig" rows="3"></textarea>
-          </div>
-        </div>
-
-        <div class="notes-section">
-          <div class="notes-section-title">Attachment & Mentalization</div>
-          <div class="notes-question">
-            <label>Attachment pattern — reading from narrative style and relational history</label>
-            <div class="clinical-note">Secure / anxious-preoccupied / dismissive-avoidant / disorganised. Note what in the narrative style, not just the content, informs this reading.</div>
-            <textarea id="form_attachment" rows="3"></textarea>
-          </div>
-          <div class="notes-question">
-            <label>Mentalization capacity — reflective functioning baseline and collapse conditions</label>
-            <div class="clinical-note">Can this person hold their own and another's mind simultaneously? Under what conditions does mentalization collapse? What does epistemic trust look like here?</div>
-            <textarea id="form_mentalization" rows="3"></textarea>
-          </div>
-          <div class="notes-question">
-            <label>Alien self — what has been internalised that doesn't feel like theirs?</label>
-            <div class="clinical-note">Fonagy: when mirroring reflects the caregiver's state rather than the infant's, something foreign is internalised. What is this person externalising — and into whom?</div>
-            <textarea id="form_alien_self" rows="3"></textarea>
-          </div>
-        </div>
-
-        <div class="notes-section">
-          <div class="notes-section-title">Nervous System & Window</div>
-          <div class="notes-question">
-            <label>Window of tolerance — current width and collapse conditions</label>
-            <div class="clinical-note">Porges / Van der Kolk: how wide is the window? What narrows it? What system — ventral vagal, sympathetic, dorsal vagal — is most active? This shapes the sequencing.</div>
-            <textarea id="form_window" rows="3"></textarea>
-          </div>
-          <div class="notes-question">
-            <label>Somatic presentation — body patterns, breath, posture, activation</label>
-            <div class="clinical-note">What does this person's body do in the room? What does your body do in response? Ogden: somatic countertransference as data.</div>
-            <textarea id="form_somatic" rows="3"></textarea>
-          </div>
-        </div>
-
-        <div class="notes-section">
-          <div class="notes-section-title">Sequencing Position <span class="layer-indicator">Seven Layers</span></div>
-          <div class="notes-question">
-            <label>Where in the seven-layer sequence is the work currently needed?</label>
-            <div class="clinical-note">Rogers (ground) → Kohut (container) → Stern (mechanism) → Levine (interrupted completion) → Van der Kolk (window) → Freud (descent) → Adler (reorientation). Name the current layer and what must be in place before progression becomes appropriate.</div>
-            <textarea id="form_sequencing" rows="4"></textarea>
-          </div>
-          <div class="notes-question">
-            <label>Five modes — which are most alive? <span class="layer-indicator">Clarkson</span></label>
-            <div class="clinical-note">Working alliance / Transferential / Reparative / Person-to-person / Transpersonal. What is most active now and what does the clinical moment require?</div>
-            <textarea id="form_modes" rows="3"></textarea>
-          </div>
-        </div>
-
-        <div class="notes-section">
-          <div class="notes-section-title">Transferential & Intersubjective Field</div>
-          <div class="notes-question">
-            <label>Transferential material — what is being activated in the room</label>
-            <div class="clinical-note">What role is this person recruiting you into (Sandler's role responsiveness)? Is there a shared fantasy beginning to form? What organising principles from your own history are being activated?</div>
-            <textarea id="form_transference" rows="4"></textarea>
-          </div>
-          <div class="notes-question">
-            <label>Countertransference — what this case activates in you</label>
-            <div class="clinical-note">Your somatic response. Your emotional response. What pulls you toward technique or distance. What makes you want to rescue, withdraw, or over-explain. This is clinical data.</div>
-            <textarea id="form_countertransference" rows="3"></textarea>
-          </div>
-        </div>
-
-        <div class="notes-section">
-          <div class="notes-section-title">Temporal Dimension <span class="layer-indicator">Tonkin / Kübler-Ross</span></div>
-          <div class="notes-question">
-            <label>What stage of the immediate landscape is this person in?</label>
-            <div class="clinical-note">Kübler-Ross for the immediate: receive what is present, don't rush the stages. What needs to be held before anything else can be introduced?</div>
-            <textarea id="form_immediate" rows="2"></textarea>
-          </div>
-          <div class="notes-question">
-            <label>Longer arc — Tonkin reading</label>
-            <div class="clinical-note">The grief doesn't shrink — the person grows around it. What does a larger life look like for this person? Not as a goal to be stated, but as a clinical orientation.</div>
-            <textarea id="form_longer_arc" rows="2"></textarea>
-          </div>
-        </div>
-
-        <div class="notes-section">
-          <div class="notes-section-title">Clinical Plan</div>
-          <div class="notes-question">
-            <label>The specific relational provision this person needs from this relationship</label>
-            <textarea id="form_provision" rows="3"></textarea>
-          </div>
-          <div class="notes-question">
-            <label>What to hold carefully — risks, ethical considerations, things to monitor</label>
-            <div class="clinical-note">Set 3 active here. Risk, competence, dual relationship, scope. Name honestly.</div>
-            <textarea id="form_risks" rows="3"></textarea>
-          </div>
-          <div class="notes-question">
-            <label>What this case needs from supervision</label>
-            <textarea id="form_supervision" rows="2"></textarea>
-          </div>
-        </div>
-
-        <div style="text-align:right;margin-top:1rem">
-          <button class="btn btn-primary" onclick="saveNotes('formulation')">Save Formulation</button>
         </div>
       </div>
     </div>
 
-    <!-- SESSION UPDATE -->
+    <!-- SESSION UPDATE one-at-a-time -->
     <div id="notesMode-session" style="display:none">
       <div class="card">
         <div class="card-header">
           <div class="card-title">Session Update</div>
-          <div class="form-group" style="min-width:160px">
-            <select id="sessionNoteSelect">
+          <div class="form-group" style="min-width:180px">
+            <select id="sessionNoteSelect" onchange="onSessionNoteSelectChange()">
               <option value="">Select session</option>
             </select>
           </div>
         </div>
-
-        <div class="notes-section">
-          <div class="notes-question">
-            <label>Where were we — brief orientation from last session</label>
-            <textarea id="sn_where_were_we" rows="2" placeholder="The thread we left, what was live, where the sequencing was"></textarea>
+        <div id="session-q-wrap"></div>
+        <div class="q-complete" id="session-complete">
+          <div class="q-complete-icon">✓</div>
+          <div class="q-complete-title">Session note saved.</div>
+          <div class="q-complete-sub">This session is marked as noted.</div>
+          <div class="btn-group" style="justify-content:center">
+            <button class="btn btn-outline" onclick="startQuestions('session',0)">Review from start</button>
+            <button class="btn btn-primary" onclick="showNotesMode('history')">View history →</button>
           </div>
-          <div class="notes-question">
-            <label>What happened in this session</label>
-            <div class="clinical-note">Not a transcript — what was clinically significant. What arrived, what was received, what was named.</div>
-            <textarea id="sn_what_happened" rows="4"></textarea>
-          </div>
-          <div class="notes-question">
-            <label>What shifted — or didn't</label>
-            <div class="clinical-note">Slow is not the same as stuck. A session where nothing moved is still data. What does the absence of movement tell you?</div>
-            <textarea id="sn_shifted" rows="3"></textarea>
-          </div>
-          <div class="notes-question">
-            <label>Somatic and transferential notes</label>
-            <div class="clinical-note">What did your body do? What was activated in you? What role were you being recruited into? Any moments of meeting — unexpected, unscripted genuine contact?</div>
-            <textarea id="sn_somatic_transfer" rows="3"></textarea>
-          </div>
-          <div class="notes-question">
-            <label>Sequencing position after this session</label>
-            <div class="clinical-note">Has the layer shifted? Is the window wider or narrower than last time? What does the nervous system appear to be doing with what has been offered?</div>
-            <textarea id="sn_sequencing" rows="2"></textarea>
-          </div>
-          <div class="notes-question">
-            <label>What the next session needs</label>
-            <div class="clinical-note">Not a plan — an orientation. What must be available in you for the next session to be what this person needs?</div>
-            <textarea id="sn_next" rows="2"></textarea>
-          </div>
-          <div class="notes-question">
-            <label>Risk update — any change since last assessment</label>
-            <textarea id="sn_risk" rows="2"></textarea>
-          </div>
-          <div class="notes-question">
-            <label>Anything to bring to supervision</label>
-            <textarea id="sn_supervision" rows="2"></textarea>
-          </div>
-        </div>
-
-        <div style="text-align:right;margin-top:1rem">
-          <button class="btn btn-primary" onclick="saveSessionNote()">Save Session Note</button>
         </div>
       </div>
     </div>
@@ -1487,10 +1263,63 @@ function deleteSession(id) {
 }
 
 // ══════════════════════════════════════════════════════════
-// CLINICAL NOTES
+// CLINICAL NOTES — ONE AT A TIME
 // ══════════════════════════════════════════════════════════
 let currentNotesClientId = null;
 let currentNotesMode = 'intake';
+let qIndex = { intake: 0, formulation: 0, session: 0 };
+
+const INTAKE_QUESTIONS = [
+  { id:'presenting', section:'Presenting', q:'What brings this person to therapy now — and why now?', hint:'The timing is often as significant as the content. What has shifted that made this the moment to seek help? Use their own language where possible.' },
+  { id:'duration', section:'Presenting', q:'How long has this difficulty been present?', hint:'' },
+  { id:'tried', section:'Presenting', q:'What has been tried, and what has and hasn't helped?', hint:'' },
+  { id:'family', section:'Background', q:'Family background — atmosphere, relational dynamics, physical environment growing up', hint:'Attend to what is said and how it is said. The narrative style itself carries attachment information.' },
+  { id:'current', section:'Background', q:'Current life situation', hint:'' },
+  { id:'support', section:'Background', q:'Social support network', hint:'' },
+  { id:'previous_therapy', section:'Background', q:'Previous therapy experience — what was useful, what wasn't', hint:'Previous therapeutic experience often carries information about relational expectation and the working alliance.' },
+  { id:'events', section:'Additional History', q:'Additional major life events not already covered', hint:'' },
+  { id:'psychiatric', section:'Additional History', q:'Psychiatric history — any diagnosis, medication, contact with mental health services', hint:'Note the person's relationship to any diagnosis or medication as well as the facts.' },
+  { id:'risk', section:'Additional History', q:'Risk — current thoughts of self-harm or ending life; any previous actions', hint:'Record clearly. Risk assessment is ongoing — this is the baseline.' },
+  { id:'goals', section:'Goals & Hopes', q:'What does this person hope will be different?', hint:'' },
+  { id:'markers', section:'Goals & Hopes', q:'What would they notice first if things began to shift?', hint:'' },
+  { id:'presentation', section:'Initial Observations', q:'Presentation — affect, relatedness, body language, quality of contact', hint:'What did you notice before they spoke? Somatic countertransference from the first moment.' },
+  { id:'counter', section:'Initial Observations', q:'What did this person activate in you?', hint:'Countertransference at intake is clinically significant. Note honestly.' },
+];
+
+const FORMULATION_QUESTIONS = [
+  { id:'developmental', section:'Developmental Reading', q:'Where does the presenting difficulty appear to root?', hint:'Balint / Winnicott / Mahler / Fonagy. Which developmental layer is most live? Pre-symbolic (basic fault)? True/false self? Separation-individuation? Mentalization failure? More than one may be present — name the primary level and any secondary.' },
+  { id:'needed', section:'Developmental Reading', q:'What did this person need that they didn't receive?', hint:'Be specific. Generic warmth does not repair a specific wound. The reparation must match the developmental level.' },
+  { id:'adaptation', section:'Developmental Reading', q:'What formed instead — the adaptive strategy', hint:'This is not pathology. It is the logical adaptation to what was available. Name it with respect.' },
+  { id:'rig', section:'Relational Pattern', q:'What is the core relational pattern — the RIG — that keeps repeating?', hint:'In Stern's terms: what does this person expect to happen when they bring the full weight of something to another person? This is the destructive RIG that the therapeutic relationship must provide a new version of.' },
+  { id:'reparative_rig', section:'Relational Pattern', q:'What is the reparative RIG — the precise inversion of the destructive pattern?', hint:'Generic warmth does not repair a specific wound. Name the specific relational provision required.' },
+  { id:'attachment', section:'Attachment & Mentalization', q:'Attachment pattern — reading from narrative style and relational history', hint:'Secure / anxious-preoccupied / dismissive-avoidant / disorganised. Note what in the narrative style, not just the content, informs this reading.' },
+  { id:'mentalization', section:'Attachment & Mentalization', q:'Mentalization capacity — reflective functioning baseline and collapse conditions', hint:'Can this person hold their own and another's mind simultaneously? Under what conditions does mentalization collapse? What does epistemic trust look like here?' },
+  { id:'alien_self', section:'Attachment & Mentalization', q:'Alien self — what has been internalised that doesn't feel like theirs?', hint:'Fonagy: when mirroring reflects the caregiver's state rather than the infant's, something foreign is internalised. What is this person externalising — and into whom?' },
+  { id:'window', section:'Nervous System', q:'Window of tolerance — current width and collapse conditions', hint:'Porges / Van der Kolk: how wide is the window? What narrows it? What system — ventral vagal, sympathetic, dorsal vagal — is most active? This shapes the sequencing.' },
+  { id:'somatic', section:'Nervous System', q:'Somatic presentation — body patterns, breath, posture, activation', hint:'What does this person's body do in the room? What does your body do in response? Ogden: somatic countertransference as data.' },
+  { id:'sequencing', section:'Sequencing Position', q:'Where in the seven-layer sequence is the work currently needed?', hint:'Rogers (ground) → Kohut (container) → Stern (mechanism) → Levine (interrupted completion) → Van der Kolk (window) → Freud (descent) → Adler (reorientation). Name the current layer and what must be in place before progression becomes appropriate.' },
+  { id:'modes', section:'Sequencing Position', q:'Five modes — which are most alive?', hint:'Clarkson: Working alliance / Transferential / Reparative / Person-to-person / Transpersonal. What is most active now and what does the clinical moment require?' },
+  { id:'transference', section:'Transferential Field', q:'Transferential material — what is being activated in the room', hint:'What role is this person recruiting you into (Sandler's role responsiveness)? Is there a shared fantasy beginning to form? What organising principles from your own history are being activated?' },
+  { id:'countertransference', section:'Transferential Field', q:'Countertransference — what this case activates in you', hint:'Your somatic response. Your emotional response. What pulls you toward technique or distance. What makes you want to rescue, withdraw, or over-explain. This is clinical data.' },
+  { id:'immediate', section:'Temporal Dimension', q:'What stage of the immediate landscape is this person in?', hint:'Kübler-Ross for the immediate: receive what is present, don't rush the stages. What needs to be held before anything else can be introduced?' },
+  { id:'longer_arc', section:'Temporal Dimension', q:'Longer arc — Tonkin reading', hint:'The grief doesn't shrink — the person grows around it. What does a larger life look like for this person? Not as a goal to be stated, but as a clinical orientation.' },
+  { id:'provision', section:'Clinical Plan', q:'The specific relational provision this person needs from this relationship', hint:'' },
+  { id:'risks', section:'Clinical Plan', q:'What to hold carefully — risks, ethical considerations, things to monitor', hint:'Risk, competence, dual relationship, scope. Name honestly.' },
+  { id:'supervision', section:'Clinical Plan', q:'What this case needs from supervision', hint:'' },
+];
+
+const SESSION_QUESTIONS = [
+  { id:'where_were_we', section:'Orientation', q:'Where were we — the thread from last session', hint:'What was live, where the sequencing was, what had been left in the room.' },
+  { id:'what_happened', section:'This Session', q:'What happened in this session', hint:'Not a transcript — what was clinically significant. What arrived, what was received, what was named.' },
+  { id:'shifted', section:'This Session', q:'What shifted — or didn't', hint:'Slow is not the same as stuck. A session where nothing moved is still data. What does the absence of movement tell you?' },
+  { id:'somatic_transfer', section:'This Session', q:'Somatic and transferential notes', hint:'What did your body do? What was activated in you? What role were you being recruited into? Any moments of meeting — unexpected, unscripted genuine contact?' },
+  { id:'sequencing', section:'Position', q:'Sequencing position after this session', hint:'Has the layer shifted? Is the window wider or narrower than last time? What does the nervous system appear to be doing with what has been offered?' },
+  { id:'next', section:'Next Session', q:'What the next session needs', hint:'Not a plan — an orientation. What must be available in you for the next session to be what this person needs?' },
+  { id:'risk', section:'Safety', q:'Risk update — any change since last assessment', hint:'' },
+  { id:'supervision', section:'Supervision', q:'Anything to bring to supervision', hint:'' },
+];
+
+const Q_SETS = { intake: INTAKE_QUESTIONS, formulation: FORMULATION_QUESTIONS, session: SESSION_QUESTIONS };
 
 function populateNotesClients() {
   const sel = document.getElementById('notesClientSelect');
@@ -1516,110 +1345,235 @@ function loadNotesForClient() {
   document.getElementById('notesContent').style.display = '';
   document.getElementById('notesEmpty').style.display = 'none';
   if (!data.notes[id]) data.notes[id] = { intake:{}, formulation:{}, sessionNotes:[] };
-  loadNoteFields('intake');
-  loadNoteFields('formulation');
-  populateSessionNoteSelect();
   showNotesMode(currentNotesMode);
 }
 
 function showNotesMode(mode) {
   currentNotesMode = mode;
   document.querySelectorAll('.notes-mode-tab').forEach(t => t.classList.remove('active'));
-  document.querySelector(`.notes-mode-tab[onclick="showNotesMode('${mode}')"]`).classList.add('active');
+  const tab = document.querySelector(`.notes-mode-tab[onclick="showNotesMode('${mode}')"]`);
+  if (tab) tab.classList.add('active');
   ['intake','formulation','session','history'].forEach(m => {
-    document.getElementById('notesMode-' + m).style.display = m === mode ? '' : 'none';
+    const el = document.getElementById('notesMode-' + m);
+    if (el) el.style.display = m === mode ? '' : 'none';
   });
   if (mode === 'history') renderNotesHistory();
-  if (mode === 'session') populateSessionNoteSelect();
+  else if (mode === 'session') { populateSessionNoteSelect(); }
+  else if (mode === 'intake' || mode === 'formulation') {
+    startQuestions(mode, qIndex[mode] || 0);
+  }
 }
 
-function loadNoteFields(mode) {
-  if (!currentNotesClientId) return;
+function startQuestions(mode, idx) {
+  qIndex[mode] = idx;
+  const complete = document.getElementById(mode + '-complete');
+  if (complete) complete.classList.remove('active');
+  renderQuestion(mode, idx);
+}
+
+function renderQuestion(mode, idx) {
+  const questions = Q_SETS[mode];
+  const wrap = document.getElementById(mode + '-q-wrap');
+  if (!wrap) return;
+
+  // Hide complete screen
+  const complete = document.getElementById(mode + '-complete');
+  if (complete) complete.style.display = 'none';
+
+  // Get saved value
   const notes = data.notes[currentNotesClientId]?.[mode] || {};
-  Object.keys(notes).forEach(key => {
-    const el = document.getElementById(mode === 'intake' ? 'intake_' + key : 'form_' + key);
-    if (el) el.value = notes[key];
-  });
+  const q = questions[idx];
+  const total = questions.length;
+  const pct = Math.round((idx / total) * 100);
+
+  wrap.innerHTML = `
+    <div class="q-screen active">
+      <div class="q-progress">
+        <div class="q-progress-bar"><div class="q-progress-fill" style="width:${pct}%"></div></div>
+        <div class="q-progress-text">${idx + 1} of ${total}</div>
+      </div>
+      <div class="q-section-label">${q.section}</div>
+      <div class="q-question">${q.q}</div>
+      ${q.hint ? `<div class="q-hint">${q.hint}</div>` : ''}
+      <textarea class="q-textarea" id="q-current-answer" rows="6" placeholder="Type your notes here...">${notes[q.id] || ''}</textarea>
+      <div class="q-nav">
+        <div>
+          ${idx > 0 ? `<button class="btn btn-outline" onclick="saveAndMove('${mode}',${idx},-1)">← Back</button>` : '<span></span>'}
+        </div>
+        <span class="q-skip" onclick="saveAndMove('${mode}',${idx},1)">Skip →</span>
+        <div>
+          ${idx < total - 1
+            ? `<button class="btn btn-primary" onclick="saveAndMove('${mode}',${idx},1)">Next →</button>`
+            : `<button class="btn btn-gold" onclick="saveAndFinish('${mode}',${idx})">Save & Finish ✓</button>`}
+        </div>
+      </div>
+    </div>`;
+
+  document.getElementById('q-current-answer').focus();
 }
 
-function saveNotes(mode) {
-  if (!currentNotesClientId) return;
+function saveAndMove(mode, idx, direction) {
+  saveCurrentAnswer(mode, idx);
+  const next = idx + direction;
+  const questions = Q_SETS[mode];
+  if (next >= 0 && next < questions.length) {
+    qIndex[mode] = next;
+    renderQuestion(mode, next);
+  }
+}
+
+function saveAndFinish(mode, idx) {
+  saveCurrentAnswer(mode, idx);
+  // Auto-save all
   if (!data.notes[currentNotesClientId]) data.notes[currentNotesClientId] = { intake:{}, formulation:{}, sessionNotes:[] };
-  const notes = {};
-  const prefix = mode === 'intake' ? 'intake_' : 'form_';
-  document.querySelectorAll(`[id^="${prefix}"]`).forEach(el => {
-    const key = el.id.replace(prefix, '');
-    if (el.value.trim()) notes[key] = el.value;
-  });
-  data.notes[currentNotesClientId][mode] = notes;
   data.notes[currentNotesClientId][mode + '_saved'] = new Date().toISOString();
   save();
-  alert('Notes saved.');
+  const wrap = document.getElementById(mode + '-q-wrap');
+  if (wrap) wrap.innerHTML = '';
+  const complete = document.getElementById(mode + '-complete');
+  if (complete) { complete.style.display = 'flex'; }
+}
+
+function saveCurrentAnswer(mode, idx) {
+  const el = document.getElementById('q-current-answer');
+  if (!el || !currentNotesClientId) return;
+  const q = Q_SETS[mode][idx];
+  if (!data.notes[currentNotesClientId]) data.notes[currentNotesClientId] = { intake:{}, formulation:{}, sessionNotes:[] };
+  if (!data.notes[currentNotesClientId][mode]) data.notes[currentNotesClientId][mode] = {};
+  data.notes[currentNotesClientId][mode][q.id] = el.value;
+  save();
+}
+
+// SESSION NOTE
+function onSessionNoteSelectChange() {
+  const sessionId = document.getElementById('sessionNoteSelect').value;
+  if (sessionId) startSessionQuestions(sessionId);
 }
 
 function populateSessionNoteSelect() {
   if (!currentNotesClientId) return;
-  const sessions = data.sessions.filter(s => s.clientId === currentNotesClientId && s.status === 'attended').sort((a,b) => b.date.localeCompare(a.date));
+  const sessions = data.sessions.filter(s => s.clientId === currentNotesClientId && s.status === 'attended')
+    .sort((a,b) => b.date.localeCompare(a.date));
   const sel = document.getElementById('sessionNoteSelect');
-  sel.innerHTML = '<option value="">Select session date</option>' +
+  sel.innerHTML = '<option value="">Select session</option>' +
     sessions.map(s => `<option value="${s.id}">${formatDate(s.date)} — ${s.location}</option>`).join('');
-  sel.onchange = function() { loadSessionNote(this.value); };
 }
 
-function loadSessionNote(sessionId) {
-  if (!sessionId || !currentNotesClientId) return;
+function startSessionQuestions(sessionId) {
+  if (!sessionId) return;
+  qIndex.session = 0;
+  const complete = document.getElementById('session-complete');
+  if (complete) complete.style.display = 'none';
+  renderSessionQuestion(sessionId, 0);
+}
+
+function renderSessionQuestion(sessionId, idx) {
+  const questions = SESSION_QUESTIONS;
+  const wrap = document.getElementById('session-q-wrap');
+  if (!wrap) return;
   const sn = (data.notes[currentNotesClientId]?.sessionNotes || []).find(n => n.sessionId === sessionId);
-  const fields = ['where_were_we','what_happened','shifted','somatic_transfer','sequencing','next','risk','supervision'];
-  fields.forEach(f => {
-    const el = document.getElementById('sn_' + f);
-    if (el) el.value = sn ? (sn[f] || '') : '';
-  });
+  const q = questions[idx];
+  const total = questions.length;
+  const pct = Math.round((idx / total) * 100);
+
+  wrap.innerHTML = `
+    <div class="q-screen active">
+      <div class="q-progress">
+        <div class="q-progress-bar"><div class="q-progress-fill" style="width:${pct}%"></div></div>
+        <div class="q-progress-text">${idx + 1} of ${total}</div>
+      </div>
+      <div class="q-section-label">${q.section}</div>
+      <div class="q-question">${q.q}</div>
+      ${q.hint ? `<div class="q-hint">${q.hint}</div>` : ''}
+      <textarea class="q-textarea" id="q-current-answer" rows="6" placeholder="Type your notes here...">${sn ? (sn[q.id] || '') : ''}</textarea>
+      <div class="q-nav">
+        <div>
+          ${idx > 0 ? `<button class="btn btn-outline" onclick="saveSessionAnswerAndMove('${sessionId}',${idx},-1)">← Back</button>` : '<span></span>'}
+        </div>
+        <span class="q-skip" onclick="saveSessionAnswerAndMove('${sessionId}',${idx},1)">Skip →</span>
+        <div>
+          ${idx < total - 1
+            ? `<button class="btn btn-primary" onclick="saveSessionAnswerAndMove('${sessionId}',${idx},1)">Next →</button>`
+            : `<button class="btn btn-gold" onclick="finishSessionNote('${sessionId}',${idx})">Save & Finish ✓</button>`}
+        </div>
+      </div>
+    </div>`;
+
+  document.getElementById('q-current-answer').focus();
 }
 
-function saveSessionNote() {
-  if (!currentNotesClientId) return;
-  const sessionId = document.getElementById('sessionNoteSelect').value;
-  if (!sessionId) { alert('Please select a session.'); return; }
+function saveSessionAnswerAndMove(sessionId, idx, direction) {
+  saveSessionAnswer(sessionId, idx);
+  const next = idx + direction;
+  if (next >= 0 && next < SESSION_QUESTIONS.length) {
+    renderSessionQuestion(sessionId, next);
+  }
+}
+
+function saveSessionAnswer(sessionId, idx) {
+  const el = document.getElementById('q-current-answer');
+  if (!el || !currentNotesClientId) return;
+  const q = SESSION_QUESTIONS[idx];
   if (!data.notes[currentNotesClientId]) data.notes[currentNotesClientId] = { intake:{}, formulation:{}, sessionNotes:[] };
-  const fields = ['where_were_we','what_happened','shifted','somatic_transfer','sequencing','next','risk','supervision'];
-  const note = { sessionId, saved: new Date().toISOString() };
-  fields.forEach(f => { note[f] = document.getElementById('sn_' + f)?.value || ''; });
-  const idx = data.notes[currentNotesClientId].sessionNotes.findIndex(n => n.sessionId === sessionId);
-  if (idx >= 0) data.notes[currentNotesClientId].sessionNotes[idx] = note;
-  else data.notes[currentNotesClientId].sessionNotes.push(note);
+  let sn = data.notes[currentNotesClientId].sessionNotes.find(n => n.sessionId === sessionId);
+  if (!sn) { sn = { sessionId, saved: new Date().toISOString() }; data.notes[currentNotesClientId].sessionNotes.push(sn); }
+  sn[q.id] = el.value;
+  save();
+}
+
+function finishSessionNote(sessionId, idx) {
+  saveSessionAnswer(sessionId, idx);
   // Mark session as having notes
   const sIdx = data.sessions.findIndex(s => s.id === sessionId);
   if (sIdx >= 0) data.sessions[sIdx].hasNotes = true;
-  save(); alert('Session note saved.');
+  save();
+  const wrap = document.getElementById('session-q-wrap');
+  if (wrap) wrap.innerHTML = '';
+  const complete = document.getElementById('session-complete');
+  if (complete) complete.style.display = 'flex';
 }
+
+function saveNotes(mode) { /* kept for compatibility */ }
+function saveSessionNote() { /* kept for compatibility */ }
+function loadNoteFields() { /* kept for compatibility */ }
 
 function renderNotesHistory() {
   if (!currentNotesClientId) return;
   const notes = data.notes[currentNotesClientId] || {};
   const el = document.getElementById('notesHistory');
   let html = '';
+
   if (notes.intake_saved) {
-    html += `<div class="notes-section"><div class="notes-section-title">Intake — saved ${formatDate(notes.intake_saved.split('T')[0])}</div>`;
+    html += `<div style="margin-bottom:2rem"><div style="font-family:var(--serif);font-size:1.05rem;color:var(--slate-dk);padding-bottom:0.5rem;border-bottom:1px solid var(--warm);margin-bottom:1rem">Intake — ${formatDate(notes.intake_saved.split('T')[0])}</div>`;
     const intake = notes.intake || {};
-    const labels = { presenting:'Presenting concern', duration:'Duration', family:'Family background', current:'Current situation', goals:'Goals', presentation:'Initial presentation', counter:'Countertransference' };
-    Object.keys(labels).forEach(k => { if (intake[k]) html += `<p style="margin-bottom:0.75rem"><strong style="font-size:0.75rem;color:var(--stone);text-transform:uppercase;letter-spacing:0.08em">${labels[k]}</strong><br>${intake[k].replace(/\n/g,'<br>')}</p>`; });
+    INTAKE_QUESTIONS.forEach(q => {
+      if (intake[q.id]) html += `<p style="margin-bottom:1rem"><strong style="font-size:0.7rem;color:var(--stone);text-transform:uppercase;letter-spacing:0.08em;display:block;margin-bottom:0.2rem">${q.q}</strong>${intake[q.id].replace(/
+/g,'<br>')}</p>`;
+    });
     html += '</div>';
   }
+
   if (notes.formulation_saved) {
-    html += `<div class="notes-section"><div class="notes-section-title">Formulation — saved ${formatDate(notes.formulation_saved.split('T')[0])}</div>`;
+    html += `<div style="margin-bottom:2rem"><div style="font-family:var(--serif);font-size:1.05rem;color:var(--slate-dk);padding-bottom:0.5rem;border-bottom:1px solid var(--warm);margin-bottom:1rem">Formulation — ${formatDate(notes.formulation_saved.split('T')[0])}</div>`;
     const form = notes.formulation || {};
-    const labels = { developmental:'Developmental reading', rig:'RIG', reparative_rig:'Reparative RIG', attachment:'Attachment', mentalization:'Mentalization', window:'Window of tolerance', sequencing:'Sequencing position', transference:'Transferential field', countertransference:'Countertransference', provision:'Clinical provision' };
-    Object.keys(labels).forEach(k => { if (form[k]) html += `<p style="margin-bottom:0.75rem"><strong style="font-size:0.75rem;color:var(--stone);text-transform:uppercase;letter-spacing:0.08em">${labels[k]}</strong><br>${form[k].replace(/\n/g,'<br>')}</p>`; });
+    FORMULATION_QUESTIONS.forEach(q => {
+      if (form[q.id]) html += `<p style="margin-bottom:1rem"><strong style="font-size:0.7rem;color:var(--stone);text-transform:uppercase;letter-spacing:0.08em;display:block;margin-bottom:0.2rem">${q.q}</strong>${form[q.id].replace(/
+/g,'<br>')}</p>`;
+    });
     html += '</div>';
   }
+
   const sessionNotes = (notes.sessionNotes || []).sort((a,b) => b.saved.localeCompare(a.saved));
   sessionNotes.forEach(sn => {
     const session = data.sessions.find(s => s.id === sn.sessionId);
-    html += `<div class="notes-section"><div class="notes-section-title">Session — ${session ? formatDate(session.date) : 'Unknown date'}</div>`;
-    const labels = { where_were_we:'Where we were', what_happened:'What happened', shifted:'What shifted', somatic_transfer:'Somatic / transferential', sequencing:'Sequencing position', next:'Next session needs', risk:'Risk', supervision:'Supervision' };
-    Object.keys(labels).forEach(k => { if (sn[k]) html += `<p style="margin-bottom:0.75rem"><strong style="font-size:0.75rem;color:var(--stone);text-transform:uppercase;letter-spacing:0.08em">${labels[k]}</strong><br>${sn[k].replace(/\n/g,'<br>')}</p>`; });
+    html += `<div style="margin-bottom:2rem"><div style="font-family:var(--serif);font-size:1.05rem;color:var(--slate-dk);padding-bottom:0.5rem;border-bottom:1px solid var(--warm);margin-bottom:1rem">Session — ${session ? formatDate(session.date) : 'Unknown'}</div>`;
+    SESSION_QUESTIONS.forEach(q => {
+      if (sn[q.id]) html += `<p style="margin-bottom:1rem"><strong style="font-size:0.7rem;color:var(--stone);text-transform:uppercase;letter-spacing:0.08em;display:block;margin-bottom:0.2rem">${q.q}</strong>${sn[q.id].replace(/
+/g,'<br>')}</p>`;
+    });
     html += '</div>';
   });
+
   el.innerHTML = html || '<div class="empty-state" style="padding:2rem"><div class="empty-state-sub">No notes recorded yet</div></div>';
 }
 
@@ -1630,12 +1584,14 @@ function openNotesForSession(clientId, sessionId) {
     setTimeout(() => {
       showNotesMode('session');
       document.getElementById('sessionNoteSelect').value = sessionId;
-      loadSessionNote(sessionId);
+      startSessionQuestions(sessionId);
     }, 100);
   }, 100);
 }
 
 // ══════════════════════════════════════════════════════════
+// INVOICES
+// ══════════════════════════════════════════════════════════// ══════════════════════════════════════════════════════════
 // INVOICES
 // ══════════════════════════════════════════════════════════
 function renderInvoices() {
