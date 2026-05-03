@@ -1,0 +1,1845 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Martin Alderton — Practice</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --slate:#3d5166;--slate-dk:#2a3a4a;--slate-lt:#5a7a99;
+  --gold:#c8956c;--gold-lt:#e8b898;
+  --cream:#f7f3ec;--warm:#ede6d8;--stone:#9e9488;
+  --ink:#1e1e1c;--ink-lt:#4a4a46;--white:#ffffff;
+  --green:#27ae60;--amber:#e67e22;--red:#c0392b;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'DM Sans',system-ui,sans-serif;
+  --radius:6px;--shadow:0 1px 4px rgba(0,0,0,0.08);
+}
+body{font-family:var(--sans);background:var(--cream);color:var(--ink);font-size:14px;min-height:100vh;display:flex;flex-direction:column}
+
+/* ── HEADER ── */
+header{background:var(--slate-dk);color:#fff;padding:0.9rem 1.5rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.header-brand{font-family:var(--serif);font-size:1.2rem;font-weight:400;letter-spacing:0.02em}
+.header-brand span{color:var(--gold)}
+.header-date{font-size:0.75rem;color:rgba(255,255,255,0.5);letter-spacing:0.05em}
+
+/* ── NAV ── */
+nav{background:var(--slate);display:flex;overflow-x:auto;padding:0 1rem;border-bottom:1px solid rgba(255,255,255,0.08);flex-shrink:0}
+.nav-tab{padding:0.8rem 1.25rem;color:rgba(255,255,255,0.55);cursor:pointer;font-size:0.72rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;border-bottom:2px solid transparent;white-space:nowrap;transition:all 0.15s;user-select:none}
+.nav-tab:hover{color:rgba(255,255,255,0.85)}
+.nav-tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+
+/* ── MAIN ── */
+main{flex:1;padding:1.5rem;max-width:1100px;width:100%;margin:0 auto}
+.panel{display:none}.panel.active{display:block}
+
+/* ── CARDS ── */
+.card{background:var(--white);border-radius:var(--radius);border:1px solid var(--warm);padding:1.5rem;margin-bottom:1.25rem;box-shadow:var(--shadow)}
+.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;padding-bottom:0.75rem;border-bottom:1px solid var(--warm)}
+.card-title{font-family:var(--serif);font-size:1.05rem;font-weight:400;color:var(--slate-dk)}
+
+/* ── DASHBOARD STATS ── */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;margin-bottom:1.5rem}
+.stat-card{background:var(--white);border-radius:var(--radius);border:1px solid var(--warm);padding:1.25rem;text-align:center;box-shadow:var(--shadow)}
+.stat-label{font-size:0.65rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--stone);margin-bottom:0.4rem}
+.stat-value{font-family:var(--serif);font-size:2rem;color:var(--slate-dk);line-height:1}
+.stat-sub{font-size:0.72rem;color:var(--stone);margin-top:0.25rem}
+.stat-card.alert .stat-value{color:var(--amber)}
+.stat-card.urgent .stat-value{color:var(--red)}
+
+/* ── DAILY SESSIONS ── */
+.session-day{margin-bottom:1.5rem}
+.session-day-label{font-size:0.68rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--stone);margin-bottom:0.6rem;padding-bottom:0.4rem;border-bottom:1px solid var(--warm)}
+.session-item{display:flex;align-items:center;gap:1rem;padding:0.75rem 1rem;background:var(--cream);border-radius:4px;margin-bottom:0.4rem;border-left:3px solid var(--slate-lt)}
+.session-item.notes-needed{border-left-color:var(--amber)}
+.session-item.cancelled{border-left-color:var(--red);opacity:0.6}
+.session-time{font-size:0.82rem;font-weight:500;color:var(--slate-dk);min-width:50px}
+.session-client{font-size:0.88rem;font-weight:500;flex:1}
+.session-location{font-size:0.72rem;color:var(--stone)}
+.session-actions{display:flex;gap:0.4rem}
+
+/* ── ALERTS ── */
+.alert-list{display:flex;flex-direction:column;gap:0.5rem}
+.alert-item{display:flex;align-items:center;gap:0.75rem;padding:0.7rem 1rem;border-radius:4px;font-size:0.83rem}
+.alert-item.info{background:#EBF2FA;border-left:3px solid var(--slate-lt)}
+.alert-item.warning{background:#FEF3E2;border-left:3px solid var(--amber)}
+.alert-item.urgent{background:#FDECEA;border-left:3px solid var(--red)}
+.alert-item.success{background:#E8F8EE;border-left:3px solid var(--green)}
+.alert-icon{font-size:1rem;min-width:20px}
+.alert-text{flex:1}
+.alert-action{font-size:0.72rem;font-weight:500;color:var(--slate);cursor:pointer;text-decoration:underline;white-space:nowrap}
+
+/* ── TABLES ── */
+table{width:100%;border-collapse:collapse}
+thead tr{background:var(--slate-dk);color:#fff}
+thead th{padding:0.6rem 0.9rem;font-size:0.68rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;text-align:left}
+tbody td{padding:0.7rem 0.9rem;border-bottom:1px solid var(--warm);font-size:0.85rem;vertical-align:middle}
+tbody tr:hover{background:var(--cream)}
+tbody tr:last-child td{border-bottom:none}
+
+/* ── FORMS ── */
+.form-grid{display:grid;gap:1rem}
+.form-grid.cols-2{grid-template-columns:1fr 1fr}
+.form-grid.cols-3{grid-template-columns:1fr 1fr 1fr}
+.form-group{display:flex;flex-direction:column;gap:0.3rem}
+.form-group label{font-size:0.68rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--stone)}
+.form-group input,.form-group select,.form-group textarea{background:var(--cream);border:1px solid rgba(0,0,0,0.12);border-radius:4px;padding:0.55rem 0.8rem;font-family:var(--sans);font-size:0.85rem;color:var(--ink);transition:border-color 0.15s}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--slate-lt);background:var(--white)}
+.form-group textarea{resize:vertical;min-height:80px}
+
+/* ── BUTTONS ── */
+.btn{padding:0.55rem 1.1rem;border-radius:4px;border:none;font-family:var(--sans);font-size:0.78rem;font-weight:500;letter-spacing:0.04em;cursor:pointer;transition:opacity 0.15s;display:inline-flex;align-items:center;gap:0.4rem}
+.btn:hover{opacity:0.85}
+.btn-primary{background:var(--slate-dk);color:#fff}
+.btn-gold{background:var(--gold);color:#fff}
+.btn-outline{background:transparent;border:1px solid var(--slate);color:var(--slate)}
+.btn-danger{background:var(--red);color:#fff}
+.btn-success{background:var(--green);color:#fff}
+.btn-sm{padding:0.35rem 0.75rem;font-size:0.72rem}
+.btn-group{display:flex;gap:0.5rem;flex-wrap:wrap}
+
+/* ── BADGES ── */
+.badge{display:inline-block;padding:0.2rem 0.6rem;border-radius:20px;font-size:0.68rem;font-weight:500;letter-spacing:0.05em}
+.badge-active{background:#E8F8EE;color:var(--green)}
+.badge-paused{background:#FEF3E2;color:var(--amber)}
+.badge-ended{background:var(--warm);color:var(--stone)}
+.badge-unpaid{background:#FDECEA;color:var(--red)}
+.badge-paid{background:#E8F8EE;color:var(--green)}
+.badge-due{background:#FEF3E2;color:var(--amber)}
+
+/* ── MODALS ── */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(42,58,74,0.55);z-index:200;overflow-y:auto;padding:2rem 1rem}
+.modal-overlay.open{display:block}
+.modal{background:var(--white);max-width:580px;margin:0 auto;border-radius:var(--radius);overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,0.2)}
+.modal.modal-lg{max-width:780px}
+.modal-header{background:var(--slate-dk);color:#fff;padding:1.25rem 1.5rem;font-family:var(--serif);font-size:1.1rem;font-weight:400}
+.modal-body{padding:1.5rem}
+.modal-footer{padding:1rem 1.5rem;background:var(--cream);display:flex;justify-content:flex-end;gap:0.5rem;border-top:1px solid var(--warm)}
+
+/* ── NOTES TOOL ── */
+.notes-mode-tabs{display:flex;gap:0;margin-bottom:1.5rem;border-bottom:2px solid var(--warm)}
+.notes-mode-tab{padding:0.65rem 1.25rem;font-size:0.75rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--stone);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all 0.15s}
+.notes-mode-tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+.notes-section{margin-bottom:1.5rem}
+.notes-section-title{font-family:var(--serif);font-size:1rem;color:var(--slate-dk);margin-bottom:0.75rem;padding-bottom:0.5rem;border-bottom:1px solid var(--warm)}
+.notes-question{margin-bottom:1rem}
+.notes-question label{display:block;font-size:0.78rem;font-weight:500;color:var(--ink-lt);margin-bottom:0.35rem;line-height:1.4}
+.notes-question .clinical-note{font-size:0.68rem;color:var(--stone);font-style:italic;margin-top:0.2rem}
+.layer-indicator{display:inline-block;padding:0.15rem 0.5rem;border-radius:3px;font-size:0.62rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;background:var(--warm);color:var(--slate);margin-left:0.5rem}
+
+/* ── INVOICE PREVIEW ── */
+.invoice-preview{background:#fff;border:1px solid var(--warm);border-radius:var(--radius);padding:2.5rem 3rem;margin-top:1rem;box-shadow:var(--shadow)}
+.inv-logo-wrap{text-align:center;margin-bottom:1.25rem;font-family:var(--serif);font-size:1.3rem;color:var(--slate-dk)}
+.inv-logo-wrap span{color:var(--gold)}
+.inv-rule{border:none;border-top:2px solid var(--gold);margin-bottom:1.25rem}
+.inv-heading{text-align:center;font-family:var(--serif);font-size:1.8rem;color:var(--slate-dk);margin-bottom:1.75rem}
+.inv-meta{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:2rem}
+.inv-meta-label{font-size:0.62rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--stone);margin-bottom:0.2rem}
+.inv-meta-right{text-align:right}
+.inv-table-wrap table thead tr{background:var(--slate-dk)}
+.inv-total{font-family:var(--serif);font-size:1.5rem;color:var(--slate-dk)}
+.inv-payment-title{font-size:0.68rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--slate-dk);margin-bottom:0.4rem}
+.inv-payment-rule{border:none;border-top:1.5px solid var(--gold);margin-bottom:0.75rem}
+.inv-footer-bar{margin-top:2.5rem;padding-top:0.75rem;border-top:1px solid var(--warm);text-align:center;font-size:0.68rem;color:var(--stone);line-height:1.8}
+
+/* ── WEEK VIEW ── */
+.week-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0.5rem;margin-bottom:1.5rem}
+.week-day{background:var(--white);border-radius:4px;border:1px solid var(--warm);padding:0.75rem;min-height:80px}
+.week-day-label{font-size:0.62rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--stone);margin-bottom:0.4rem}
+.week-day.today{border-color:var(--gold);border-width:2px}
+.week-day.today .week-day-label{color:var(--gold)}
+.week-session{font-size:0.72rem;padding:0.2rem 0.4rem;background:var(--cream);border-radius:3px;margin-bottom:0.2rem;border-left:2px solid var(--slate-lt);line-height:1.3}
+
+/* ── BILLING PROMPT ── */
+.billing-prompt{background:linear-gradient(135deg,var(--slate-dk),var(--slate));color:#fff;border-radius:var(--radius);padding:1.25rem 1.5rem;margin-bottom:1rem}
+.billing-prompt-title{font-family:var(--serif);font-size:1rem;font-weight:400;margin-bottom:0.4rem}
+.billing-prompt-sub{font-size:0.8rem;opacity:0.7;margin-bottom:0.75rem}
+
+/* ── MISC ── */
+.empty-state{text-align:center;padding:3rem 1rem;color:var(--stone)}
+.empty-state-icon{font-size:2.5rem;margin-bottom:0.75rem}
+.empty-state-title{font-family:var(--serif);font-size:1.1rem;color:var(--ink-lt);margin-bottom:0.4rem}
+.empty-state-sub{font-size:0.82rem}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem}
+.section-title{font-family:var(--serif);font-size:1.3rem;color:var(--slate-dk);font-weight:400}
+hr.divider{border:none;border-top:1px solid var(--warm);margin:1.25rem 0}
+
+@media(max-width:600px){
+  .form-grid.cols-2,.form-grid.cols-3{grid-template-columns:1fr}
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .week-grid{grid-template-columns:1fr}
+  .inv-meta{grid-template-columns:1fr}
+  .inv-meta-right{text-align:left}
+  main{padding:1rem}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-brand">Martin Alderton &nbsp;|&nbsp; <span>Practice</span></div>
+  <div class="header-date" id="headerDate"></div>
+</header>
+
+<nav>
+  <div class="nav-tab active" onclick="showPanel('dashboard')">Dashboard</div>
+  <div class="nav-tab" onclick="showPanel('clients')">Clients</div>
+  <div class="nav-tab" onclick="showPanel('sessions')">Sessions</div>
+  <div class="nav-tab" onclick="showPanel('notes')">Clinical Notes</div>
+  <div class="nav-tab" onclick="showPanel('invoices')">Invoices</div>
+  <div class="nav-tab" onclick="showPanel('settings')">Settings</div>
+</nav>
+
+<main>
+
+<!-- ══════════════════════════════════════════════════════════
+     DASHBOARD
+══════════════════════════════════════════════════════════ -->
+<div class="panel active" id="panel-dashboard">
+  <div class="section-header">
+    <div class="section-title" id="dashGreeting">Good morning.</div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-grid" id="dashStats"></div>
+
+  <!-- Alerts -->
+  <div class="card" id="alertsCard" style="display:none">
+    <div class="card-header"><div class="card-title">Needs Attention</div></div>
+    <div class="alert-list" id="alertsList"></div>
+  </div>
+
+  <!-- Today's Sessions -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">Today's Sessions</div>
+      <button class="btn btn-outline btn-sm" onclick="showPanel('sessions');openSessionModal()">+ Log session</button>
+    </div>
+    <div id="todaySessions"></div>
+  </div>
+
+  <!-- Week View -->
+  <div class="card">
+    <div class="card-header"><div class="card-title">This Week</div></div>
+    <div class="week-grid" id="weekGrid"></div>
+    <div id="weekSessionsList"></div>
+  </div>
+
+  <!-- Billing Prompts -->
+  <div id="billingPrompts"></div>
+
+  <!-- Outstanding Invoices -->
+  <div class="card" id="outstandingCard">
+    <div class="card-header"><div class="card-title">Outstanding Invoices</div></div>
+    <div id="outstandingList"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CLIENTS
+══════════════════════════════════════════════════════════ -->
+<div class="panel" id="panel-clients">
+  <div class="section-header">
+    <div class="section-title">Clients</div>
+    <button class="btn btn-primary" onclick="openClientModal()">+ Add Client</button>
+  </div>
+  <div class="card">
+    <table>
+      <thead><tr>
+        <th>Name</th><th>Status</th><th>Location</th><th>Rate</th><th>Slot</th><th>Billing</th><th>Next Invoice</th><th></th>
+      </tr></thead>
+      <tbody id="clientsTable"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     SESSIONS
+══════════════════════════════════════════════════════════ -->
+<div class="panel" id="panel-sessions">
+  <div class="section-header">
+    <div class="section-title">Sessions</div>
+    <button class="btn btn-primary" onclick="openSessionModal()">+ Log Session</button>
+  </div>
+  <div class="card">
+    <div class="form-grid cols-3" style="margin-bottom:1rem">
+      <div class="form-group">
+        <label>Filter by client</label>
+        <select id="sessionFilterClient" onchange="renderSessions()">
+          <option value="">All clients</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Status</label>
+        <select id="sessionFilterStatus" onchange="renderSessions()">
+          <option value="">All</option>
+          <option value="attended">Attended</option>
+          <option value="cancelled">Cancelled</option>
+          <option value="rescheduled">Rescheduled</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Invoiced</label>
+        <select id="sessionFilterInvoiced" onchange="renderSessions()">
+          <option value="">All</option>
+          <option value="no">Not yet invoiced</option>
+          <option value="yes">Invoiced</option>
+        </select>
+      </div>
+    </div>
+    <table>
+      <thead><tr>
+        <th>Date</th><th>Client</th><th>Location</th><th>Status</th><th>Notes</th><th>Invoiced</th><th></th>
+      </tr></thead>
+      <tbody id="sessionsTable"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CLINICAL NOTES
+══════════════════════════════════════════════════════════ -->
+<div class="panel" id="panel-notes">
+  <div class="section-header">
+    <div class="section-title">Clinical Notes</div>
+    <div class="form-group" style="min-width:200px">
+      <select id="notesClientSelect" onchange="loadNotesForClient()">
+        <option value="">Select client</option>
+      </select>
+    </div>
+  </div>
+
+  <div id="notesContent" style="display:none">
+    <div class="notes-mode-tabs">
+      <div class="notes-mode-tab active" onclick="showNotesMode('intake')">Intake</div>
+      <div class="notes-mode-tab" onclick="showNotesMode('formulation')">Formulation</div>
+      <div class="notes-mode-tab" onclick="showNotesMode('session')">Session Update</div>
+      <div class="notes-mode-tab" onclick="showNotesMode('history')">History</div>
+    </div>
+
+    <!-- INTAKE -->
+    <div id="notesMode-intake">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Intake & Assessment</div>
+          <button class="btn btn-primary btn-sm" onclick="saveNotes('intake')">Save</button>
+        </div>
+
+        <div class="notes-section">
+          <div class="notes-section-title">Presenting</div>
+          <div class="notes-question">
+            <label>What brings this person to therapy now — and why now?</label>
+            <div class="clinical-note">The timing is often as significant as the content. What has shifted that made this the moment to seek help?</div>
+            <textarea id="intake_presenting" rows="3" placeholder="Present the concern in their own language where possible"></textarea>
+          </div>
+          <div class="notes-question">
+            <label>How long has this difficulty been present?</label>
+            <textarea id="intake_duration" rows="2"></textarea>
+          </div>
+          <div class="notes-question">
+            <label>What has been tried, and what has and hasn't helped?</label>
+            <textarea id="intake_tried" rows="2"></textarea>
+          </div>
+        </div>
+
+        <div class="notes-section">
+          <div class="notes-section-title">Background</div>
+          <div class="notes-question">
+            <label>Family background — atmosphere, relational dynamics, physical environment growing up</label>
+            <div class="clinical-note">Attend to what is said and how it is said. The narrative style itself carries attachment information.</div>
+            <textarea id="intake_family" rows="4"></textarea>
+          </div>
+          <div class="notes-question">
+            <label>Current life situation</label>
+            <textarea id="intake_current" rows="3"></textarea>
+          </div>
+          <div class="notes-question">
+            <label>Social support network</label>
+            <textarea id="intake_support" rows="2"></textarea>
+          </div>
+          <div class="notes-question">
+            <label>Previous therapy experience — what was useful, what wasn't</label>
+            <div class="clinical-note">Previous therapeutic experience often carries information about relational expectation and the working alliance.</div>
+            <textarea id="intake_previous_therapy" rows="3"></textarea>
+          </div>
+        </div>
+
+        <div class="notes-section">
+          <div class="notes-section-title">Additional History</div>
+          <div class="notes-question">
+            <label>Additional major life events not already covered</label>
+            <textarea id="intake_events" rows="3"></textarea>
+          </div>
+          <div class="notes-question">
+            <label>Psychiatric history — any diagnosis, medication, contact with mental health services</label>
+            <div class="clinical-note">Note the person's relationship to any diagnosis or medication as well as the facts.</div>
+            <textarea id="intake_psychiatric" rows="3"></textarea>
+          </div>
+          <div class="notes-question">
+            <label>Risk — current thoughts of self-harm or ending life; any previous actions</label>
+            <div class="clinical-note">Record clearly. Risk assessment is ongoing — this is the baseline.</div>
+            <textarea id="intake_risk" rows="3"></textarea>
+          </div>
+        </div>
+
+        <div class="notes-section">
+          <div class="notes-section-title">Goals & Hopes</div>
+          <div class="notes-question">
+            <label>What does this person hope will be different?</label>
+            <textarea id="intake_goals" rows="3"></textarea>
+          </div>
+          <div class="notes-question">
+            <label>What would they notice first if things began to shift?</label>
+            <textarea id="intake_markers" rows="2"></textarea>
+          </div>
+        </div>
+
+        <div class="notes-section">
+          <div class="notes-section-title">Initial Observations</div>
+          <div class="notes-question">
+            <label>Presentation — affect, relatedness, body language, quality of contact</label>
+            <div class="clinical-note">What did you notice before they spoke? Somatic countertransference from the first moment.</div>
+            <textarea id="intake_presentation" rows="3"></textarea>
+          </div>
+          <div class="notes-question">
+            <label>What did this person activate in you?</label>
+            <div class="clinical-note">Countertransference at intake is clinically significant. Note honestly.</div>
+            <textarea id="intake_counter" rows="2"></textarea>
+          </div>
+        </div>
+
+        <div style="text-align:right;margin-top:1rem">
+          <button class="btn btn-primary" onclick="saveNotes('intake')">Save Intake Notes</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- FORMULATION -->
+    <div id="notesMode-formulation" style="display:none">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Clinical Formulation</div>
+          <button class="btn btn-primary btn-sm" onclick="saveNotes('formulation')">Save</button>
+        </div>
+        <p style="font-size:0.82rem;color:var(--stone);margin-bottom:1.5rem;font-style:italic">Your reading of the intake material through the model. This is your clinical thinking — not a summary of what the person said.</p>
+
+        <div class="notes-section">
+          <div class="notes-section-title">Developmental Reading</div>
+          <div class="notes-question">
+            <label>Where does the presenting difficulty appear to root? <span class="layer-indicator">Balint / Winnicott / Mahler / Fonagy</span></label>
+            <div class="clinical-note">Which developmental layer is most live? Pre-symbolic (basic fault)? True/false self? Separation-individuation? Mentalization failure? More than one may be present — name the primary level and any secondary.</div>
+            <textarea id="form_developmental" rows="4"></textarea>
+          </div>
+          <div class="notes-question">
+            <label>What did this person need that they didn't receive?</label>
+            <div class="clinical-note">Be specific. Generic warmth does not repair a specific wound. The reparation must match the developmental level.</div>
+            <textarea id="form_needed" rows="3"></textarea>
+          </div>
+          <div class="notes-question">
+            <label>What formed instead — the adaptive strategy</label>
+            <div class="clinical-note">This is not pathology. It is the logical adaptation to what was available. Name it with respect.</div>
+            <textarea id="form_adaptation" rows="3"></textarea>
+          </div>
+        </div>
+
+        <div class="notes-section">
+          <div class="notes-section-title">Relational Pattern <span class="layer-indicator">RIG / CCRT</span></div>
+          <div class="notes-question">
+            <label>What is the core relational pattern — the RIG — that keeps repeating?</label>
+            <div class="clinical-note">In Stern's terms: what does this person expect to happen when they bring the full weight of something to another person? This is the destructive RIG that the therapeutic relationship must provide a new version of.</div>
+            <textarea id="form_rig" rows="4"></textarea>
+          </div>
+          <div class="notes-question">
+            <label>What is the reparative RIG — the precise inversion of the destructive pattern?</label>
+            <div class="clinical-note">Generic warmth does not repair a specific wound. Name the specific relational provision required.</div>
+            <textarea id="form_reparative_rig" rows="3"></textarea>
+          </div>
+        </div>
+
+        <div class="notes-section">
+          <div class="notes-section-title">Attachment & Mentalization</div>
+          <div class="notes-question">
+            <label>Attachment pattern — reading from narrative style and relational history</label>
+            <div class="clinical-note">Secure / anxious-preoccupied / dismissive-avoidant / disorganised. Note what in the narrative style, not just the content, informs this reading.</div>
+            <textarea id="form_attachment" rows="3"></textarea>
+          </div>
+          <div class="notes-question">
+            <label>Mentalization capacity — reflective functioning baseline and collapse conditions</label>
+            <div class="clinical-note">Can this person hold their own and another's mind simultaneously? Under what conditions does mentalization collapse? What does epistemic trust look like here?</div>
+            <textarea id="form_mentalization" rows="3"></textarea>
+          </div>
+          <div class="notes-question">
+            <label>Alien self — what has been internalised that doesn't feel like theirs?</label>
+            <div class="clinical-note">Fonagy: when mirroring reflects the caregiver's state rather than the infant's, something foreign is internalised. What is this person externalising — and into whom?</div>
+            <textarea id="form_alien_self" rows="3"></textarea>
+          </div>
+        </div>
+
+        <div class="notes-section">
+          <div class="notes-section-title">Nervous System & Window</div>
+          <div class="notes-question">
+            <label>Window of tolerance — current width and collapse conditions</label>
+            <div class="clinical-note">Porges / Van der Kolk: how wide is the window? What narrows it? What system — ventral vagal, sympathetic, dorsal vagal — is most active? This shapes the sequencing.</div>
+            <textarea id="form_window" rows="3"></textarea>
+          </div>
+          <div class="notes-question">
+            <label>Somatic presentation — body patterns, breath, posture, activation</label>
+            <div class="clinical-note">What does this person's body do in the room? What does your body do in response? Ogden: somatic countertransference as data.</div>
+            <textarea id="form_somatic" rows="3"></textarea>
+          </div>
+        </div>
+
+        <div class="notes-section">
+          <div class="notes-section-title">Sequencing Position <span class="layer-indicator">Seven Layers</span></div>
+          <div class="notes-question">
+            <label>Where in the seven-layer sequence is the work currently needed?</label>
+            <div class="clinical-note">Rogers (ground) → Kohut (container) → Stern (mechanism) → Levine (interrupted completion) → Van der Kolk (window) → Freud (descent) → Adler (reorientation). Name the current layer and what must be in place before progression becomes appropriate.</div>
+            <textarea id="form_sequencing" rows="4"></textarea>
+          </div>
+          <div class="notes-question">
+            <label>Five modes — which are most alive? <span class="layer-indicator">Clarkson</span></label>
+            <div class="clinical-note">Working alliance / Transferential / Reparative / Person-to-person / Transpersonal. What is most active now and what does the clinical moment require?</div>
+            <textarea id="form_modes" rows="3"></textarea>
+          </div>
+        </div>
+
+        <div class="notes-section">
+          <div class="notes-section-title">Transferential & Intersubjective Field</div>
+          <div class="notes-question">
+            <label>Transferential material — what is being activated in the room</label>
+            <div class="clinical-note">What role is this person recruiting you into (Sandler's role responsiveness)? Is there a shared fantasy beginning to form? What organising principles from your own history are being activated?</div>
+            <textarea id="form_transference" rows="4"></textarea>
+          </div>
+          <div class="notes-question">
+            <label>Countertransference — what this case activates in you</label>
+            <div class="clinical-note">Your somatic response. Your emotional response. What pulls you toward technique or distance. What makes you want to rescue, withdraw, or over-explain. This is clinical data.</div>
+            <textarea id="form_countertransference" rows="3"></textarea>
+          </div>
+        </div>
+
+        <div class="notes-section">
+          <div class="notes-section-title">Temporal Dimension <span class="layer-indicator">Tonkin / Kübler-Ross</span></div>
+          <div class="notes-question">
+            <label>What stage of the immediate landscape is this person in?</label>
+            <div class="clinical-note">Kübler-Ross for the immediate: receive what is present, don't rush the stages. What needs to be held before anything else can be introduced?</div>
+            <textarea id="form_immediate" rows="2"></textarea>
+          </div>
+          <div class="notes-question">
+            <label>Longer arc — Tonkin reading</label>
+            <div class="clinical-note">The grief doesn't shrink — the person grows around it. What does a larger life look like for this person? Not as a goal to be stated, but as a clinical orientation.</div>
+            <textarea id="form_longer_arc" rows="2"></textarea>
+          </div>
+        </div>
+
+        <div class="notes-section">
+          <div class="notes-section-title">Clinical Plan</div>
+          <div class="notes-question">
+            <label>The specific relational provision this person needs from this relationship</label>
+            <textarea id="form_provision" rows="3"></textarea>
+          </div>
+          <div class="notes-question">
+            <label>What to hold carefully — risks, ethical considerations, things to monitor</label>
+            <div class="clinical-note">Set 3 active here. Risk, competence, dual relationship, scope. Name honestly.</div>
+            <textarea id="form_risks" rows="3"></textarea>
+          </div>
+          <div class="notes-question">
+            <label>What this case needs from supervision</label>
+            <textarea id="form_supervision" rows="2"></textarea>
+          </div>
+        </div>
+
+        <div style="text-align:right;margin-top:1rem">
+          <button class="btn btn-primary" onclick="saveNotes('formulation')">Save Formulation</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SESSION UPDATE -->
+    <div id="notesMode-session" style="display:none">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Session Update</div>
+          <div class="form-group" style="min-width:160px">
+            <select id="sessionNoteSelect">
+              <option value="">Select session</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="notes-section">
+          <div class="notes-question">
+            <label>Where were we — brief orientation from last session</label>
+            <textarea id="sn_where_were_we" rows="2" placeholder="The thread we left, what was live, where the sequencing was"></textarea>
+          </div>
+          <div class="notes-question">
+            <label>What happened in this session</label>
+            <div class="clinical-note">Not a transcript — what was clinically significant. What arrived, what was received, what was named.</div>
+            <textarea id="sn_what_happened" rows="4"></textarea>
+          </div>
+          <div class="notes-question">
+            <label>What shifted — or didn't</label>
+            <div class="clinical-note">Slow is not the same as stuck. A session where nothing moved is still data. What does the absence of movement tell you?</div>
+            <textarea id="sn_shifted" rows="3"></textarea>
+          </div>
+          <div class="notes-question">
+            <label>Somatic and transferential notes</label>
+            <div class="clinical-note">What did your body do? What was activated in you? What role were you being recruited into? Any moments of meeting — unexpected, unscripted genuine contact?</div>
+            <textarea id="sn_somatic_transfer" rows="3"></textarea>
+          </div>
+          <div class="notes-question">
+            <label>Sequencing position after this session</label>
+            <div class="clinical-note">Has the layer shifted? Is the window wider or narrower than last time? What does the nervous system appear to be doing with what has been offered?</div>
+            <textarea id="sn_sequencing" rows="2"></textarea>
+          </div>
+          <div class="notes-question">
+            <label>What the next session needs</label>
+            <div class="clinical-note">Not a plan — an orientation. What must be available in you for the next session to be what this person needs?</div>
+            <textarea id="sn_next" rows="2"></textarea>
+          </div>
+          <div class="notes-question">
+            <label>Risk update — any change since last assessment</label>
+            <textarea id="sn_risk" rows="2"></textarea>
+          </div>
+          <div class="notes-question">
+            <label>Anything to bring to supervision</label>
+            <textarea id="sn_supervision" rows="2"></textarea>
+          </div>
+        </div>
+
+        <div style="text-align:right;margin-top:1rem">
+          <button class="btn btn-primary" onclick="saveSessionNote()">Save Session Note</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- HISTORY -->
+    <div id="notesMode-history" style="display:none">
+      <div class="card">
+        <div class="card-header"><div class="card-title">Case History</div></div>
+        <div id="notesHistory"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="notesEmpty" class="empty-state">
+    <div class="empty-state-icon">📋</div>
+    <div class="empty-state-title">Select a client to view or add clinical notes</div>
+    <div class="empty-state-sub">Notes are stored locally on this device</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     INVOICES
+══════════════════════════════════════════════════════════ -->
+<div class="panel" id="panel-invoices">
+  <div class="section-header">
+    <div class="section-title">Invoices</div>
+    <button class="btn btn-gold" onclick="openInvoiceModal()">+ Create Invoice</button>
+  </div>
+
+  <div class="card">
+    <table>
+      <thead><tr>
+        <th>Invoice No</th><th>Client</th><th>Date</th><th>Sessions</th><th>Amount</th><th>Status</th><th></th>
+      </tr></thead>
+      <tbody id="invoicesTable"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     SETTINGS
+══════════════════════════════════════════════════════════ -->
+<div class="panel" id="panel-settings">
+  <div class="section-title" style="margin-bottom:1.25rem">Settings</div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-title">Practice Details</div></div>
+    <div class="form-grid cols-2">
+      <div class="form-group"><label>Practitioner Name</label><input type="text" id="set_name" value="Martin Alderton"></div>
+      <div class="form-group"><label>Credentials</label><input type="text" id="set_creds" value="UKCP Psychotherapeutic Counsellor"></div>
+      <div class="form-group"><label>Email</label><input type="email" id="set_email" value="admin@martinaldertoncounsellor.com"></div>
+      <div class="form-group"><label>Phone</label><input type="tel" id="set_phone" value="07799 563910"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-title">Bank Details</div></div>
+    <div class="form-grid cols-3">
+      <div class="form-group"><label>Account Name</label><input type="text" id="set_bank_name" value="Martin Alderton"></div>
+      <div class="form-group"><label>Account Number</label><input type="text" id="set_bank_acc" value="44647611"></div>
+      <div class="form-group"><label>Sort Code</label><input type="text" id="set_bank_sort" value="52-41-29"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-title">Default Rates</div></div>
+    <div class="form-grid cols-3">
+      <div class="form-group"><label>Harley Street (£)</label><input type="number" id="set_rate_london" value="110"></div>
+      <div class="form-group"><label>Norwich (£)</label><input type="number" id="set_rate_norwich" value="60"></div>
+      <div class="form-group"><label>Online (£)</label><input type="number" id="set_rate_online" value="110"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-title">Invoice Defaults</div></div>
+    <div class="form-grid cols-2">
+      <div class="form-group"><label>Default Payment Terms</label>
+        <select id="set_payment_terms">
+          <option value="Payment is requested prior to or on the day of the session.">On the day</option>
+          <option value="Payment is due within 7 days of the invoice date.">7 days</option>
+          <option value="Payment is due within 14 days of the invoice date." selected>14 days</option>
+          <option value="Payment is due within 30 days of the invoice date.">30 days</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Invoice Note</label>
+        <input type="text" id="set_invoice_note" value="Thank you for your continued commitment to our work together.">
+      </div>
+    </div>
+  </div>
+
+  <div class="btn-group">
+    <button class="btn btn-primary" onclick="saveSettings()">Save Settings</button>
+    <button class="btn btn-outline" onclick="exportData()">Export Data</button>
+    <button class="btn btn-danger" onclick="clearAllData()">Clear All Data</button>
+  </div>
+</div>
+
+</main>
+
+<!-- ══════════════════════════════════════════════════════════
+     MODALS
+══════════════════════════════════════════════════════════ -->
+
+<!-- CLIENT MODAL -->
+<div class="modal-overlay" id="clientModal">
+  <div class="modal modal-lg">
+    <div class="modal-header" id="clientModalTitle">Add Client</div>
+    <div class="modal-body">
+      <input type="hidden" id="cm_id">
+      <div class="form-grid cols-2" style="margin-bottom:1rem">
+        <div class="form-group"><label>First Name *</label><input type="text" id="cm_first"></div>
+        <div class="form-group"><label>Last Name *</label><input type="text" id="cm_last"></div>
+        <div class="form-group"><label>Email</label><input type="email" id="cm_email"></div>
+        <div class="form-group"><label>Phone</label><input type="tel" id="cm_phone"></div>
+        <div class="form-group"><label>Address</label><input type="text" id="cm_address"></div>
+        <div class="form-group"><label>GP Name</label><input type="text" id="cm_gp_name"></div>
+      </div>
+      <hr class="divider">
+      <div class="form-grid cols-3" style="margin-bottom:1rem">
+        <div class="form-group"><label>Location</label>
+          <select id="cm_location" onchange="updateRateFromLocation()">
+            <option value="Norwich">Norwich</option>
+            <option value="Harley Street">Harley Street</option>
+            <option value="Online">Online</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Session Rate (£)</label><input type="number" id="cm_rate" value="60"></div>
+        <div class="form-group"><label>Regular Slot</label><input type="text" id="cm_slot" placeholder="e.g. Monday 10:00"></div>
+        <div class="form-group"><label>Session Frequency</label>
+          <select id="cm_frequency">
+            <option value="weekly">Weekly</option>
+            <option value="fortnightly">Fortnightly</option>
+            <option value="monthly">Monthly</option>
+            <option value="ad-hoc">Ad hoc</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Billing Cycle</label>
+          <select id="cm_billing">
+            <option value="4">Every 4 weeks</option>
+            <option value="2">Every 2 weeks</option>
+            <option value="1">Monthly (calendar)</option>
+            <option value="0">Manual only</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Contract Start</label><input type="date" id="cm_start"></div>
+        <div class="form-group"><label>Status</label>
+          <select id="cm_status">
+            <option value="active">Active</option>
+            <option value="paused">Paused</option>
+            <option value="ended">Ended</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Last Invoice Date</label><input type="date" id="cm_last_invoiced"></div>
+      </div>
+      <div class="form-group"><label>Notes (non-clinical)</label><textarea id="cm_notes" rows="2"></textarea></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('clientModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveClient()">Save Client</button>
+    </div>
+  </div>
+</div>
+
+<!-- SESSION MODAL -->
+<div class="modal-overlay" id="sessionModal">
+  <div class="modal">
+    <div class="modal-header">Log Session</div>
+    <div class="modal-body">
+      <input type="hidden" id="sm_id">
+      <div class="form-grid cols-2" style="margin-bottom:1rem">
+        <div class="form-group"><label>Client *</label>
+          <select id="sm_client"></select>
+        </div>
+        <div class="form-group"><label>Date *</label><input type="date" id="sm_date"></div>
+        <div class="form-group"><label>Location</label>
+          <select id="sm_location">
+            <option value="Norwich">Norwich</option>
+            <option value="Harley Street">Harley Street</option>
+            <option value="Online">Online</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Status</label>
+          <select id="sm_status">
+            <option value="attended">Attended</option>
+            <option value="cancelled">Cancelled (24h+)</option>
+            <option value="late-cancel">Late cancellation</option>
+            <option value="rescheduled">Rescheduled</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Duration (mins)</label>
+          <select id="sm_duration">
+            <option value="50">50 minutes</option>
+            <option value="90">90 minutes</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Rate (£) — leave 0 to use client rate</label>
+          <input type="number" id="sm_rate" value="0" min="0">
+        </div>
+      </div>
+      <div class="form-group"><label>Brief note (not clinical content)</label>
+        <textarea id="sm_note" rows="2" placeholder="Administrative notes only — clinical content goes in Clinical Notes"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('sessionModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveSession()">Save Session</button>
+    </div>
+  </div>
+</div>
+
+<!-- INVOICE MODAL -->
+<div class="modal-overlay" id="invoiceModal">
+  <div class="modal modal-lg">
+    <div class="modal-header">Create Invoice</div>
+    <div class="modal-body">
+      <input type="hidden" id="im_id">
+      <div class="form-grid cols-2" style="margin-bottom:1rem">
+        <div class="form-group"><label>Client *</label>
+          <select id="im_client" onchange="loadSessionsForInvoice()"></select>
+        </div>
+        <div class="form-group"><label>Invoice Number</label>
+          <input type="text" id="im_number">
+        </div>
+        <div class="form-group"><label>Invoice Date</label>
+          <input type="date" id="im_date">
+        </div>
+        <div class="form-group"><label>Payment Terms</label>
+          <select id="im_terms">
+            <option value="Payment is requested prior to or on the day of the session.">On the day</option>
+            <option value="Payment is due within 7 days of the invoice date.">7 days</option>
+            <option value="Payment is due within 14 days of the invoice date." selected>14 days</option>
+            <option value="Payment is due within 30 days of the invoice date.">30 days</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group" style="margin-bottom:1rem">
+        <label>Sessions to include</label>
+        <div id="im_sessions_list" style="background:var(--cream);padding:0.75rem;border-radius:4px;max-height:200px;overflow-y:auto;margin-top:0.25rem"></div>
+      </div>
+      <div class="form-group" style="margin-bottom:1rem">
+        <label>Note</label>
+        <input type="text" id="im_note">
+      </div>
+      <div id="im_preview_wrap"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('invoiceModal')">Cancel</button>
+      <button class="btn btn-outline" onclick="previewInvoice()">Preview</button>
+      <button class="btn btn-gold" onclick="generateAndSaveInvoice()">Generate Invoice</button>
+    </div>
+  </div>
+</div>
+
+<!-- INVOICE VIEW MODAL -->
+<div class="modal-overlay" id="invoiceViewModal">
+  <div class="modal modal-lg">
+    <div class="modal-header">Invoice</div>
+    <div class="modal-body" id="invoiceViewContent"></div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('invoiceViewModal')">Close</button>
+      <button class="btn btn-success" id="markPaidBtn" onclick="markCurrentInvoicePaid()">Mark as Paid</button>
+      <button class="btn btn-primary" onclick="printInvoice()">Print / PDF</button>
+    </div>
+  </div>
+</div>
+
+<!-- BILLING CONFIRM MODAL -->
+<div class="modal-overlay" id="billingModal">
+  <div class="modal modal-lg">
+    <div class="modal-header" id="billingModalTitle">Billing Due</div>
+    <div class="modal-body">
+      <p style="font-size:0.85rem;color:var(--stone);margin-bottom:1rem">Review and confirm the sessions to include in this invoice. You can deselect any that shouldn't be included.</p>
+      <div id="billingSessionsList"></div>
+      <div class="form-grid cols-2" style="margin-top:1rem">
+        <div class="form-group"><label>Invoice Number</label><input type="text" id="bm_number"></div>
+        <div class="form-group"><label>Invoice Date</label><input type="date" id="bm_date"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('billingModal')">Later</button>
+      <button class="btn btn-gold" onclick="confirmBillingInvoice()">Generate Invoice</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════════
+// DATA STORE
+// ══════════════════════════════════════════════════════════
+let data = {
+  clients: [],
+  sessions: [],
+  invoices: [],
+  notes: {},
+  settings: {
+    name: 'Martin Alderton',
+    creds: 'UKCP Psychotherapeutic Counsellor',
+    email: 'admin@martinaldertoncounsellor.com',
+    phone: '07799 563910',
+    bank_name: 'Martin Alderton',
+    bank_acc: '44647611',
+    bank_sort: '52-41-29',
+    rate_london: 110,
+    rate_norwich: 60,
+    rate_online: 110,
+    payment_terms: 'Payment is due within 14 days of the invoice date.',
+    invoice_note: 'Thank you for your continued commitment to our work together.',
+    last_inv_seq: 0
+  }
+};
+let currentBillingClient = null;
+let currentViewInvoiceId = null;
+
+function save() { localStorage.setItem('practiceData_v2', JSON.stringify(data)); }
+function load() {
+  const d = localStorage.getItem('practiceData_v2');
+  if (d) { try { data = JSON.parse(d); } catch(e) { console.error(e); } }
+  applySettings();
+}
+
+function uid() { return Date.now().toString(36) + Math.random().toString(36).substr(2); }
+function today() { return new Date().toISOString().split('T')[0]; }
+function formatDate(str) {
+  if (!str) return '—';
+  const d = new Date(str + 'T12:00:00');
+  return d.toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' });
+}
+function formatDateShort(str) {
+  if (!str) return '';
+  const d = new Date(str + 'T12:00:00');
+  return d.toLocaleDateString('en-GB', { day:'numeric', month:'short' });
+}
+function formatCurrency(n) { return '£' + Number(n).toFixed(2); }
+function clientName(id) {
+  const c = data.clients.find(x => x.id === id);
+  return c ? c.first + ' ' + c.last : 'Unknown';
+}
+function clientById(id) { return data.clients.find(x => x.id === id); }
+function nextInvNumber() {
+  data.settings.last_inv_seq = (data.settings.last_inv_seq || 0) + 1;
+  const now = new Date();
+  const yy = String(now.getFullYear()).slice(2);
+  const mm = String(now.getMonth() + 1).padStart(2,'0');
+  return `INV-${yy}${mm}-${String(data.settings.last_inv_seq).padStart(3,'0')}`;
+}
+
+// ══════════════════════════════════════════════════════════
+// NAVIGATION
+// ══════════════════════════════════════════════════════════
+function showPanel(id) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  document.querySelector(`.nav-tab[onclick="showPanel('${id}')"]`).classList.add('active');
+  if (id === 'dashboard') renderDashboard();
+  if (id === 'clients') renderClients();
+  if (id === 'sessions') { populateClientFilter(); renderSessions(); }
+  if (id === 'notes') populateNotesClients();
+  if (id === 'invoices') renderInvoices();
+}
+
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+
+// ══════════════════════════════════════════════════════════
+// DASHBOARD
+// ══════════════════════════════════════════════════════════
+function renderDashboard() {
+  // Greeting
+  const h = new Date().getHours();
+  const greet = h < 12 ? 'Good morning.' : h < 17 ? 'Good afternoon.' : 'Good evening.';
+  document.getElementById('dashGreeting').textContent = greet;
+
+  // Header date
+  document.getElementById('headerDate').textContent = new Date().toLocaleDateString('en-GB', { weekday:'long', day:'numeric', month:'long' });
+
+  const todayStr = today();
+  const activeClients = data.clients.filter(c => c.status === 'active');
+  const todaySessions = data.sessions.filter(s => s.date === todayStr && s.status === 'attended');
+  const thisWeekSessions = getWeekSessions();
+  const unpaidInvoices = data.invoices.filter(i => i.status !== 'paid');
+  const unpaidTotal = unpaidInvoices.reduce((sum, i) => sum + (i.amount || 0), 0);
+  const notesNeeded = data.sessions.filter(s => s.date <= todayStr && s.status === 'attended' && !s.hasNotes);
+
+  // Stats
+  document.getElementById('dashStats').innerHTML = `
+    <div class="stat-card">
+      <div class="stat-label">Active Clients</div>
+      <div class="stat-value">${activeClients.length}</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Today's Sessions</div>
+      <div class="stat-value">${todaySessions.length}</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">This Week</div>
+      <div class="stat-value">${thisWeekSessions.length}</div>
+    </div>
+    <div class="stat-card ${unpaidTotal > 0 ? 'alert' : ''}">
+      <div class="stat-label">Outstanding</div>
+      <div class="stat-value">${formatCurrency(unpaidTotal)}</div>
+      <div class="stat-sub">${unpaidInvoices.length} invoice${unpaidInvoices.length !== 1 ? 's' : ''}</div>
+    </div>
+    <div class="stat-card ${notesNeeded.length > 0 ? 'alert' : ''}">
+      <div class="stat-label">Notes Needed</div>
+      <div class="stat-value">${notesNeeded.length}</div>
+    </div>
+  `;
+
+  // Alerts
+  const alerts = [];
+  notesNeeded.slice(0,3).forEach(s => {
+    alerts.push({ type:'warning', icon:'📝', text:`Notes needed: ${clientName(s.clientId)} — ${formatDate(s.date)}`, action:'Add notes', fn:`openNotesForSession('${s.clientId}','${s.id}')` });
+  });
+  checkBillingDue().forEach(c => {
+    alerts.push({ type:'warning', icon:'💷', text:`Billing due: ${c.first} ${c.last}`, action:'Create invoice', fn:`openBillingModal('${c.id}')` });
+  });
+  const inactiveClients = data.clients.filter(c => {
+    if (c.status !== 'active') return false;
+    const lastSession = data.sessions.filter(s => s.clientId === c.id && s.status === 'attended').sort((a,b) => b.date.localeCompare(a.date))[0];
+    if (!lastSession) return false;
+    const daysSince = Math.floor((new Date() - new Date(lastSession.date + 'T12:00:00')) / 86400000);
+    return daysSince > 21;
+  });
+  inactiveClients.slice(0,2).forEach(c => {
+    alerts.push({ type:'info', icon:'👤', text:`No session in 3+ weeks: ${c.first} ${c.last}` });
+  });
+
+  const alertsCard = document.getElementById('alertsCard');
+  if (alerts.length > 0) {
+    alertsCard.style.display = '';
+    document.getElementById('alertsList').innerHTML = alerts.map(a =>
+      `<div class="alert-item ${a.type}">
+        <span class="alert-icon">${a.icon}</span>
+        <span class="alert-text">${a.text}</span>
+        ${a.action ? `<span class="alert-action" onclick="${a.fn}">${a.action}</span>` : ''}
+      </div>`
+    ).join('');
+  } else {
+    alertsCard.style.display = 'none';
+  }
+
+  // Today's sessions
+  const todayEl = document.getElementById('todaySessions');
+  const allTodaySessions = data.sessions.filter(s => s.date === todayStr).sort((a,b) => (a.time||'').localeCompare(b.time||''));
+  if (allTodaySessions.length === 0) {
+    todayEl.innerHTML = '<div class="empty-state" style="padding:1.5rem"><div class="empty-state-sub">No sessions logged for today</div></div>';
+  } else {
+    todayEl.innerHTML = allTodaySessions.map(s => {
+      const needsNotes = s.status === 'attended' && !s.hasNotes;
+      return `<div class="session-item ${needsNotes ? 'notes-needed' : ''} ${s.status === 'cancelled' ? 'cancelled' : ''}">
+        <div class="session-time">${s.time || '—'}</div>
+        <div class="session-client">${clientName(s.clientId)}</div>
+        <div class="session-location">${s.location}</div>
+        <div class="session-actions">
+          ${needsNotes ? `<button class="btn btn-outline btn-sm" onclick="openNotesForSession('${s.clientId}','${s.id}')">📝 Notes</button>` : ''}
+          <button class="btn btn-outline btn-sm" onclick="editSession('${s.id}')">Edit</button>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  // Week grid
+  renderWeekGrid();
+
+  // Billing prompts
+  renderBillingPrompts();
+
+  // Outstanding invoices
+  renderOutstandingInvoices();
+}
+
+function getWeekSessions() {
+  const now = new Date();
+  const mon = new Date(now);
+  mon.setDate(now.getDate() - (now.getDay() === 0 ? 6 : now.getDay() - 1));
+  mon.setHours(0,0,0,0);
+  const sun = new Date(mon);
+  sun.setDate(mon.getDate() + 6);
+  return data.sessions.filter(s => {
+    const d = new Date(s.date + 'T12:00:00');
+    return d >= mon && d <= sun;
+  });
+}
+
+function renderWeekGrid() {
+  const now = new Date();
+  const dayOfWeek = now.getDay() === 0 ? 7 : now.getDay();
+  const monday = new Date(now);
+  monday.setDate(now.getDate() - dayOfWeek + 1);
+
+  const days = ['Mon','Tue','Wed','Thu','Fri'];
+  let html = '';
+  for (let i = 0; i < 5; i++) {
+    const d = new Date(monday);
+    d.setDate(monday.getDate() + i);
+    const dateStr = d.toISOString().split('T')[0];
+    const isToday = dateStr === today();
+    const daySessions = data.sessions.filter(s => s.date === dateStr);
+    html += `<div class="week-day ${isToday ? 'today' : ''}">
+      <div class="week-day-label">${days[i]} ${d.getDate()}</div>
+      ${daySessions.map(s => `<div class="week-session">${clientName(s.clientId)}</div>`).join('')}
+    </div>`;
+  }
+  document.getElementById('weekGrid').innerHTML = html;
+}
+
+function checkBillingDue() {
+  const due = [];
+  const todayStr = today();
+  data.clients.filter(c => c.status === 'active' && c.billing && c.billing !== '0').forEach(c => {
+    if (!c.last_invoiced) return;
+    const lastInv = new Date(c.last_invoiced + 'T12:00:00');
+    const weeks = parseInt(c.billing);
+    const nextDue = new Date(lastInv);
+    nextDue.setDate(lastInv.getDate() + weeks * 7);
+    const nextDueStr = nextDue.toISOString().split('T')[0];
+    if (nextDueStr <= todayStr) {
+      const uninvoiced = data.sessions.filter(s => s.clientId === c.id && s.status === 'attended' && !s.invoiceId && s.date > c.last_invoiced);
+      if (uninvoiced.length > 0) due.push(c);
+    }
+  });
+  return due;
+}
+
+function renderBillingPrompts() {
+  const due = checkBillingDue();
+  const el = document.getElementById('billingPrompts');
+  if (due.length === 0) { el.innerHTML = ''; return; }
+  el.innerHTML = due.map(c => {
+    const uninvoiced = data.sessions.filter(s => s.clientId === c.id && s.status === 'attended' && !s.invoiceId);
+    return `<div class="billing-prompt">
+      <div class="billing-prompt-title">💷 Invoice due: ${c.first} ${c.last}</div>
+      <div class="billing-prompt-sub">${uninvoiced.length} session${uninvoiced.length !== 1 ? 's' : ''} ready to invoice (${c.billing}-weekly cycle)</div>
+      <button class="btn btn-gold btn-sm" onclick="openBillingModal('${c.id}')">Review & Generate Invoice</button>
+    </div>`;
+  }).join('');
+}
+
+function renderOutstandingInvoices() {
+  const unpaid = data.invoices.filter(i => i.status !== 'paid');
+  const el = document.getElementById('outstandingList');
+  if (unpaid.length === 0) {
+    el.innerHTML = '<div class="empty-state" style="padding:1rem"><div class="empty-state-sub">No outstanding invoices</div></div>';
+    return;
+  }
+  el.innerHTML = `<table>
+    <thead><tr><th>Invoice</th><th>Client</th><th>Date</th><th>Amount</th><th>Status</th><th></th></tr></thead>
+    <tbody>${unpaid.map(inv => `
+      <tr>
+        <td>${inv.number}</td>
+        <td>${clientName(inv.clientId)}</td>
+        <td>${formatDate(inv.date)}</td>
+        <td><strong>${formatCurrency(inv.amount)}</strong></td>
+        <td><span class="badge badge-unpaid">Unpaid</span></td>
+        <td><button class="btn btn-outline btn-sm" onclick="viewInvoice('${inv.id}')">View</button></td>
+      </tr>`).join('')}
+    </tbody>
+  </table>`;
+}
+
+// ══════════════════════════════════════════════════════════
+// CLIENTS
+// ══════════════════════════════════════════════════════════
+function renderClients() {
+  const tbody = document.getElementById('clientsTable');
+  if (data.clients.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--stone);padding:2rem">No clients yet</td></tr>';
+    return;
+  }
+  tbody.innerHTML = data.clients.map(c => {
+    const uninvoiced = data.sessions.filter(s => s.clientId === c.id && s.status === 'attended' && !s.invoiceId).length;
+    return `<tr>
+      <td><strong>${c.first} ${c.last}</strong></td>
+      <td><span class="badge badge-${c.status}">${c.status}</span></td>
+      <td>${c.location || '—'}</td>
+      <td>${formatCurrency(c.rate || 0)}</td>
+      <td>${c.slot || '—'}</td>
+      <td>${c.billing === '0' ? 'Manual' : c.billing ? 'Every ' + c.billing + ' weeks' : '—'}</td>
+      <td>${uninvoiced > 0 ? `<span class="badge badge-due">${uninvoiced} session${uninvoiced !== 1 ? 's' : ''}</span>` : '—'}</td>
+      <td>
+        <div class="btn-group">
+          <button class="btn btn-outline btn-sm" onclick="editClient('${c.id}')">Edit</button>
+          <button class="btn btn-outline btn-sm" onclick="showPanel('notes');selectNotesClient('${c.id}')">Notes</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteClient('${c.id}')">×</button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function openClientModal(id) {
+  document.getElementById('cm_id').value = id || '';
+  document.getElementById('clientModalTitle').textContent = id ? 'Edit Client' : 'Add Client';
+  if (id) {
+    const c = clientById(id);
+    if (c) {
+      document.getElementById('cm_first').value = c.first || '';
+      document.getElementById('cm_last').value = c.last || '';
+      document.getElementById('cm_email').value = c.email || '';
+      document.getElementById('cm_phone').value = c.phone || '';
+      document.getElementById('cm_address').value = c.address || '';
+      document.getElementById('cm_gp_name').value = c.gp_name || '';
+      document.getElementById('cm_location').value = c.location || 'Norwich';
+      document.getElementById('cm_rate').value = c.rate || 60;
+      document.getElementById('cm_slot').value = c.slot || '';
+      document.getElementById('cm_frequency').value = c.frequency || 'weekly';
+      document.getElementById('cm_billing').value = c.billing || '4';
+      document.getElementById('cm_start').value = c.start || '';
+      document.getElementById('cm_status').value = c.status || 'active';
+      document.getElementById('cm_last_invoiced').value = c.last_invoiced || '';
+      document.getElementById('cm_notes').value = c.notes || '';
+    }
+  } else {
+    document.getElementById('cm_first').value = '';
+    document.getElementById('cm_last').value = '';
+    document.getElementById('cm_email').value = '';
+    document.getElementById('cm_phone').value = '';
+    document.getElementById('cm_address').value = '';
+    document.getElementById('cm_gp_name').value = '';
+    document.getElementById('cm_location').value = 'Norwich';
+    document.getElementById('cm_rate').value = data.settings.rate_norwich || 60;
+    document.getElementById('cm_slot').value = '';
+    document.getElementById('cm_frequency').value = 'weekly';
+    document.getElementById('cm_billing').value = '4';
+    document.getElementById('cm_start').value = today();
+    document.getElementById('cm_status').value = 'active';
+    document.getElementById('cm_last_invoiced').value = '';
+    document.getElementById('cm_notes').value = '';
+  }
+  openModal('clientModal');
+}
+
+function editClient(id) { openClientModal(id); }
+
+function updateRateFromLocation() {
+  const loc = document.getElementById('cm_location').value;
+  const rates = { 'Harley Street': data.settings.rate_london, 'Norwich': data.settings.rate_norwich, 'Online': data.settings.rate_online };
+  document.getElementById('cm_rate').value = rates[loc] || 60;
+}
+
+function saveClient() {
+  const first = document.getElementById('cm_first').value.trim();
+  const last = document.getElementById('cm_last').value.trim();
+  if (!first || !last) { alert('Please enter client name.'); return; }
+  const id = document.getElementById('cm_id').value || uid();
+  const client = {
+    id, first, last,
+    email: document.getElementById('cm_email').value,
+    phone: document.getElementById('cm_phone').value,
+    address: document.getElementById('cm_address').value,
+    gp_name: document.getElementById('cm_gp_name').value,
+    location: document.getElementById('cm_location').value,
+    rate: parseFloat(document.getElementById('cm_rate').value) || 60,
+    slot: document.getElementById('cm_slot').value,
+    frequency: document.getElementById('cm_frequency').value,
+    billing: document.getElementById('cm_billing').value,
+    start: document.getElementById('cm_start').value,
+    status: document.getElementById('cm_status').value,
+    last_invoiced: document.getElementById('cm_last_invoiced').value,
+    notes: document.getElementById('cm_notes').value
+  };
+  const idx = data.clients.findIndex(c => c.id === id);
+  if (idx >= 0) data.clients[idx] = client; else data.clients.push(client);
+  save(); closeModal('clientModal'); renderClients();
+}
+
+function deleteClient(id) {
+  if (!confirm('Remove this client? Their sessions, invoices, and notes will remain.')) return;
+  data.clients = data.clients.filter(c => c.id !== id);
+  save(); renderClients();
+}
+
+// ══════════════════════════════════════════════════════════
+// SESSIONS
+// ══════════════════════════════════════════════════════════
+function populateClientFilter() {
+  const sel = document.getElementById('sessionFilterClient');
+  const cur = sel.value;
+  sel.innerHTML = '<option value="">All clients</option>' +
+    data.clients.map(c => `<option value="${c.id}">${c.first} ${c.last}</option>`).join('');
+  sel.value = cur;
+}
+
+function populateClientSelects() {
+  ['sm_client','im_client'].forEach(id => {
+    const sel = document.getElementById(id);
+    if (!sel) return;
+    sel.innerHTML = data.clients.filter(c => c.status !== 'ended').map(c =>
+      `<option value="${c.id}">${c.first} ${c.last}</option>`).join('');
+  });
+}
+
+function renderSessions() {
+  const clientFilter = document.getElementById('sessionFilterClient').value;
+  const statusFilter = document.getElementById('sessionFilterStatus').value;
+  const invoicedFilter = document.getElementById('sessionFilterInvoiced').value;
+  let sessions = [...data.sessions].sort((a,b) => b.date.localeCompare(a.date));
+  if (clientFilter) sessions = sessions.filter(s => s.clientId === clientFilter);
+  if (statusFilter) sessions = sessions.filter(s => s.status === statusFilter);
+  if (invoicedFilter === 'yes') sessions = sessions.filter(s => s.invoiceId);
+  if (invoicedFilter === 'no') sessions = sessions.filter(s => !s.invoiceId && s.status === 'attended');
+  const tbody = document.getElementById('sessionsTable');
+  if (sessions.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--stone);padding:2rem">No sessions found</td></tr>';
+    return;
+  }
+  tbody.innerHTML = sessions.map(s => `<tr>
+    <td>${formatDate(s.date)}</td>
+    <td><strong>${clientName(s.clientId)}</strong></td>
+    <td>${s.location}</td>
+    <td><span class="badge badge-${s.status === 'attended' ? 'active' : 'paused'}">${s.status}</span></td>
+    <td>${s.hasNotes ? '✓' : s.status === 'attended' ? '<span style="color:var(--amber)">Needed</span>' : '—'}</td>
+    <td>${s.invoiceId ? '<span class="badge badge-paid">Yes</span>' : s.status === 'attended' ? '<span class="badge badge-unpaid">No</span>' : '—'}</td>
+    <td>
+      <div class="btn-group">
+        <button class="btn btn-outline btn-sm" onclick="editSession('${s.id}')">Edit</button>
+        ${!s.hasNotes && s.status === 'attended' ? `<button class="btn btn-outline btn-sm" onclick="openNotesForSession('${s.clientId}','${s.id}')">📝</button>` : ''}
+        <button class="btn btn-danger btn-sm" onclick="deleteSession('${s.id}')">×</button>
+      </div>
+    </td>
+  </tr>`).join('');
+}
+
+function openSessionModal(id) {
+  populateClientSelects();
+  document.getElementById('sm_id').value = id || '';
+  if (id) {
+    const s = data.sessions.find(x => x.id === id);
+    if (s) {
+      document.getElementById('sm_client').value = s.clientId;
+      document.getElementById('sm_date').value = s.date;
+      document.getElementById('sm_location').value = s.location;
+      document.getElementById('sm_status').value = s.status;
+      document.getElementById('sm_duration').value = s.duration || '50';
+      document.getElementById('sm_rate').value = s.rate || 0;
+      document.getElementById('sm_note').value = s.note || '';
+    }
+  } else {
+    document.getElementById('sm_date').value = today();
+    document.getElementById('sm_location').value = 'Norwich';
+    document.getElementById('sm_status').value = 'attended';
+    document.getElementById('sm_duration').value = '50';
+    document.getElementById('sm_rate').value = '0';
+    document.getElementById('sm_note').value = '';
+  }
+  openModal('sessionModal');
+}
+
+function editSession(id) { openSessionModal(id); }
+
+function saveSession() {
+  const clientId = document.getElementById('sm_client').value;
+  const date = document.getElementById('sm_date').value;
+  if (!clientId || !date) { alert('Please select a client and date.'); return; }
+  const id = document.getElementById('sm_id').value || uid();
+  const client = clientById(clientId);
+  let rate = parseFloat(document.getElementById('sm_rate').value);
+  if (!rate || rate === 0) { rate = client ? client.rate : 60; }
+  const session = {
+    id, clientId, date,
+    location: document.getElementById('sm_location').value,
+    status: document.getElementById('sm_status').value,
+    duration: document.getElementById('sm_duration').value,
+    rate, note: document.getElementById('sm_note').value,
+    hasNotes: data.sessions.find(s => s.id === id)?.hasNotes || false,
+    invoiceId: data.sessions.find(s => s.id === id)?.invoiceId || null
+  };
+  const idx = data.sessions.findIndex(s => s.id === id);
+  if (idx >= 0) data.sessions[idx] = session; else data.sessions.push(session);
+  save(); closeModal('sessionModal'); renderSessions();
+}
+
+function deleteSession(id) {
+  if (!confirm('Delete this session?')) return;
+  data.sessions = data.sessions.filter(s => s.id !== id);
+  save(); renderSessions();
+}
+
+// ══════════════════════════════════════════════════════════
+// CLINICAL NOTES
+// ══════════════════════════════════════════════════════════
+let currentNotesClientId = null;
+let currentNotesMode = 'intake';
+
+function populateNotesClients() {
+  const sel = document.getElementById('notesClientSelect');
+  sel.innerHTML = '<option value="">Select client</option>' +
+    data.clients.map(c => `<option value="${c.id}">${c.first} ${c.last}</option>`).join('');
+  if (currentNotesClientId) { sel.value = currentNotesClientId; loadNotesForClient(); }
+}
+
+function selectNotesClient(id) {
+  currentNotesClientId = id;
+  document.getElementById('notesClientSelect').value = id;
+  loadNotesForClient();
+}
+
+function loadNotesForClient() {
+  const id = document.getElementById('notesClientSelect').value;
+  currentNotesClientId = id;
+  if (!id) {
+    document.getElementById('notesContent').style.display = 'none';
+    document.getElementById('notesEmpty').style.display = '';
+    return;
+  }
+  document.getElementById('notesContent').style.display = '';
+  document.getElementById('notesEmpty').style.display = 'none';
+  if (!data.notes[id]) data.notes[id] = { intake:{}, formulation:{}, sessionNotes:[] };
+  loadNoteFields('intake');
+  loadNoteFields('formulation');
+  populateSessionNoteSelect();
+  showNotesMode(currentNotesMode);
+}
+
+function showNotesMode(mode) {
+  currentNotesMode = mode;
+  document.querySelectorAll('.notes-mode-tab').forEach(t => t.classList.remove('active'));
+  document.querySelector(`.notes-mode-tab[onclick="showNotesMode('${mode}')"]`).classList.add('active');
+  ['intake','formulation','session','history'].forEach(m => {
+    document.getElementById('notesMode-' + m).style.display = m === mode ? '' : 'none';
+  });
+  if (mode === 'history') renderNotesHistory();
+  if (mode === 'session') populateSessionNoteSelect();
+}
+
+function loadNoteFields(mode) {
+  if (!currentNotesClientId) return;
+  const notes = data.notes[currentNotesClientId]?.[mode] || {};
+  Object.keys(notes).forEach(key => {
+    const el = document.getElementById(mode === 'intake' ? 'intake_' + key : 'form_' + key);
+    if (el) el.value = notes[key];
+  });
+}
+
+function saveNotes(mode) {
+  if (!currentNotesClientId) return;
+  if (!data.notes[currentNotesClientId]) data.notes[currentNotesClientId] = { intake:{}, formulation:{}, sessionNotes:[] };
+  const notes = {};
+  const prefix = mode === 'intake' ? 'intake_' : 'form_';
+  document.querySelectorAll(`[id^="${prefix}"]`).forEach(el => {
+    const key = el.id.replace(prefix, '');
+    if (el.value.trim()) notes[key] = el.value;
+  });
+  data.notes[currentNotesClientId][mode] = notes;
+  data.notes[currentNotesClientId][mode + '_saved'] = new Date().toISOString();
+  save();
+  alert('Notes saved.');
+}
+
+function populateSessionNoteSelect() {
+  if (!currentNotesClientId) return;
+  const sessions = data.sessions.filter(s => s.clientId === currentNotesClientId && s.status === 'attended').sort((a,b) => b.date.localeCompare(a.date));
+  const sel = document.getElementById('sessionNoteSelect');
+  sel.innerHTML = '<option value="">Select session date</option>' +
+    sessions.map(s => `<option value="${s.id}">${formatDate(s.date)} — ${s.location}</option>`).join('');
+  sel.onchange = function() { loadSessionNote(this.value); };
+}
+
+function loadSessionNote(sessionId) {
+  if (!sessionId || !currentNotesClientId) return;
+  const sn = (data.notes[currentNotesClientId]?.sessionNotes || []).find(n => n.sessionId === sessionId);
+  const fields = ['where_were_we','what_happened','shifted','somatic_transfer','sequencing','next','risk','supervision'];
+  fields.forEach(f => {
+    const el = document.getElementById('sn_' + f);
+    if (el) el.value = sn ? (sn[f] || '') : '';
+  });
+}
+
+function saveSessionNote() {
+  if (!currentNotesClientId) return;
+  const sessionId = document.getElementById('sessionNoteSelect').value;
+  if (!sessionId) { alert('Please select a session.'); return; }
+  if (!data.notes[currentNotesClientId]) data.notes[currentNotesClientId] = { intake:{}, formulation:{}, sessionNotes:[] };
+  const fields = ['where_were_we','what_happened','shifted','somatic_transfer','sequencing','next','risk','supervision'];
+  const note = { sessionId, saved: new Date().toISOString() };
+  fields.forEach(f => { note[f] = document.getElementById('sn_' + f)?.value || ''; });
+  const idx = data.notes[currentNotesClientId].sessionNotes.findIndex(n => n.sessionId === sessionId);
+  if (idx >= 0) data.notes[currentNotesClientId].sessionNotes[idx] = note;
+  else data.notes[currentNotesClientId].sessionNotes.push(note);
+  // Mark session as having notes
+  const sIdx = data.sessions.findIndex(s => s.id === sessionId);
+  if (sIdx >= 0) data.sessions[sIdx].hasNotes = true;
+  save(); alert('Session note saved.');
+}
+
+function renderNotesHistory() {
+  if (!currentNotesClientId) return;
+  const notes = data.notes[currentNotesClientId] || {};
+  const el = document.getElementById('notesHistory');
+  let html = '';
+  if (notes.intake_saved) {
+    html += `<div class="notes-section"><div class="notes-section-title">Intake — saved ${formatDate(notes.intake_saved.split('T')[0])}</div>`;
+    const intake = notes.intake || {};
+    const labels = { presenting:'Presenting concern', duration:'Duration', family:'Family background', current:'Current situation', goals:'Goals', presentation:'Initial presentation', counter:'Countertransference' };
+    Object.keys(labels).forEach(k => { if (intake[k]) html += `<p style="margin-bottom:0.75rem"><strong style="font-size:0.75rem;color:var(--stone);text-transform:uppercase;letter-spacing:0.08em">${labels[k]}</strong><br>${intake[k].replace(/\n/g,'<br>')}</p>`; });
+    html += '</div>';
+  }
+  if (notes.formulation_saved) {
+    html += `<div class="notes-section"><div class="notes-section-title">Formulation — saved ${formatDate(notes.formulation_saved.split('T')[0])}</div>`;
+    const form = notes.formulation || {};
+    const labels = { developmental:'Developmental reading', rig:'RIG', reparative_rig:'Reparative RIG', attachment:'Attachment', mentalization:'Mentalization', window:'Window of tolerance', sequencing:'Sequencing position', transference:'Transferential field', countertransference:'Countertransference', provision:'Clinical provision' };
+    Object.keys(labels).forEach(k => { if (form[k]) html += `<p style="margin-bottom:0.75rem"><strong style="font-size:0.75rem;color:var(--stone);text-transform:uppercase;letter-spacing:0.08em">${labels[k]}</strong><br>${form[k].replace(/\n/g,'<br>')}</p>`; });
+    html += '</div>';
+  }
+  const sessionNotes = (notes.sessionNotes || []).sort((a,b) => b.saved.localeCompare(a.saved));
+  sessionNotes.forEach(sn => {
+    const session = data.sessions.find(s => s.id === sn.sessionId);
+    html += `<div class="notes-section"><div class="notes-section-title">Session — ${session ? formatDate(session.date) : 'Unknown date'}</div>`;
+    const labels = { where_were_we:'Where we were', what_happened:'What happened', shifted:'What shifted', somatic_transfer:'Somatic / transferential', sequencing:'Sequencing position', next:'Next session needs', risk:'Risk', supervision:'Supervision' };
+    Object.keys(labels).forEach(k => { if (sn[k]) html += `<p style="margin-bottom:0.75rem"><strong style="font-size:0.75rem;color:var(--stone);text-transform:uppercase;letter-spacing:0.08em">${labels[k]}</strong><br>${sn[k].replace(/\n/g,'<br>')}</p>`; });
+    html += '</div>';
+  });
+  el.innerHTML = html || '<div class="empty-state" style="padding:2rem"><div class="empty-state-sub">No notes recorded yet</div></div>';
+}
+
+function openNotesForSession(clientId, sessionId) {
+  showPanel('notes');
+  setTimeout(() => {
+    selectNotesClient(clientId);
+    setTimeout(() => {
+      showNotesMode('session');
+      document.getElementById('sessionNoteSelect').value = sessionId;
+      loadSessionNote(sessionId);
+    }, 100);
+  }, 100);
+}
+
+// ══════════════════════════════════════════════════════════
+// INVOICES
+// ══════════════════════════════════════════════════════════
+function renderInvoices() {
+  const tbody = document.getElementById('invoicesTable');
+  const sorted = [...data.invoices].sort((a,b) => b.date.localeCompare(a.date));
+  if (sorted.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--stone);padding:2rem">No invoices yet</td></tr>';
+    return;
+  }
+  tbody.innerHTML = sorted.map(inv => `<tr>
+    <td>${inv.number}</td>
+    <td>${clientName(inv.clientId)}</td>
+    <td>${formatDate(inv.date)}</td>
+    <td>${inv.sessionIds?.length || '—'}</td>
+    <td><strong>${formatCurrency(inv.amount)}</strong></td>
+    <td><span class="badge badge-${inv.status === 'paid' ? 'paid' : 'unpaid'}">${inv.status}</span></td>
+    <td>
+      <div class="btn-group">
+        <button class="btn btn-outline btn-sm" onclick="viewInvoice('${inv.id}')">View</button>
+        ${inv.status !== 'paid' ? `<button class="btn btn-success btn-sm" onclick="markInvoicePaid('${inv.id}')">Mark Paid</button>` : ''}
+        <button class="btn btn-danger btn-sm" onclick="deleteInvoice('${inv.id}')">×</button>
+      </div>
+    </td>
+  </tr>`).join('');
+}
+
+function openInvoiceModal() {
+  populateClientSelects();
+  document.getElementById('im_number').value = nextInvNumber();
+  document.getElementById('im_date').value = today();
+  document.getElementById('im_note').value = data.settings.invoice_note;
+  document.getElementById('im_sessions_list').innerHTML = '<p style="color:var(--stone);font-size:0.82rem">Select a client to see uninvoiced sessions</p>';
+  document.getElementById('im_preview_wrap').innerHTML = '';
+  openModal('invoiceModal');
+}
+
+function loadSessionsForInvoice() {
+  const clientId = document.getElementById('im_client').value;
+  if (!clientId) return;
+  const sessions = data.sessions.filter(s => s.clientId === clientId && s.status === 'attended' && !s.invoiceId)
+    .sort((a,b) => a.date.localeCompare(b.date));
+  if (sessions.length === 0) {
+    document.getElementById('im_sessions_list').innerHTML = '<p style="color:var(--stone);font-size:0.82rem">No uninvoiced sessions for this client</p>';
+    return;
+  }
+  document.getElementById('im_sessions_list').innerHTML = sessions.map(s =>
+    `<label style="display:flex;align-items:center;gap:0.5rem;padding:0.4rem 0;font-size:0.85rem;cursor:pointer">
+      <input type="checkbox" name="inv_session" value="${s.id}" checked>
+      ${formatDate(s.date)} — ${s.location} — ${formatCurrency(s.rate)}
+    </label>`
+  ).join('');
+}
+
+function getSelectedSessions() {
+  return [...document.querySelectorAll('input[name="inv_session"]:checked')].map(cb => cb.value);
+}
+
+function buildInvoiceHTML(inv, client) {
+  const sessions = data.sessions.filter(s => inv.sessionIds?.includes(s.id));
+  return `
+    <div class="invoice-preview">
+      <div class="inv-logo-wrap">Martin Alderton <span>|</span> Psychotherapeutic Counselling</div>
+      <hr class="inv-rule">
+      <div class="inv-heading">Invoice</div>
+      <div class="inv-meta">
+        <div>
+          <div class="inv-meta-label">Invoice To</div>
+          <div style="font-size:0.88rem;line-height:1.6"><strong>${client.first} ${client.last}</strong>${client.email ? '<br>' + client.email : ''}</div>
+        </div>
+        <div class="inv-meta-right">
+          <div class="inv-meta-label">Invoice Details</div>
+          <div style="font-size:0.88rem;line-height:1.6"><strong>${inv.number}</strong><br>${formatDate(inv.date)}<br>${sessions[0]?.location || ''}</div>
+        </div>
+      </div>
+      <div class="inv-table-wrap">
+        <table>
+          <thead><tr><th>Description</th><th style="text-align:right">Amount</th></tr></thead>
+          <tbody>
+            ${sessions.map(s => `<tr><td>Psychotherapeutic Counselling session<br><span style="font-size:0.78rem;color:var(--stone)">${formatDate(s.date)} — ${s.location}</span></td><td style="text-align:right">${formatCurrency(s.rate)}</td></tr>`).join('')}
+          </tbody>
+          <tfoot>
+            <tr>
+              <td style="text-align:right;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--stone)">Total Due</td>
+              <td style="text-align:right"><span class="inv-total">${formatCurrency(inv.amount)}</span></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      <div class="inv-payment-title">Payment Details</div>
+      <hr class="inv-payment-rule">
+      <div style="display:grid;grid-template-columns:auto 1fr;gap:0.25rem 1.5rem;font-size:0.82rem;color:var(--ink-lt);margin-bottom:0.5rem">
+        <span style="color:var(--stone);font-size:0.72rem;font-weight:500">Account Name</span><span>${data.settings.bank_name}</span>
+        <span style="color:var(--stone);font-size:0.72rem;font-weight:500">Account Number</span><span>${data.settings.bank_acc}</span>
+        <span style="color:var(--stone);font-size:0.72rem;font-weight:500">Sort Code</span><span>${data.settings.bank_sort}</span>
+        <span style="color:var(--stone);font-size:0.72rem;font-weight:500">Reference</span><span>${client.last}</span>
+      </div>
+      ${inv.note ? `<p style="font-size:0.8rem;color:var(--stone);font-style:italic">${inv.note}</p>` : ''}
+      ${inv.terms ? `<p style="font-size:0.8rem;color:var(--stone);font-style:italic;margin-top:0.25rem">${inv.terms}</p>` : ''}
+      <div class="inv-footer-bar">
+        ${data.settings.name} &nbsp;|&nbsp; ${data.settings.creds}<br>
+        117 Harley Street, London &nbsp;|&nbsp; Norwich &nbsp;|&nbsp; Online<br>
+        ${data.settings.email} &nbsp;|&nbsp; ${data.settings.phone}
+      </div>
+    </div>`;
+}
+
+function previewInvoice() {
+  const clientId = document.getElementById('im_client').value;
+  const selectedIds = getSelectedSessions();
+  if (!clientId || selectedIds.length === 0) { alert('Please select a client and at least one session.'); return; }
+  const client = clientById(clientId);
+  const sessions = data.sessions.filter(s => selectedIds.includes(s.id));
+  const amount = sessions.reduce((sum, s) => sum + s.rate, 0);
+  const inv = {
+    id: 'preview',
+    clientId,
+    number: document.getElementById('im_number').value,
+    date: document.getElementById('im_date').value,
+    sessionIds: selectedIds,
+    amount,
+    note: document.getElementById('im_note').value,
+    terms: document.getElementById('im_terms').value
+  };
+  document.getElementById('im_preview_wrap').innerHTML = buildInvoiceHTML(inv, client);
+}
+
+function generateAndSaveInvoice() {
+  const clientId = document.getElementById('im_client').value;
+  const selectedIds = getSelectedSessions();
+  if (!clientId || selectedIds.length === 0) { alert('Please select a client and at least one session.'); return; }
+  const client = clientById(clientId);
+  const sessions = data.sessions.filter(s => selectedIds.includes(s.id));
+  const amount = sessions.reduce((sum, s) => sum + s.rate, 0);
+  const inv = {
+    id: uid(),
+    clientId,
+    number: document.getElementById('im_number').value,
+    date: document.getElementById('im_date').value,
+    sessionIds: selectedIds,
+    amount,
+    status: 'unpaid',
+    note: document.getElementById('im_note').value,
+    terms: document.getElementById('im_terms').value
+  };
+  data.invoices.push(inv);
+  selectedIds.forEach(sid => {
+    const idx = data.sessions.findIndex(s => s.id === sid);
+    if (idx >= 0) data.sessions[idx].invoiceId = inv.id;
+  });
+  // Update client last_invoiced
+  const clientIdx = data.clients.findIndex(c => c.id === clientId);
+  if (clientIdx >= 0) data.clients[clientIdx].last_invoiced = inv.date;
+  save(); save();
+  closeModal('invoiceModal');
+  viewInvoice(inv.id);
+  renderInvoices();
+}
+
+function viewInvoice(id) {
+  currentViewInvoiceId = id;
+  const inv = data.invoices.find(i => i.id === id);
+  if (!inv) return;
+  const client = clientById(inv.clientId);
+  document.getElementById('invoiceViewContent').innerHTML = buildInvoiceHTML(inv, client);
+  const btn = document.getElementById('markPaidBtn');
+  btn.style.display = inv.status === 'paid' ? 'none' : '';
+  openModal('invoiceViewModal');
+}
+
+function markCurrentInvoicePaid() { markInvoicePaid(currentViewInvoiceId); closeModal('invoiceViewModal'); }
+function markInvoicePaid(id) {
+  const idx = data.invoices.findIndex(i => i.id === id);
+  if (idx >= 0) { data.invoices[idx].status = 'paid'; data.invoices[idx].paid_date = today(); }
+  save(); renderInvoices(); renderDashboard();
+}
+
+function deleteInvoice(id) {
+  if (!confirm('Delete this invoice? Sessions will be marked as uninvoiced.')) return;
+  const inv = data.invoices.find(i => i.id === id);
+  if (inv?.sessionIds) {
+    inv.sessionIds.forEach(sid => {
+      const idx = data.sessions.findIndex(s => s.id === sid);
+      if (idx >= 0) data.sessions[idx].invoiceId = null;
+    });
+  }
+  data.invoices = data.invoices.filter(i => i.id !== id);
+  save(); renderInvoices();
+}
+
+function printInvoice() { window.print(); }
+
+// BILLING MODAL
+function openBillingModal(clientId) {
+  currentBillingClient = clientId;
+  const client = clientById(clientId);
+  document.getElementById('billingModalTitle').textContent = `Invoice: ${client.first} ${client.last}`;
+  document.getElementById('bm_number').value = nextInvNumber();
+  document.getElementById('bm_date').value = today();
+  const sessions = data.sessions.filter(s => s.clientId === clientId && s.status === 'attended' && !s.invoiceId)
+    .sort((a,b) => a.date.localeCompare(b.date));
+  document.getElementById('billingSessionsList').innerHTML = sessions.map(s =>
+    `<label style="display:flex;align-items:center;gap:0.5rem;padding:0.4rem 0;font-size:0.85rem;cursor:pointer">
+      <input type="checkbox" name="billing_session" value="${s.id}" checked>
+      ${formatDate(s.date)} — ${s.location} — ${formatCurrency(s.rate)}
+    </label>`
+  ).join('') || '<p style="color:var(--stone);font-size:0.82rem">No uninvoiced sessions found</p>';
+  openModal('billingModal');
+}
+
+function confirmBillingInvoice() {
+  const clientId = currentBillingClient;
+  const selectedIds = [...document.querySelectorAll('input[name="billing_session"]:checked')].map(cb => cb.value);
+  if (selectedIds.length === 0) { alert('Please select at least one session.'); return; }
+  const client = clientById(clientId);
+  const sessions = data.sessions.filter(s => selectedIds.includes(s.id));
+  const amount = sessions.reduce((sum, s) => sum + s.rate, 0);
+  const inv = {
+    id: uid(),
+    clientId,
+    number: document.getElementById('bm_number').value,
+    date: document.getElementById('bm_date').value,
+    sessionIds: selectedIds,
+    amount,
+    status: 'unpaid',
+    note: data.settings.invoice_note,
+    terms: data.settings.payment_terms
+  };
+  data.invoices.push(inv);
+  selectedIds.forEach(sid => {
+    const idx = data.sessions.findIndex(s => s.id === sid);
+    if (idx >= 0) data.sessions[idx].invoiceId = inv.id;
+  });
+  const clientIdx = data.clients.findIndex(c => c.id === clientId);
+  if (clientIdx >= 0) data.clients[clientIdx].last_invoiced = inv.date;
+  save();
+  closeModal('billingModal');
+  viewInvoice(inv.id);
+  renderDashboard();
+}
+
+// ══════════════════════════════════════════════════════════
+// SETTINGS
+// ══════════════════════════════════════════════════════════
+function applySettings() {
+  const s = data.settings;
+  if (document.getElementById('set_name')) {
+    document.getElementById('set_name').value = s.name || '';
+    document.getElementById('set_creds').value = s.creds || '';
+    document.getElementById('set_email').value = s.email || '';
+    document.getElementById('set_phone').value = s.phone || '';
+    document.getElementById('set_bank_name').value = s.bank_name || '';
+    document.getElementById('set_bank_acc').value = s.bank_acc || '';
+    document.getElementById('set_bank_sort').value = s.bank_sort || '';
+    document.getElementById('set_rate_london').value = s.rate_london || 110;
+    document.getElementById('set_rate_norwich').value = s.rate_norwich || 60;
+    document.getElementById('set_rate_online').value = s.rate_online || 110;
+    document.getElementById('set_payment_terms').value = s.payment_terms || '';
+    document.getElementById('set_invoice_note').value = s.invoice_note || '';
+  }
+}
+
+function saveSettings() {
+  data.settings = {
+    ...data.settings,
+    name: document.getElementById('set_name').value,
+    creds: document.getElementById('set_creds').value,
+    email: document.getElementById('set_email').value,
+    phone: document.getElementById('set_phone').value,
+    bank_name: document.getElementById('set_bank_name').value,
+    bank_acc: document.getElementById('set_bank_acc').value,
+    bank_sort: document.getElementById('set_bank_sort').value,
+    rate_london: parseFloat(document.getElementById('set_rate_london').value),
+    rate_norwich: parseFloat(document.getElementById('set_rate_norwich').value),
+    rate_online: parseFloat(document.getElementById('set_rate_online').value),
+    payment_terms: document.getElementById('set_payment_terms').value,
+    invoice_note: document.getElementById('set_invoice_note').value
+  };
+  save(); alert('Settings saved.');
+}
+
+function exportData() {
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'practice-data-' + today() + '.json';
+  a.click();
+}
+
+function clearAllData() {
+  if (!confirm('This will delete all clients, sessions, invoices, and notes. This cannot be undone. Are you absolutely sure?')) return;
+  if (!confirm('Final confirmation: delete all practice data?')) return;
+  localStorage.removeItem('practiceData_v2');
+  location.reload();
+}
+
+// ══════════════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════════════
+load();
+renderDashboard();
+document.getElementById('headerDate').textContent = new Date().toLocaleDateString('en-GB', { weekday:'long', day:'numeric', month:'long' });
+</script>
+</body>
+</html>
