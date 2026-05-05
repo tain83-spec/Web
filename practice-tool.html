@@ -4,22 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Martin Alderton — Practice</title>
-<style>
-#lockScreen{position:fixed;inset:0;background:#2a3a4a;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column}
-#lockScreen.hidden{display:none}
-.lock-card{background:#fff;border-radius:8px;padding:2.5rem;max-width:360px;width:90%;text-align:center;box-shadow:0 8px 40px rgba(0,0,0,0.3)}
-.lock-logo{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.4rem;color:#2a3a4a;margin-bottom:0.25rem}
-.lock-logo span{color:#c8956c}
-.lock-sub{font-size:0.75rem;color:#9e9488;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:2rem}
-.lock-label{font-size:0.7rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:#9e9488;margin-bottom:0.4rem;text-align:left}
-.lock-input{width:100%;padding:0.7rem 1rem;border:1px solid rgba(0,0,0,0.12);border-radius:4px;font-size:0.95rem;margin-bottom:1rem;font-family:'DM Sans',system-ui,sans-serif;background:#f7f3ec;color:#1e1e1c}
-.lock-input:focus{outline:none;border-color:#3d5166;background:#fff}
-.lock-btn{width:100%;padding:0.75rem;background:#2a3a4a;color:#fff;border:none;border-radius:4px;font-family:'DM Sans',system-ui,sans-serif;font-size:0.85rem;font-weight:500;cursor:pointer;letter-spacing:0.05em;transition:opacity 0.15s}
-.lock-btn:hover{opacity:0.85}
-.lock-error{color:#c0392b;font-size:0.8rem;margin-bottom:0.75rem;display:none}
-.lock-recovery{margin-top:1rem;font-size:0.75rem;color:#9e9488;cursor:pointer;text-decoration:underline}
-.recovery-box{background:#f7f3ec;border-radius:4px;padding:0.75rem;margin-top:1rem;font-size:0.8rem;color:#4a4a46;display:none;text-align:left;line-height:1.6}
-</style>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -29,83 +13,108 @@
   --cream:#f7f3ec;--warm:#ede6d8;--stone:#9e9488;
   --ink:#1e1e1c;--ink-lt:#4a4a46;--white:#ffffff;
   --green:#27ae60;--amber:#e67e22;--red:#c0392b;
-  --serif:'Cormorant Garamond',Georgia,serif;
-  --sans:'DM Sans',system-ui,sans-serif;
+  --serif:"Cormorant Garamond",Georgia,serif;
+  --sans:"DM Sans",system-ui,sans-serif;
   --radius:6px;--shadow:0 1px 4px rgba(0,0,0,0.08);
 }
 body{font-family:var(--sans);background:var(--cream);color:var(--ink);font-size:14px;min-height:100vh;display:flex;flex-direction:column}
 
-/* ── HEADER ── */
-header{background:var(--slate-dk);color:#fff;padding:0.9rem 1.5rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
-.header-brand{font-family:var(--serif);font-size:1.2rem;font-weight:400;letter-spacing:0.02em}
-.header-brand span{color:var(--gold)}
-.header-date{font-size:0.75rem;color:rgba(255,255,255,0.5);letter-spacing:0.05em}
+/* LOCK */
+#lockScreen{position:fixed;inset:0;background:var(--slate-dk);z-index:9999;display:flex;align-items:center;justify-content:center}
+#lockScreen.hidden{display:none}
+.lock-card{background:#fff;border-radius:8px;padding:2.5rem;max-width:360px;width:90%;text-align:center;box-shadow:0 8px 40px rgba(0,0,0,0.3)}
+.lock-logo{font-family:var(--serif);font-size:1.4rem;color:var(--slate-dk);margin-bottom:0.25rem}
+.lock-logo span{color:var(--gold)}
+.lock-sub{font-size:0.72rem;color:var(--stone);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:2rem}
+.lock-label{font-size:0.68rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--stone);margin-bottom:0.4rem;text-align:left}
+.lock-input{width:100%;padding:0.7rem 1rem;border:1px solid rgba(0,0,0,0.12);border-radius:4px;font-size:0.95rem;margin-bottom:0.75rem;font-family:var(--sans);background:var(--cream);color:var(--ink)}
+.lock-input:focus{outline:none;border-color:var(--slate);background:#fff}
+.lock-btn{width:100%;padding:0.75rem;background:var(--slate-dk);color:#fff;border:none;border-radius:4px;font-family:var(--sans);font-size:0.85rem;font-weight:500;cursor:pointer;letter-spacing:0.05em}
+.lock-btn:hover{opacity:0.85}
+.lock-error{color:var(--red);font-size:0.78rem;margin-bottom:0.6rem;display:none;text-align:left}
+.lock-forgot{margin-top:0.9rem;font-size:0.75rem;color:var(--stone);cursor:pointer;text-decoration:underline}
+.lock-recovery{background:var(--cream);border-radius:4px;padding:0.75rem;margin-top:0.75rem;font-size:0.78rem;color:var(--ink-lt);display:none;text-align:left;line-height:1.6}
 
-/* ── NAV ── */
+/* HEADER */
+header{background:var(--slate-dk);color:#fff;padding:0.9rem 1.5rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;flex-shrink:0}
+.header-brand{font-family:var(--serif);font-size:1.2rem;font-weight:400}
+.header-brand span{color:var(--gold)}
+.header-date{font-size:0.72rem;color:rgba(255,255,255,0.45);letter-spacing:0.05em}
+
+/* NAV */
 nav{background:var(--slate);display:flex;overflow-x:auto;padding:0 1rem;border-bottom:1px solid rgba(255,255,255,0.08);flex-shrink:0}
-.nav-tab{padding:0.8rem 1.25rem;color:rgba(255,255,255,0.55);cursor:pointer;font-size:0.72rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;border-bottom:2px solid transparent;white-space:nowrap;transition:all 0.15s;user-select:none}
-.nav-tab:hover{color:rgba(255,255,255,0.85)}
+.nav-tab{padding:0.8rem 1.25rem;color:rgba(255,255,255,0.5);cursor:pointer;font-size:0.7rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;border-bottom:2px solid transparent;white-space:nowrap;transition:all 0.15s;user-select:none}
+.nav-tab:hover{color:rgba(255,255,255,0.8)}
 .nav-tab.active{color:var(--gold);border-bottom-color:var(--gold)}
 
-/* ── MAIN ── */
+/* MAIN */
 main{flex:1;padding:1.5rem;max-width:1100px;width:100%;margin:0 auto}
 .panel{display:none}.panel.active{display:block}
 
-/* ── CARDS ── */
+/* CARDS */
 .card{background:var(--white);border-radius:var(--radius);border:1px solid var(--warm);padding:1.5rem;margin-bottom:1.25rem;box-shadow:var(--shadow)}
 .card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;padding-bottom:0.75rem;border-bottom:1px solid var(--warm)}
 .card-title{font-family:var(--serif);font-size:1.05rem;font-weight:400;color:var(--slate-dk)}
 
-/* ── DASHBOARD STATS ── */
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;margin-bottom:1.5rem}
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;margin-bottom:1.5rem}
 .stat-card{background:var(--white);border-radius:var(--radius);border:1px solid var(--warm);padding:1.25rem;text-align:center;box-shadow:var(--shadow)}
-.stat-label{font-size:0.65rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--stone);margin-bottom:0.4rem}
+.stat-label{font-size:0.62rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--stone);margin-bottom:0.4rem}
 .stat-value{font-family:var(--serif);font-size:2rem;color:var(--slate-dk);line-height:1}
-.stat-sub{font-size:0.72rem;color:var(--stone);margin-top:0.25rem}
+.stat-sub{font-size:0.7rem;color:var(--stone);margin-top:0.2rem}
 .stat-card.alert .stat-value{color:var(--amber)}
-.stat-card.urgent .stat-value{color:var(--red)}
 
-/* ── DAILY SESSIONS ── */
-.session-day{margin-bottom:1.5rem}
-.session-day-label{font-size:0.68rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--stone);margin-bottom:0.6rem;padding-bottom:0.4rem;border-bottom:1px solid var(--warm)}
+/* SESSION ITEMS */
 .session-item{display:flex;align-items:center;gap:1rem;padding:0.75rem 1rem;background:var(--cream);border-radius:4px;margin-bottom:0.4rem;border-left:3px solid var(--slate-lt)}
 .session-item.notes-needed{border-left-color:var(--amber)}
 .session-item.cancelled{border-left-color:var(--red);opacity:0.6}
 .session-time{font-size:0.82rem;font-weight:500;color:var(--slate-dk);min-width:50px}
-.session-client{font-size:0.88rem;font-weight:500;flex:1}
-.session-location{font-size:0.72rem;color:var(--stone)}
+.session-client-name{font-size:0.88rem;font-weight:500;flex:1}
+.session-loc{font-size:0.72rem;color:var(--stone)}
 .session-actions{display:flex;gap:0.4rem}
 
-/* ── ALERTS ── */
+/* ALERTS */
 .alert-list{display:flex;flex-direction:column;gap:0.5rem}
-.alert-item{display:flex;align-items:center;gap:0.75rem;padding:0.7rem 1rem;border-radius:4px;font-size:0.83rem}
-.alert-item.info{background:#EBF2FA;border-left:3px solid var(--slate-lt)}
+.alert-item{display:flex;align-items:center;gap:0.75rem;padding:0.65rem 1rem;border-radius:4px;font-size:0.82rem}
 .alert-item.warning{background:#FEF3E2;border-left:3px solid var(--amber)}
+.alert-item.info{background:#EBF2FA;border-left:3px solid var(--slate-lt)}
 .alert-item.urgent{background:#FDECEA;border-left:3px solid var(--red)}
-.alert-item.success{background:#E8F8EE;border-left:3px solid var(--green)}
 .alert-icon{font-size:1rem;min-width:20px}
 .alert-text{flex:1}
 .alert-action{font-size:0.72rem;font-weight:500;color:var(--slate);cursor:pointer;text-decoration:underline;white-space:nowrap}
 
-/* ── TABLES ── */
+/* TABLES */
 table{width:100%;border-collapse:collapse}
 thead tr{background:var(--slate-dk);color:#fff}
-thead th{padding:0.6rem 0.9rem;font-size:0.68rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;text-align:left}
-tbody td{padding:0.7rem 0.9rem;border-bottom:1px solid var(--warm);font-size:0.85rem;vertical-align:middle}
+thead th{padding:0.6rem 0.9rem;font-size:0.66rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;text-align:left}
+tbody td{padding:0.7rem 0.9rem;border-bottom:1px solid var(--warm);font-size:0.84rem;vertical-align:middle}
 tbody tr:hover{background:var(--cream)}
 tbody tr:last-child td{border-bottom:none}
 
-/* ── FORMS ── */
+/* WEEK GRID */
+.week-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0.5rem;margin-bottom:1rem}
+.week-day{background:var(--white);border-radius:4px;border:1px solid var(--warm);padding:0.75rem;min-height:70px}
+.week-day.today{border-color:var(--gold);border-width:2px}
+.week-day-label{font-size:0.6rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--stone);margin-bottom:0.35rem}
+.week-day.today .week-day-label{color:var(--gold)}
+.week-session{font-size:0.7rem;padding:0.15rem 0.4rem;background:var(--cream);border-radius:3px;margin-bottom:0.15rem;border-left:2px solid var(--slate-lt);line-height:1.3}
+
+/* BILLING PROMPT */
+.billing-prompt{background:linear-gradient(135deg,var(--slate-dk),var(--slate));color:#fff;border-radius:var(--radius);padding:1.25rem 1.5rem;margin-bottom:1rem}
+.billing-prompt-title{font-family:var(--serif);font-size:1rem;margin-bottom:0.35rem}
+.billing-prompt-sub{font-size:0.78rem;opacity:0.65;margin-bottom:0.75rem}
+
+/* FORMS */
 .form-grid{display:grid;gap:1rem}
 .form-grid.cols-2{grid-template-columns:1fr 1fr}
 .form-grid.cols-3{grid-template-columns:1fr 1fr 1fr}
 .form-group{display:flex;flex-direction:column;gap:0.3rem}
-.form-group label{font-size:0.68rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--stone)}
+.form-group label{font-size:0.66rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--stone)}
 .form-group input,.form-group select,.form-group textarea{background:var(--cream);border:1px solid rgba(0,0,0,0.12);border-radius:4px;padding:0.55rem 0.8rem;font-family:var(--sans);font-size:0.85rem;color:var(--ink);transition:border-color 0.15s}
 .form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--slate-lt);background:var(--white)}
-.form-group textarea{resize:vertical;min-height:80px}
+.form-group textarea{resize:vertical;min-height:70px}
 
-/* ── BUTTONS ── */
+/* BUTTONS */
 .btn{padding:0.55rem 1.1rem;border-radius:4px;border:none;font-family:var(--sans);font-size:0.78rem;font-weight:500;letter-spacing:0.04em;cursor:pointer;transition:opacity 0.15s;display:inline-flex;align-items:center;gap:0.4rem}
 .btn:hover{opacity:0.85}
 .btn-primary{background:var(--slate-dk);color:#fff}
@@ -113,19 +122,21 @@ tbody tr:last-child td{border-bottom:none}
 .btn-outline{background:transparent;border:1px solid var(--slate);color:var(--slate)}
 .btn-danger{background:var(--red);color:#fff}
 .btn-success{background:var(--green);color:#fff}
-.btn-sm{padding:0.35rem 0.75rem;font-size:0.72rem}
+.btn-sm{padding:0.35rem 0.75rem;font-size:0.7rem}
 .btn-group{display:flex;gap:0.5rem;flex-wrap:wrap}
 
-/* ── BADGES ── */
-.badge{display:inline-block;padding:0.2rem 0.6rem;border-radius:20px;font-size:0.68rem;font-weight:500;letter-spacing:0.05em}
+/* BADGES */
+.badge{display:inline-block;padding:0.18rem 0.55rem;border-radius:20px;font-size:0.66rem;font-weight:500;letter-spacing:0.05em}
 .badge-active{background:#E8F8EE;color:var(--green)}
 .badge-paused{background:#FEF3E2;color:var(--amber)}
 .badge-ended{background:var(--warm);color:var(--stone)}
 .badge-unpaid{background:#FDECEA;color:var(--red)}
 .badge-paid{background:#E8F8EE;color:var(--green)}
 .badge-due{background:#FEF3E2;color:var(--amber)}
+.badge-attended{background:#E8F8EE;color:var(--green)}
+.badge-cancelled{background:#FDECEA;color:var(--red)}
 
-/* ── MODALS ── */
+/* MODALS */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(42,58,74,0.55);z-index:200;overflow-y:auto;padding:2rem 1rem}
 .modal-overlay.open{display:block}
 .modal{background:var(--white);max-width:580px;margin:0 auto;border-radius:var(--radius);overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,0.2)}
@@ -134,92 +145,71 @@ tbody tr:last-child td{border-bottom:none}
 .modal-body{padding:1.5rem}
 .modal-footer{padding:1rem 1.5rem;background:var(--cream);display:flex;justify-content:flex-end;gap:0.5rem;border-top:1px solid var(--warm)}
 
-/* ── NOTES TOOL ── */
-.notes-mode-tabs{display:flex;gap:0;margin-bottom:1.5rem;border-bottom:2px solid var(--warm)}
-.notes-mode-tab{padding:0.65rem 1.25rem;font-size:0.75rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--stone);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all 0.15s}
-.notes-mode-tab.active{color:var(--gold);border-bottom-color:var(--gold)}
-.layer-indicator{display:inline-block;padding:0.15rem 0.5rem;border-radius:3px;font-size:0.62rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;background:var(--warm);color:var(--slate);margin-left:0.5rem}
 /* ONE-AT-A-TIME NOTES */
-.q-screen{display:none;flex-direction:column;min-height:420px}
-.q-screen.active{display:flex}
+.notes-mode-tabs{display:flex;gap:0;margin-bottom:1.5rem;border-bottom:2px solid var(--warm)}
+.notes-mode-tab{padding:0.65rem 1.25rem;font-size:0.72rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--stone);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all 0.15s}
+.notes-mode-tab.active{color:var(--gold);border-bottom-color:var(--gold)}
 .q-progress{display:flex;align-items:center;gap:0.75rem;margin-bottom:2rem}
 .q-progress-bar{flex:1;height:3px;background:var(--warm);border-radius:2px;overflow:hidden}
-.q-progress-fill{height:100%;background:var(--gold);border-radius:2px;transition:width 0.3s ease}
-.q-progress-text{font-size:0.7rem;color:var(--stone);letter-spacing:0.08em;white-space:nowrap}
-.q-section-label{font-size:0.65rem;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin-bottom:0.5rem}
-.q-question{font-family:var(--serif);font-size:1.5rem;color:var(--slate-dk);line-height:1.35;margin-bottom:0.6rem;font-weight:400}
+.q-progress-fill{height:100%;background:var(--gold);border-radius:2px;transition:width 0.3s}
+.q-progress-text{font-size:0.68rem;color:var(--stone);letter-spacing:0.06em;white-space:nowrap}
+.q-section-label{font-size:0.62rem;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin-bottom:0.5rem}
+.q-question{font-family:var(--serif);font-size:1.45rem;color:var(--slate-dk);line-height:1.35;margin-bottom:0.6rem;font-weight:400}
 .q-hint{font-size:0.78rem;color:var(--stone);font-style:italic;margin-bottom:1.5rem;line-height:1.5}
-.q-textarea{width:100%;padding:1rem;border:1px solid rgba(0,0,0,0.1);border-radius:6px;font-family:var(--sans);font-size:0.95rem;color:var(--ink);background:var(--cream);resize:none;min-height:160px;transition:border-color 0.15s;line-height:1.6}
+.q-textarea{width:100%;padding:1rem;border:1px solid rgba(0,0,0,0.1);border-radius:6px;font-family:var(--sans);font-size:0.92rem;color:var(--ink);background:var(--cream);resize:none;min-height:160px;line-height:1.6;transition:border-color 0.15s}
 .q-textarea:focus{outline:none;border-color:var(--slate-lt);background:var(--white)}
 .q-nav{display:flex;align-items:center;justify-content:space-between;margin-top:1.5rem}
-.q-skip{font-size:0.75rem;color:var(--stone);cursor:pointer;text-decoration:underline}
-.q-counter{font-size:0.72rem;color:var(--stone)}
-.q-complete{text-align:center;padding:3rem 1rem;display:none;flex-direction:column;align-items:center}
-.q-complete.active{display:flex}
+.q-skip{font-size:0.73rem;color:var(--stone);cursor:pointer;text-decoration:underline}
+.q-complete{text-align:center;padding:3rem 1rem}
 .q-complete-icon{font-size:2.5rem;margin-bottom:1rem}
-.q-complete-title{font-family:var(--serif);font-size:1.4rem;color:var(--slate-dk);margin-bottom:0.5rem}
-.q-complete-sub{font-size:0.85rem;color:var(--stone);margin-bottom:1.5rem}
+.q-complete-title{font-family:var(--serif);font-size:1.4rem;color:var(--slate-dk);margin-bottom:0.4rem}
+.q-complete-sub{font-size:0.82rem;color:var(--stone);margin-bottom:1.5rem}
 
-/* ── INVOICE PREVIEW ── */
-.invoice-preview{background:#fff;border:1px solid var(--warm);border-radius:var(--radius);padding:2.5rem 3rem;margin-top:1rem;box-shadow:var(--shadow)}
-.inv-logo-wrap{text-align:center;margin-bottom:1.25rem;font-family:var(--serif);font-size:1.3rem;color:var(--slate-dk)}
-.inv-logo-wrap span{color:var(--gold)}
+/* INVOICE */
+.invoice-preview{background:#fff;border:1px solid var(--warm);border-radius:var(--radius);padding:2.5rem 3rem;box-shadow:var(--shadow)}
+.inv-logo{text-align:center;font-family:var(--serif);font-size:1.3rem;color:var(--slate-dk);margin-bottom:1.25rem}
+.inv-logo span{color:var(--gold)}
 .inv-rule{border:none;border-top:2px solid var(--gold);margin-bottom:1.25rem}
 .inv-heading{text-align:center;font-family:var(--serif);font-size:1.8rem;color:var(--slate-dk);margin-bottom:1.75rem}
 .inv-meta{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:2rem}
 .inv-meta-label{font-size:0.62rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--stone);margin-bottom:0.2rem}
 .inv-meta-right{text-align:right}
-.inv-table-wrap table thead tr{background:var(--slate-dk)}
 .inv-total{font-family:var(--serif);font-size:1.5rem;color:var(--slate-dk)}
-.inv-payment-title{font-size:0.68rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--slate-dk);margin-bottom:0.4rem}
-.inv-payment-rule{border:none;border-top:1.5px solid var(--gold);margin-bottom:0.75rem}
+.inv-pay-title{font-size:0.68rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--slate-dk);margin-bottom:0.4rem}
+.inv-pay-rule{border:none;border-top:1.5px solid var(--gold);margin-bottom:0.75rem}
 .inv-footer-bar{margin-top:2.5rem;padding-top:0.75rem;border-top:1px solid var(--warm);text-align:center;font-size:0.68rem;color:var(--stone);line-height:1.8}
 
-/* ── WEEK VIEW ── */
-.week-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0.5rem;margin-bottom:1.5rem}
-.week-day{background:var(--white);border-radius:4px;border:1px solid var(--warm);padding:0.75rem;min-height:80px}
-.week-day-label{font-size:0.62rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--stone);margin-bottom:0.4rem}
-.week-day.today{border-color:var(--gold);border-width:2px}
-.week-day.today .week-day-label{color:var(--gold)}
-.week-session{font-size:0.72rem;padding:0.2rem 0.4rem;background:var(--cream);border-radius:3px;margin-bottom:0.2rem;border-left:2px solid var(--slate-lt);line-height:1.3}
-
-/* ── BILLING PROMPT ── */
-.billing-prompt{background:linear-gradient(135deg,var(--slate-dk),var(--slate));color:#fff;border-radius:var(--radius);padding:1.25rem 1.5rem;margin-bottom:1rem}
-.billing-prompt-title{font-family:var(--serif);font-size:1rem;font-weight:400;margin-bottom:0.4rem}
-.billing-prompt-sub{font-size:0.8rem;opacity:0.7;margin-bottom:0.75rem}
-
-/* ── MISC ── */
+/* MISC */
 .empty-state{text-align:center;padding:3rem 1rem;color:var(--stone)}
-.empty-state-icon{font-size:2.5rem;margin-bottom:0.75rem}
-.empty-state-title{font-family:var(--serif);font-size:1.1rem;color:var(--ink-lt);margin-bottom:0.4rem}
-.empty-state-sub{font-size:0.82rem}
+.empty-icon{font-size:2.5rem;margin-bottom:0.75rem}
+.empty-title{font-family:var(--serif);font-size:1.1rem;color:var(--ink-lt);margin-bottom:0.4rem}
 .section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem}
 .section-title{font-family:var(--serif);font-size:1.3rem;color:var(--slate-dk);font-weight:400}
 hr.divider{border:none;border-top:1px solid var(--warm);margin:1.25rem 0}
+.layer-badge{display:inline-block;padding:0.15rem 0.5rem;border-radius:3px;font-size:0.6rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;background:var(--warm);color:var(--slate);margin-left:0.4rem}
 
 @media(max-width:600px){
   .form-grid.cols-2,.form-grid.cols-3{grid-template-columns:1fr}
   .stats-grid{grid-template-columns:1fr 1fr}
   .week-grid{grid-template-columns:1fr}
-  .inv-meta{grid-template-columns:1fr}
-  .inv-meta-right{text-align:left}
+  .inv-meta{grid-template-columns:1fr}.inv-meta-right{text-align:left}
   main{padding:1rem}
 }
 </style>
 </head>
 <body>
 
-<!-- LOCK SCREEN -->
+<!-- ══ LOCK SCREEN ══ -->
 <div id="lockScreen">
   <div class="lock-card">
     <div class="lock-logo">Martin Alderton &nbsp;|&nbsp; <span>Practice</span></div>
     <div class="lock-sub">Confidential</div>
     <div class="lock-label">Password</div>
-    <input type="password" class="lock-input" id="lockInput" placeholder="Enter password" onkeydown="if(event.key==='Enter')unlock()">
+    <input type="password" class="lock-input" id="lockInput" placeholder="Enter password">
     <div class="lock-error" id="lockError">Incorrect password. Try again.</div>
-    <button class="lock-btn" onclick="unlock()">Unlock</button>
-    <div class="lock-recovery" onclick="toggleRecovery()">Forgot password?</div>
-    <div class="recovery-box" id="recoveryBox"></div>
+    <button class="lock-btn" id="lockBtn">Unlock</button>
+    <div class="lock-forgot" id="lockForgot">Forgot password?</div>
+    <div class="lock-recovery" id="lockRecovery"></div>
   </div>
 </div>
 
@@ -229,283 +219,174 @@ hr.divider{border:none;border-top:1px solid var(--warm);margin:1.25rem 0}
 </header>
 
 <nav>
-  <div class="nav-tab active" onclick="showPanel('dashboard')">Dashboard</div>
-  <div class="nav-tab" onclick="showPanel('clients')">Clients</div>
-  <div class="nav-tab" onclick="showPanel('sessions')">Sessions</div>
-  <div class="nav-tab" onclick="showPanel('notes')">Clinical Notes</div>
-  <div class="nav-tab" onclick="showPanel('invoices')">Invoices</div>
-  <div class="nav-tab" onclick="showPanel('settings')">Settings</div>
+  <div class="nav-tab active" id="tab-dashboard">Dashboard</div>
+  <div class="nav-tab" id="tab-clients">Clients</div>
+  <div class="nav-tab" id="tab-sessions">Sessions</div>
+  <div class="nav-tab" id="tab-notes">Clinical Notes</div>
+  <div class="nav-tab" id="tab-invoices">Invoices</div>
+  <div class="nav-tab" id="tab-settings">Settings</div>
 </nav>
 
 <main>
 
-<!-- ══════════════════════════════════════════════════════════
-     DASHBOARD
-══════════════════════════════════════════════════════════ -->
+<!-- ══ DASHBOARD ══ -->
 <div class="panel active" id="panel-dashboard">
   <div class="section-header">
     <div class="section-title" id="dashGreeting">Good morning.</div>
   </div>
-
-  <!-- Stats -->
   <div class="stats-grid" id="dashStats"></div>
-
-  <!-- Alerts -->
   <div class="card" id="alertsCard" style="display:none">
     <div class="card-header"><div class="card-title">Needs Attention</div></div>
     <div class="alert-list" id="alertsList"></div>
   </div>
-
-  <!-- Today's Sessions -->
   <div class="card">
     <div class="card-header">
-      <div class="card-title">Today's Sessions</div>
-      <button class="btn btn-outline btn-sm" onclick="showPanel('sessions');openSessionModal()">+ Log session</button>
+      <div class="card-title">Today</div>
+      <button class="btn btn-outline btn-sm" id="btnLogSession">+ Log session</button>
     </div>
     <div id="todaySessions"></div>
   </div>
-
-  <!-- Week View -->
   <div class="card">
     <div class="card-header"><div class="card-title">This Week</div></div>
     <div class="week-grid" id="weekGrid"></div>
-    <div id="weekSessionsList"></div>
   </div>
-
-  <!-- Billing Prompts -->
   <div id="billingPrompts"></div>
-
-  <!-- Outstanding Invoices -->
-  <div class="card" id="outstandingCard">
+  <div class="card">
     <div class="card-header"><div class="card-title">Outstanding Invoices</div></div>
     <div id="outstandingList"></div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════════
-     CLIENTS
-══════════════════════════════════════════════════════════ -->
+<!-- ══ CLIENTS ══ -->
 <div class="panel" id="panel-clients">
   <div class="section-header">
     <div class="section-title">Clients</div>
-    <button class="btn btn-primary" onclick="openClientModal()">+ Add Client</button>
+    <button class="btn btn-primary" id="btnAddClient">+ Add Client</button>
   </div>
   <div class="card">
     <table>
-      <thead><tr>
-        <th>Name</th><th>Status</th><th>Location</th><th>Rate</th><th>Slot</th><th>Billing</th><th>Next Invoice</th><th></th>
-      </tr></thead>
+      <thead><tr><th>Name</th><th>Status</th><th>Location</th><th>Rate</th><th>Slot</th><th>Billing</th><th>Uninvoiced</th><th></th></tr></thead>
       <tbody id="clientsTable"></tbody>
     </table>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════════
-     SESSIONS
-══════════════════════════════════════════════════════════ -->
+<!-- ══ SESSIONS ══ -->
 <div class="panel" id="panel-sessions">
   <div class="section-header">
     <div class="section-title">Sessions</div>
-    <button class="btn btn-primary" onclick="openSessionModal()">+ Log Session</button>
+    <button class="btn btn-primary" id="btnAddSession">+ Log Session</button>
   </div>
   <div class="card">
     <div class="form-grid cols-3" style="margin-bottom:1rem">
-      <div class="form-group">
-        <label>Filter by client</label>
-        <select id="sessionFilterClient" onchange="renderSessions()">
-          <option value="">All clients</option>
+      <div class="form-group"><label>Client</label><select id="sessionFilterClient"><option value="">All</option></select></div>
+      <div class="form-group"><label>Status</label>
+        <select id="sessionFilterStatus">
+          <option value="">All</option><option value="attended">Attended</option>
+          <option value="cancelled">Cancelled</option><option value="rescheduled">Rescheduled</option>
         </select>
       </div>
-      <div class="form-group">
-        <label>Status</label>
-        <select id="sessionFilterStatus" onchange="renderSessions()">
-          <option value="">All</option>
-          <option value="attended">Attended</option>
-          <option value="cancelled">Cancelled</option>
-          <option value="rescheduled">Rescheduled</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Invoiced</label>
-        <select id="sessionFilterInvoiced" onchange="renderSessions()">
-          <option value="">All</option>
-          <option value="no">Not yet invoiced</option>
-          <option value="yes">Invoiced</option>
+      <div class="form-group"><label>Invoiced</label>
+        <select id="sessionFilterInvoiced">
+          <option value="">All</option><option value="no">Not invoiced</option><option value="yes">Invoiced</option>
         </select>
       </div>
     </div>
     <table>
-      <thead><tr>
-        <th>Date</th><th>Client</th><th>Location</th><th>Status</th><th>Notes</th><th>Invoiced</th><th></th>
-      </tr></thead>
+      <thead><tr><th>Date</th><th>Client</th><th>Location</th><th>Status</th><th>Notes</th><th>Invoiced</th><th></th></tr></thead>
       <tbody id="sessionsTable"></tbody>
     </table>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════════
-     CLINICAL NOTES
-══════════════════════════════════════════════════════════ -->
+<!-- ══ CLINICAL NOTES ══ -->
 <div class="panel" id="panel-notes">
   <div class="section-header">
     <div class="section-title">Clinical Notes</div>
     <div class="form-group" style="min-width:200px">
-      <select id="notesClientSelect" onchange="loadNotesForClient()">
-        <option value="">Select client</option>
-      </select>
+      <select id="notesClientSelect"><option value="">Select client</option></select>
     </div>
   </div>
-
   <div id="notesContent" style="display:none">
     <div class="notes-mode-tabs">
-      <div class="notes-mode-tab active" onclick="showNotesMode('intake')">Intake</div>
-      <div class="notes-mode-tab" onclick="showNotesMode('formulation')">Formulation</div>
-      <div class="notes-mode-tab" onclick="showNotesMode('session')">Session Update</div>
-      <div class="notes-mode-tab" onclick="showNotesMode('history')">History</div>
+      <div class="notes-mode-tab active" id="ntab-intake">Intake</div>
+      <div class="notes-mode-tab" id="ntab-formulation">Formulation</div>
+      <div class="notes-mode-tab" id="ntab-session">Session Update</div>
+      <div class="notes-mode-tab" id="ntab-history">History</div>
     </div>
-
-    <!-- INTAKE one-at-a-time -->
-    <div id="notesMode-intake">
-      <div class="card">
-        <div id="intake-q-wrap"></div>
-        <div class="q-complete" id="intake-complete">
-          <div class="q-complete-icon">✓</div>
-          <div class="q-complete-title">Intake saved.</div>
-          <div class="q-complete-sub">You can return to any question using the back button, or review everything in the History tab.</div>
-          <div class="btn-group" style="justify-content:center">
-            <button class="btn btn-outline" onclick="startQuestions('intake',0)">Review from start</button>
-            <button class="btn btn-primary" onclick="showNotesMode('formulation')">Move to Formulation →</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- FORMULATION one-at-a-time -->
-    <div id="notesMode-formulation" style="display:none">
-      <div class="card">
-        <div id="formulation-q-wrap"></div>
-        <div class="q-complete" id="formulation-complete">
-          <div class="q-complete-icon">✓</div>
-          <div class="q-complete-title">Formulation saved.</div>
-          <div class="q-complete-sub">Review in the History tab at any time. Update as the work develops.</div>
-          <div class="btn-group" style="justify-content:center">
-            <button class="btn btn-outline" onclick="startQuestions('formulation',0)">Review from start</button>
-            <button class="btn btn-primary" onclick="showNotesMode('session')">Go to Session Update →</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- SESSION UPDATE one-at-a-time -->
+    <div id="notesMode-intake"><div class="card"><div id="intake-q-wrap"></div><div class="q-complete" id="intake-complete" style="display:none"></div></div></div>
+    <div id="notesMode-formulation" style="display:none"><div class="card"><div id="formulation-q-wrap"></div><div class="q-complete" id="formulation-complete" style="display:none"></div></div></div>
     <div id="notesMode-session" style="display:none">
       <div class="card">
         <div class="card-header">
           <div class="card-title">Session Update</div>
-          <div class="form-group" style="min-width:180px">
-            <select id="sessionNoteSelect" onchange="onSessionNoteSelectChange()">
-              <option value="">Select session</option>
-            </select>
-          </div>
+          <div class="form-group" style="min-width:180px"><select id="sessionNoteSelect"><option value="">Select session</option></select></div>
         </div>
         <div id="session-q-wrap"></div>
-        <div class="q-complete" id="session-complete">
-          <div class="q-complete-icon">✓</div>
-          <div class="q-complete-title">Session note saved.</div>
-          <div class="q-complete-sub">This session is marked as noted.</div>
-          <div class="btn-group" style="justify-content:center">
-            <button class="btn btn-outline" onclick="startQuestions('session',0)">Review from start</button>
-            <button class="btn btn-primary" onclick="showNotesMode('history')">View history →</button>
-          </div>
-        </div>
+        <div class="q-complete" id="session-complete" style="display:none"></div>
       </div>
     </div>
-
-    <!-- HISTORY -->
-    <div id="notesMode-history" style="display:none">
-      <div class="card">
-        <div class="card-header"><div class="card-title">Case History</div></div>
-        <div id="notesHistory"></div>
-      </div>
-    </div>
+    <div id="notesMode-history" style="display:none"><div class="card"><div class="card-header"><div class="card-title">Case History</div></div><div id="notesHistory"></div></div></div>
   </div>
-
-  <div id="notesEmpty" class="empty-state">
-    <div class="empty-state-icon">📋</div>
-    <div class="empty-state-title">Select a client to view or add clinical notes</div>
-    <div class="empty-state-sub">Notes are stored locally on this device</div>
-  </div>
+  <div id="notesEmpty" class="empty-state"><div class="empty-icon">&#128203;</div><div class="empty-title">Select a client to view or add notes</div><div style="font-size:0.82rem;color:var(--stone)">Notes are stored locally on this device</div></div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════════
-     INVOICES
-══════════════════════════════════════════════════════════ -->
+<!-- ══ INVOICES ══ -->
 <div class="panel" id="panel-invoices">
   <div class="section-header">
     <div class="section-title">Invoices</div>
-    <button class="btn btn-gold" onclick="openInvoiceModal()">+ Create Invoice</button>
+    <button class="btn btn-gold" id="btnCreateInvoice">+ Create Invoice</button>
   </div>
-
   <div class="card">
     <table>
-      <thead><tr>
-        <th>Invoice No</th><th>Client</th><th>Date</th><th>Sessions</th><th>Amount</th><th>Status</th><th></th>
-      </tr></thead>
+      <thead><tr><th>Invoice No</th><th>Client</th><th>Date</th><th>Sessions</th><th>Amount</th><th>Status</th><th></th></tr></thead>
       <tbody id="invoicesTable"></tbody>
     </table>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════════
-     SETTINGS
-══════════════════════════════════════════════════════════ -->
+<!-- ══ SETTINGS ══ -->
 <div class="panel" id="panel-settings">
   <div class="section-title" style="margin-bottom:1.25rem">Settings</div>
-
   <div class="card">
     <div class="card-header"><div class="card-title">Practice Details</div></div>
     <div class="form-grid cols-2">
-      <div class="form-group"><label>Practitioner Name</label><input type="text" id="set_name" value="Martin Alderton"></div>
-      <div class="form-group"><label>Credentials</label><input type="text" id="set_creds" value="UKCP Psychotherapeutic Counsellor"></div>
-      <div class="form-group"><label>Email</label><input type="email" id="set_email" value="admin@martinaldertoncounsellor.com"></div>
-      <div class="form-group"><label>Phone</label><input type="tel" id="set_phone" value="07799 563910"></div>
+      <div class="form-group"><label>Name</label><input type="text" id="set_name"></div>
+      <div class="form-group"><label>Credentials</label><input type="text" id="set_creds"></div>
+      <div class="form-group"><label>Email</label><input type="email" id="set_email"></div>
+      <div class="form-group"><label>Phone</label><input type="tel" id="set_phone"></div>
     </div>
   </div>
-
   <div class="card">
     <div class="card-header"><div class="card-title">Bank Details</div></div>
     <div class="form-grid cols-3">
-      <div class="form-group"><label>Account Name</label><input type="text" id="set_bank_name" value="Martin Alderton"></div>
-      <div class="form-group"><label>Account Number</label><input type="text" id="set_bank_acc" value="44647611"></div>
-      <div class="form-group"><label>Sort Code</label><input type="text" id="set_bank_sort" value="52-41-29"></div>
+      <div class="form-group"><label>Account Name</label><input type="text" id="set_bank_name"></div>
+      <div class="form-group"><label>Account Number</label><input type="text" id="set_bank_acc"></div>
+      <div class="form-group"><label>Sort Code</label><input type="text" id="set_bank_sort"></div>
     </div>
   </div>
-
   <div class="card">
     <div class="card-header"><div class="card-title">Default Rates</div></div>
     <div class="form-grid cols-3">
-      <div class="form-group"><label>Harley Street (£)</label><input type="number" id="set_rate_london" value="110"></div>
-      <div class="form-group"><label>Norwich (£)</label><input type="number" id="set_rate_norwich" value="60"></div>
-      <div class="form-group"><label>Online (£)</label><input type="number" id="set_rate_online" value="110"></div>
+      <div class="form-group"><label>Harley Street (&#163;)</label><input type="number" id="set_rate_london"></div>
+      <div class="form-group"><label>Norwich (&#163;)</label><input type="number" id="set_rate_norwich"></div>
+      <div class="form-group"><label>Online (&#163;)</label><input type="number" id="set_rate_online"></div>
     </div>
   </div>
-
   <div class="card">
     <div class="card-header"><div class="card-title">Invoice Defaults</div></div>
     <div class="form-grid cols-2">
-      <div class="form-group"><label>Default Payment Terms</label>
+      <div class="form-group"><label>Payment Terms</label>
         <select id="set_payment_terms">
           <option value="Payment is requested prior to or on the day of the session.">On the day</option>
           <option value="Payment is due within 7 days of the invoice date.">7 days</option>
-          <option value="Payment is due within 14 days of the invoice date." selected>14 days</option>
+          <option value="Payment is due within 14 days of the invoice date.">14 days</option>
           <option value="Payment is due within 30 days of the invoice date.">30 days</option>
         </select>
       </div>
-      <div class="form-group"><label>Invoice Note</label>
-        <input type="text" id="set_invoice_note" value="Thank you for your continued commitment to our work together.">
-      </div>
+      <div class="form-group"><label>Invoice Note</label><input type="text" id="set_invoice_note"></div>
     </div>
   </div>
-
   <div class="card">
     <div class="card-header"><div class="card-title">Change Password</div></div>
     <div class="form-grid cols-3">
@@ -514,24 +395,20 @@ hr.divider{border:none;border-top:1px solid var(--warm);margin:1.25rem 0}
       <div class="form-group"><label>Confirm New Password</label><input type="password" id="set_pw_confirm"></div>
     </div>
     <div style="margin-top:0.75rem;display:flex;align-items:center;gap:1rem">
-      <button class="btn btn-primary" onclick="changePassword()">Update Password</button>
+      <button class="btn btn-primary" id="btnChangePw">Update Password</button>
       <span id="set_pw_msg" style="font-size:0.82rem"></span>
     </div>
   </div>
   <div class="btn-group">
-    <button class="btn btn-primary" onclick="saveSettings()">Save Settings</button>
-    <button class="btn btn-outline" onclick="exportData()">Export Data</button>
-    <button class="btn btn-danger" onclick="clearAllData()">Clear All Data</button>
+    <button class="btn btn-primary" id="btnSaveSettings">Save Settings</button>
+    <button class="btn btn-outline" id="btnExport">Export Data</button>
+    <button class="btn btn-danger" id="btnClearData">Clear All Data</button>
   </div>
 </div>
 
 </main>
 
-<!-- ══════════════════════════════════════════════════════════
-     MODALS
-══════════════════════════════════════════════════════════ -->
-
-<!-- CLIENT MODAL -->
+<!-- ══ MODALS ══ -->
 <div class="modal-overlay" id="clientModal">
   <div class="modal modal-lg">
     <div class="modal-header" id="clientModalTitle">Add Client</div>
@@ -548,112 +425,67 @@ hr.divider{border:none;border-top:1px solid var(--warm);margin:1.25rem 0}
       <hr class="divider">
       <div class="form-grid cols-3" style="margin-bottom:1rem">
         <div class="form-group"><label>Location</label>
-          <select id="cm_location" onchange="updateRateFromLocation()">
-            <option value="Norwich">Norwich</option>
-            <option value="Harley Street">Harley Street</option>
-            <option value="Online">Online</option>
-          </select>
+          <select id="cm_location"><option value="Norwich">Norwich</option><option value="Harley Street">Harley Street</option><option value="Online">Online</option></select>
         </div>
-        <div class="form-group"><label>Session Rate (£)</label><input type="number" id="cm_rate" value="60"></div>
+        <div class="form-group"><label>Rate (&#163;)</label><input type="number" id="cm_rate" value="60"></div>
         <div class="form-group"><label>Regular Slot</label><input type="text" id="cm_slot" placeholder="e.g. Monday 10:00"></div>
         <div class="form-group"><label>Session Frequency</label>
-          <select id="cm_frequency">
-            <option value="weekly">Weekly</option>
-            <option value="fortnightly">Fortnightly</option>
-            <option value="monthly">Monthly</option>
-            <option value="ad-hoc">Ad hoc</option>
-          </select>
+          <select id="cm_frequency"><option value="weekly">Weekly</option><option value="fortnightly">Fortnightly</option><option value="monthly">Monthly</option><option value="ad-hoc">Ad hoc</option></select>
         </div>
         <div class="form-group"><label>Billing Cycle</label>
-          <select id="cm_billing">
-            <option value="4">Every 4 weeks</option>
-            <option value="2">Every 2 weeks</option>
-            <option value="1">Monthly (calendar)</option>
-            <option value="0">Manual only</option>
-          </select>
+          <select id="cm_billing"><option value="4">Every 4 weeks</option><option value="2">Every 2 weeks</option><option value="1">Monthly</option><option value="0">Manual only</option></select>
         </div>
         <div class="form-group"><label>Contract Start</label><input type="date" id="cm_start"></div>
         <div class="form-group"><label>Status</label>
-          <select id="cm_status">
-            <option value="active">Active</option>
-            <option value="paused">Paused</option>
-            <option value="ended">Ended</option>
-          </select>
+          <select id="cm_status"><option value="active">Active</option><option value="paused">Paused</option><option value="ended">Ended</option></select>
         </div>
-        <div class="form-group"><label>Last Invoice Date</label><input type="date" id="cm_last_invoiced"></div>
+        <div class="form-group"><label>Last Invoiced</label><input type="date" id="cm_last_invoiced"></div>
       </div>
-      <div class="form-group"><label>Notes (non-clinical)</label><textarea id="cm_notes" rows="2"></textarea></div>
+      <div class="form-group"><label>Notes (admin only)</label><textarea id="cm_notes" rows="2"></textarea></div>
     </div>
     <div class="modal-footer">
-      <button class="btn btn-outline" onclick="closeModal('clientModal')">Cancel</button>
-      <button class="btn btn-primary" onclick="saveClient()">Save Client</button>
+      <button class="btn btn-outline" id="btnCancelClient">Cancel</button>
+      <button class="btn btn-primary" id="btnSaveClient">Save Client</button>
     </div>
   </div>
 </div>
 
-<!-- SESSION MODAL -->
 <div class="modal-overlay" id="sessionModal">
   <div class="modal">
     <div class="modal-header">Log Session</div>
     <div class="modal-body">
       <input type="hidden" id="sm_id">
       <div class="form-grid cols-2" style="margin-bottom:1rem">
-        <div class="form-group"><label>Client *</label>
-          <select id="sm_client"></select>
-        </div>
+        <div class="form-group"><label>Client *</label><select id="sm_client"></select></div>
         <div class="form-group"><label>Date *</label><input type="date" id="sm_date"></div>
         <div class="form-group"><label>Location</label>
-          <select id="sm_location">
-            <option value="Norwich">Norwich</option>
-            <option value="Harley Street">Harley Street</option>
-            <option value="Online">Online</option>
-          </select>
+          <select id="sm_location"><option value="Norwich">Norwich</option><option value="Harley Street">Harley Street</option><option value="Online">Online</option></select>
         </div>
         <div class="form-group"><label>Status</label>
-          <select id="sm_status">
-            <option value="attended">Attended</option>
-            <option value="cancelled">Cancelled (24h+)</option>
-            <option value="late-cancel">Late cancellation</option>
-            <option value="rescheduled">Rescheduled</option>
-          </select>
+          <select id="sm_status"><option value="attended">Attended</option><option value="cancelled">Cancelled</option><option value="late-cancel">Late cancellation</option><option value="rescheduled">Rescheduled</option></select>
         </div>
-        <div class="form-group"><label>Duration (mins)</label>
-          <select id="sm_duration">
-            <option value="50">50 minutes</option>
-            <option value="90">90 minutes</option>
-          </select>
+        <div class="form-group"><label>Duration</label>
+          <select id="sm_duration"><option value="50">50 minutes</option><option value="90">90 minutes</option></select>
         </div>
-        <div class="form-group"><label>Rate (£) — leave 0 to use client rate</label>
-          <input type="number" id="sm_rate" value="0" min="0">
-        </div>
+        <div class="form-group"><label>Rate (&#163;) — 0 to use client rate</label><input type="number" id="sm_rate" value="0" min="0"></div>
       </div>
-      <div class="form-group"><label>Brief note (not clinical content)</label>
-        <textarea id="sm_note" rows="2" placeholder="Administrative notes only — clinical content goes in Clinical Notes"></textarea>
-      </div>
+      <div class="form-group"><label>Admin note</label><textarea id="sm_note" rows="2" placeholder="Admin notes only — clinical content goes in Clinical Notes"></textarea></div>
     </div>
     <div class="modal-footer">
-      <button class="btn btn-outline" onclick="closeModal('sessionModal')">Cancel</button>
-      <button class="btn btn-primary" onclick="saveSession()">Save Session</button>
+      <button class="btn btn-outline" id="btnCancelSession">Cancel</button>
+      <button class="btn btn-primary" id="btnSaveSession">Save Session</button>
     </div>
   </div>
 </div>
 
-<!-- INVOICE MODAL -->
 <div class="modal-overlay" id="invoiceModal">
   <div class="modal modal-lg">
     <div class="modal-header">Create Invoice</div>
     <div class="modal-body">
-      <input type="hidden" id="im_id">
       <div class="form-grid cols-2" style="margin-bottom:1rem">
-        <div class="form-group"><label>Client *</label>
-          <select id="im_client" onchange="loadSessionsForInvoice()"></select>
-        </div>
-        <div class="form-group"><label>Invoice Number</label>
-          <input type="text" id="im_number">
-        </div>
-        <div class="form-group"><label>Invoice Date</label>
-          <input type="date" id="im_date">
-        </div>
+        <div class="form-group"><label>Client *</label><select id="im_client"></select></div>
+        <div class="form-group"><label>Invoice Number</label><input type="text" id="im_number"></div>
+        <div class="form-group"><label>Invoice Date</label><input type="date" id="im_date"></div>
         <div class="form-group"><label>Payment Terms</label>
           <select id="im_terms">
             <option value="Payment is requested prior to or on the day of the session.">On the day</option>
@@ -665,41 +497,34 @@ hr.divider{border:none;border-top:1px solid var(--warm);margin:1.25rem 0}
       </div>
       <div class="form-group" style="margin-bottom:1rem">
         <label>Sessions to include</label>
-        <div id="im_sessions_list" style="background:var(--cream);padding:0.75rem;border-radius:4px;max-height:200px;overflow-y:auto;margin-top:0.25rem"></div>
+        <div id="im_sessions_list" style="background:var(--cream);padding:0.75rem;border-radius:4px;max-height:200px;overflow-y:auto;margin-top:0.25rem;font-size:0.84rem;color:var(--stone)">Select a client to load sessions</div>
       </div>
-      <div class="form-group" style="margin-bottom:1rem">
-        <label>Note</label>
-        <input type="text" id="im_note">
-      </div>
-      <div id="im_preview_wrap"></div>
+      <div class="form-group" style="margin-bottom:1rem"><label>Note</label><input type="text" id="im_note"></div>
     </div>
     <div class="modal-footer">
-      <button class="btn btn-outline" onclick="closeModal('invoiceModal')">Cancel</button>
-      <button class="btn btn-outline" onclick="previewInvoice()">Preview</button>
-      <button class="btn btn-gold" onclick="generateAndSaveInvoice()">Generate Invoice</button>
+      <button class="btn btn-outline" id="btnCancelInvoice">Cancel</button>
+      <button class="btn btn-gold" id="btnGenerateInvoice">Generate Invoice</button>
     </div>
   </div>
 </div>
 
-<!-- INVOICE VIEW MODAL -->
 <div class="modal-overlay" id="invoiceViewModal">
   <div class="modal modal-lg">
     <div class="modal-header">Invoice</div>
     <div class="modal-body" id="invoiceViewContent"></div>
     <div class="modal-footer">
-      <button class="btn btn-outline" onclick="closeModal('invoiceViewModal')">Close</button>
-      <button class="btn btn-success" id="markPaidBtn" onclick="markCurrentInvoicePaid()">Mark as Paid</button>
-      <button class="btn btn-primary" onclick="printInvoice()">Print / PDF</button>
+      <button class="btn btn-outline" id="btnCloseInvoiceView">Close</button>
+      <button class="btn btn-success" id="markPaidBtn">Mark as Paid</button>
+      <button class="btn btn-primary" onclick="window.print()">Print / PDF</button>
     </div>
   </div>
 </div>
 
-<!-- BILLING CONFIRM MODAL -->
 <div class="modal-overlay" id="billingModal">
   <div class="modal modal-lg">
-    <div class="modal-header" id="billingModalTitle">Billing Due</div>
+    <div class="modal-header" id="billingModalTitle">Invoice Due</div>
     <div class="modal-body">
-      <p style="font-size:0.85rem;color:var(--stone);margin-bottom:1rem">Review and confirm the sessions to include in this invoice. You can deselect any that shouldn't be included.</p>
+      <p style="font-size:0.83rem;color:var(--stone);margin-bottom:1rem">Review sessions to include. Deselect any that should not be invoiced.</p>
       <div id="billingSessionsList"></div>
       <div class="form-grid cols-2" style="margin-top:1rem">
         <div class="form-group"><label>Invoice Number</label><input type="text" id="bm_number"></div>
@@ -707,1198 +532,833 @@ hr.divider{border:none;border-top:1px solid var(--warm);margin:1.25rem 0}
       </div>
     </div>
     <div class="modal-footer">
-      <button class="btn btn-outline" onclick="closeModal('billingModal')">Later</button>
-      <button class="btn btn-gold" onclick="confirmBillingInvoice()">Generate Invoice</button>
+      <button class="btn btn-outline" id="btnCancelBilling">Later</button>
+      <button class="btn btn-gold" id="btnConfirmBilling">Generate Invoice</button>
     </div>
   </div>
 </div>
 
 <script>
-// ══════════════════════════════════════════════════════════
-// ══════════════════════════════════════════════════════════
-// PASSWORD / LOCK
-// ══════════════════════════════════════════════════════════
-const DEFAULT_PW = 'password';
-const RECOVERY_CODE = 'MA-' + btoa('martinalderton').slice(0,8).toUpperCase();
+(function() {
+"use strict";
 
-function getPassword() {
-  return localStorage.getItem('practicePassword') || DEFAULT_PW;
-}
+// ══ PASSWORD ══
+var RECOVERY = "MA-BWFYDGLU";
+function getPw() { return localStorage.getItem("practicePassword") || "password"; }
 
-function unlock() {
-  const input = document.getElementById('lockInput').value;
-  const err = document.getElementById('lockError');
-  if (input === getPassword() || input === ('MA-' + btoa('martinalderton').slice(0,8).toUpperCase())) {
-    document.getElementById('lockScreen').classList.add('hidden');
-    sessionStorage.setItem('practiceUnlocked', '1');
-    err.style.display = 'none';
-    document.getElementById('lockInput').value = '';
+function tryUnlock() {
+  var val = document.getElementById("lockInput").value;
+  var err = document.getElementById("lockError");
+  if (val === getPw() || val === RECOVERY) {
+    document.getElementById("lockScreen").classList.add("hidden");
+    sessionStorage.setItem("practiceUnlocked", "1");
+    err.style.display = "none";
+    document.getElementById("lockInput").value = "";
   } else {
-    err.style.display = 'block';
-    document.getElementById('lockInput').value = '';
-    document.getElementById('lockInput').focus();
+    err.style.display = "block";
+    document.getElementById("lockInput").value = "";
+    document.getElementById("lockInput").focus();
   }
 }
 
-function toggleRecovery() {
-  const box = document.getElementById('recoveryBox');
-  const code = 'MA-' + btoa('martinalderton').slice(0,8).toUpperCase();
-  if (box.style.display === 'none' || !box.style.display) {
-    box.style.display = 'block';
-    box.innerHTML = '<strong>Recovery Code</strong><br>' + code + '<br><br>Enter this code as your password to unlock. Then go to Settings to set a new password. Store this code somewhere safe.';
-  } else { box.style.display = 'none'; }
+document.getElementById("lockBtn").addEventListener("click", tryUnlock);
+document.getElementById("lockInput").addEventListener("keydown", function(e) {
+  if (e.key === "Enter") tryUnlock();
+});
+document.getElementById("lockForgot").addEventListener("click", function() {
+  var box = document.getElementById("lockRecovery");
+  if (box.style.display === "none" || !box.style.display) {
+    box.style.display = "block";
+    box.innerHTML = "<strong>Recovery Code</strong><br>" + RECOVERY + "<br><br>Enter this code as your password to unlock, then go to Settings to set a new password. Store this code somewhere safe.";
+  } else {
+    box.style.display = "none";
+  }
+});
+
+if (!sessionStorage.getItem("practiceUnlocked")) {
+  document.getElementById("lockScreen").classList.remove("hidden");
+} else {
+  document.getElementById("lockScreen").classList.add("hidden");
 }
 
-function changePassword() {
-  const current = document.getElementById('set_pw_current').value;
-  const newPw = document.getElementById('set_pw_new').value;
-  const confirm = document.getElementById('set_pw_confirm').value;
-  const msg = document.getElementById('set_pw_msg');
-  const code = 'MA-' + btoa('martinalderton').slice(0,8).toUpperCase();
-  if (current !== getPassword() && current !== code) {
-    msg.textContent = 'Current password incorrect.'; msg.style.color = '#c0392b'; return;
-  }
-  if (!newPw || newPw.length < 4) {
-    msg.textContent = 'New password must be at least 4 characters.'; msg.style.color = '#c0392b'; return;
-  }
-  if (newPw !== confirm) {
-    msg.textContent = 'Passwords do not match.'; msg.style.color = '#c0392b'; return;
-  }
-  localStorage.setItem('practicePassword', newPw);
-  msg.textContent = 'Password updated successfully.'; msg.style.color = '#27ae60';
-  document.getElementById('set_pw_current').value = '';
-  document.getElementById('set_pw_new').value = '';
-  document.getElementById('set_pw_confirm').value = '';
-}
-// DATA STORE
-// ══════════════════════════════════════════════════════════
-let data = {
-  clients: [],
-  sessions: [],
-  invoices: [],
-  notes: {},
+// ══ DATA ══
+var data = {
+  clients: [], sessions: [], invoices: [], notes: {},
   settings: {
-    name: 'Martin Alderton',
-    creds: 'UKCP Psychotherapeutic Counsellor',
-    email: 'admin@martinaldertoncounsellor.com',
-    phone: '07799 563910',
-    bank_name: 'Martin Alderton',
-    bank_acc: '44647611',
-    bank_sort: '52-41-29',
-    rate_london: 110,
-    rate_norwich: 60,
-    rate_online: 110,
-    payment_terms: 'Payment is due within 14 days of the invoice date.',
-    invoice_note: 'Thank you for your continued commitment to our work together.',
+    name: "Martin Alderton", creds: "UKCP Psychotherapeutic Counsellor",
+    email: "admin@martinaldertoncounsellor.com", phone: "07799 563910",
+    bank_name: "Martin Alderton", bank_acc: "44647611", bank_sort: "52-41-29",
+    rate_london: 110, rate_norwich: 60, rate_online: 110,
+    payment_terms: "Payment is due within 14 days of the invoice date.",
+    invoice_note: "Thank you for your continued commitment to our work together.",
     last_inv_seq: 0
   }
 };
-let currentBillingClient = null;
-let currentViewInvoiceId = null;
+var currentBillingClient = null;
+var currentViewInvoiceId = null;
+var currentNotesClientId = null;
+var currentNotesMode = "intake";
+var qCursor = { intake: 0, formulation: 0, session: 0 };
+var currentSessionNoteId = null;
 
-function save() { localStorage.setItem('practiceData_v2', JSON.stringify(data)); }
-function load() {
-  const d = localStorage.getItem('practiceData_v2');
-  if (d) { try { data = JSON.parse(d); } catch(e) { console.error(e); } }
-  applySettings();
+function saveData() { localStorage.setItem("practiceData_v3", JSON.stringify(data)); }
+function loadData() {
+  var d = localStorage.getItem("practiceData_v3");
+  if (d) { try { data = JSON.parse(d); } catch(e) {} }
 }
 
 function uid() { return Date.now().toString(36) + Math.random().toString(36).substr(2); }
-function today() { return new Date().toISOString().split('T')[0]; }
-function formatDate(str) {
-  if (!str) return '—';
-  const d = new Date(str + 'T12:00:00');
-  return d.toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' });
+function todayStr() { return new Date().toISOString().split("T")[0]; }
+function fmtDate(s) {
+  if (!s) return "—";
+  var d = new Date(s + "T12:00:00");
+  return d.toLocaleDateString("en-GB", { day:"numeric", month:"short", year:"numeric" });
 }
-function formatDateShort(str) {
-  if (!str) return '';
-  const d = new Date(str + 'T12:00:00');
-  return d.toLocaleDateString('en-GB', { day:'numeric', month:'short' });
+function fmtDateShort(s) {
+  if (!s) return "";
+  var d = new Date(s + "T12:00:00");
+  return d.toLocaleDateString("en-GB", { day:"numeric", month:"short" });
 }
-function formatCurrency(n) { return '£' + Number(n).toFixed(2); }
+function fmtCurrency(n) { return "&#163;" + Number(n).toFixed(2); }
 function clientName(id) {
-  const c = data.clients.find(x => x.id === id);
-  return c ? c.first + ' ' + c.last : 'Unknown';
+  var c = data.clients.find(function(x) { return x.id === id; });
+  return c ? c.first + " " + c.last : "Unknown";
 }
-function clientById(id) { return data.clients.find(x => x.id === id); }
-function nextInvNumber() {
+function clientById(id) { return data.clients.find(function(x) { return x.id === id; }); }
+function nextInvNo() {
   data.settings.last_inv_seq = (data.settings.last_inv_seq || 0) + 1;
-  const now = new Date();
-  const yy = String(now.getFullYear()).slice(2);
-  const mm = String(now.getMonth() + 1).padStart(2,'0');
-  return `INV-${yy}${mm}-${String(data.settings.last_inv_seq).padStart(3,'0')}`;
+  var now = new Date();
+  var yy = String(now.getFullYear()).slice(2);
+  var mm = String(now.getMonth() + 1).padStart(2, "0");
+  return "INV-" + yy + mm + "-" + String(data.settings.last_inv_seq).padStart(3, "0");
 }
 
-// ══════════════════════════════════════════════════════════
-// NAVIGATION
-// ══════════════════════════════════════════════════════════
+// ══ NAVIGATION ══
+var panels = ["dashboard", "clients", "sessions", "notes", "invoices", "settings"];
 function showPanel(id) {
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('panel-' + id).classList.add('active');
-  document.querySelector(`.nav-tab[onclick="showPanel('${id}')"]`).classList.add('active');
-  if (id === 'dashboard') renderDashboard();
-  if (id === 'clients') renderClients();
-  if (id === 'sessions') { populateClientFilter(); renderSessions(); }
-  if (id === 'notes') populateNotesClients();
-  if (id === 'invoices') renderInvoices();
+  panels.forEach(function(p) {
+    document.getElementById("panel-" + p).classList.remove("active");
+    document.getElementById("tab-" + p).classList.remove("active");
+  });
+  document.getElementById("panel-" + id).classList.add("active");
+  document.getElementById("tab-" + id).classList.add("active");
+  if (id === "dashboard") renderDashboard();
+  if (id === "clients") renderClients();
+  if (id === "sessions") { populateClientFilter(); renderSessions(); }
+  if (id === "notes") populateNotesClients();
+  if (id === "invoices") renderInvoices();
+  if (id === "settings") applySettings();
 }
 
-function closeModal(id) { document.getElementById(id).classList.remove('open'); }
-function openModal(id) { document.getElementById(id).classList.add('open'); }
+panels.forEach(function(p) {
+  document.getElementById("tab-" + p).addEventListener("click", function() { showPanel(p); });
+});
 
-// ══════════════════════════════════════════════════════════
-// DASHBOARD
-// ══════════════════════════════════════════════════════════
+function openModal(id) { document.getElementById(id).classList.add("open"); }
+function closeModal(id) { document.getElementById(id).classList.remove("open"); }
+
+// ══ DASHBOARD ══
 function renderDashboard() {
-  // Greeting
-  const h = new Date().getHours();
-  const greet = h < 12 ? 'Good morning.' : h < 17 ? 'Good afternoon.' : 'Good evening.';
-  document.getElementById('dashGreeting').textContent = greet;
+  var h = new Date().getHours();
+  var greet = h < 12 ? "Good morning." : h < 17 ? "Good afternoon." : "Good evening.";
+  document.getElementById("dashGreeting").textContent = greet;
+  document.getElementById("headerDate").textContent = new Date().toLocaleDateString("en-GB", { weekday:"long", day:"numeric", month:"long" });
 
-  // Header date
-  document.getElementById('headerDate').textContent = new Date().toLocaleDateString('en-GB', { weekday:'long', day:'numeric', month:'long' });
+  var t = todayStr();
+  var active = data.clients.filter(function(c) { return c.status === "active"; });
+  var todaySess = data.sessions.filter(function(s) { return s.date === t && s.status === "attended"; });
+  var weekSess = getWeekSessions();
+  var unpaid = data.invoices.filter(function(i) { return i.status !== "paid"; });
+  var unpaidTotal = unpaid.reduce(function(sum, i) { return sum + (i.amount || 0); }, 0);
+  var needsNotes = data.sessions.filter(function(s) { return s.date <= t && s.status === "attended" && !s.hasNotes; });
 
-  const todayStr = today();
-  const activeClients = data.clients.filter(c => c.status === 'active');
-  const todaySessions = data.sessions.filter(s => s.date === todayStr && s.status === 'attended');
-  const thisWeekSessions = getWeekSessions();
-  const unpaidInvoices = data.invoices.filter(i => i.status !== 'paid');
-  const unpaidTotal = unpaidInvoices.reduce((sum, i) => sum + (i.amount || 0), 0);
-  const notesNeeded = data.sessions.filter(s => s.date <= todayStr && s.status === 'attended' && !s.hasNotes);
+  document.getElementById("dashStats").innerHTML =
+    statCard("Active Clients", active.length, "", false) +
+    statCard("Today", todaySess.length, "sessions", false) +
+    statCard("This Week", weekSess.length, "sessions", false) +
+    statCard("Outstanding", fmtCurrency(unpaidTotal), unpaid.length + " invoice" + (unpaid.length !== 1 ? "s" : ""), unpaidTotal > 0) +
+    statCard("Notes Needed", needsNotes.length, "", needsNotes.length > 0);
 
-  // Stats
-  document.getElementById('dashStats').innerHTML = `
-    <div class="stat-card">
-      <div class="stat-label">Active Clients</div>
-      <div class="stat-value">${activeClients.length}</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-label">Today's Sessions</div>
-      <div class="stat-value">${todaySessions.length}</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-label">This Week</div>
-      <div class="stat-value">${thisWeekSessions.length}</div>
-    </div>
-    <div class="stat-card ${unpaidTotal > 0 ? 'alert' : ''}">
-      <div class="stat-label">Outstanding</div>
-      <div class="stat-value">${formatCurrency(unpaidTotal)}</div>
-      <div class="stat-sub">${unpaidInvoices.length} invoice${unpaidInvoices.length !== 1 ? 's' : ''}</div>
-    </div>
-    <div class="stat-card ${notesNeeded.length > 0 ? 'alert' : ''}">
-      <div class="stat-label">Notes Needed</div>
-      <div class="stat-value">${notesNeeded.length}</div>
-    </div>
-  `;
-
-  // Alerts
-  const alerts = [];
-  notesNeeded.slice(0,3).forEach(s => {
-    alerts.push({ type:'warning', icon:'📝', text:`Notes needed: ${clientName(s.clientId)} — ${formatDate(s.date)}`, action:'Add notes', fn:`openNotesForSession('${s.clientId}','${s.id}')` });
+  var alerts = [];
+  needsNotes.slice(0, 3).forEach(function(s) {
+    alerts.push({ type:"warning", icon:"&#128221;", text:"Notes needed: " + clientName(s.clientId) + " &#8212; " + fmtDate(s.date), action:"Add notes", fn:"openNotesForSession('" + s.clientId + "','" + s.id + "')" });
   });
-  checkBillingDue().forEach(c => {
-    alerts.push({ type:'warning', icon:'💷', text:`Billing due: ${c.first} ${c.last}`, action:'Create invoice', fn:`openBillingModal('${c.id}')` });
-  });
-  const inactiveClients = data.clients.filter(c => {
-    if (c.status !== 'active') return false;
-    const lastSession = data.sessions.filter(s => s.clientId === c.id && s.status === 'attended').sort((a,b) => b.date.localeCompare(a.date))[0];
-    if (!lastSession) return false;
-    const daysSince = Math.floor((new Date() - new Date(lastSession.date + 'T12:00:00')) / 86400000);
-    return daysSince > 21;
-  });
-  inactiveClients.slice(0,2).forEach(c => {
-    alerts.push({ type:'info', icon:'👤', text:`No session in 3+ weeks: ${c.first} ${c.last}` });
+  checkBillingDue().forEach(function(c) {
+    alerts.push({ type:"warning", icon:"&#163;", text:"Billing due: " + c.first + " " + c.last, action:"Create invoice", fn:"openBillingModal('" + c.id + "')" });
   });
 
-  const alertsCard = document.getElementById('alertsCard');
+  var ac = document.getElementById("alertsCard");
   if (alerts.length > 0) {
-    alertsCard.style.display = '';
-    document.getElementById('alertsList').innerHTML = alerts.map(a =>
-      `<div class="alert-item ${a.type}">
-        <span class="alert-icon">${a.icon}</span>
-        <span class="alert-text">${a.text}</span>
-        ${a.action ? `<span class="alert-action" onclick="${a.fn}">${a.action}</span>` : ''}
-      </div>`
-    ).join('');
-  } else {
-    alertsCard.style.display = 'none';
-  }
+    ac.style.display = "";
+    document.getElementById("alertsList").innerHTML = alerts.map(function(a) {
+      return '<div class="alert-item ' + a.type + '"><span class="alert-icon">' + a.icon + '</span><span class="alert-text">' + a.text + '</span>' + (a.action ? '<span class="alert-action" onclick="' + a.fn + '">' + a.action + '</span>' : '') + '</div>';
+    }).join("");
+  } else { ac.style.display = "none"; }
 
-  // Today's sessions
-  const todayEl = document.getElementById('todaySessions');
-  const allTodaySessions = data.sessions.filter(s => s.date === todayStr).sort((a,b) => (a.time||'').localeCompare(b.time||''));
-  if (allTodaySessions.length === 0) {
-    todayEl.innerHTML = '<div class="empty-state" style="padding:1.5rem"><div class="empty-state-sub">No sessions logged for today</div></div>';
-  } else {
-    todayEl.innerHTML = allTodaySessions.map(s => {
-      const needsNotes = s.status === 'attended' && !s.hasNotes;
-      return `<div class="session-item ${needsNotes ? 'notes-needed' : ''} ${s.status === 'cancelled' ? 'cancelled' : ''}">
-        <div class="session-time">${s.time || '—'}</div>
-        <div class="session-client">${clientName(s.clientId)}</div>
-        <div class="session-location">${s.location}</div>
-        <div class="session-actions">
-          ${needsNotes ? `<button class="btn btn-outline btn-sm" onclick="openNotesForSession('${s.clientId}','${s.id}')">📝 Notes</button>` : ''}
-          <button class="btn btn-outline btn-sm" onclick="editSession('${s.id}')">Edit</button>
-        </div>
-      </div>`;
-    }).join('');
-  }
-
-  // Week grid
+  renderTodaySessions(t);
   renderWeekGrid();
-
-  // Billing prompts
   renderBillingPrompts();
-
-  // Outstanding invoices
   renderOutstandingInvoices();
 }
 
+function statCard(label, value, sub, isAlert) {
+  return '<div class="stat-card' + (isAlert ? " alert" : "") + '"><div class="stat-label">' + label + '</div><div class="stat-value">' + value + '</div>' + (sub ? '<div class="stat-sub">' + sub + '</div>' : '') + '</div>';
+}
+
+function renderTodaySessions(t) {
+  var sess = data.sessions.filter(function(s) { return s.date === t; }).sort(function(a, b) { return (a.time || "").localeCompare(b.time || ""); });
+  var el = document.getElementById("todaySessions");
+  if (sess.length === 0) { el.innerHTML = '<div class="empty-state" style="padding:1.5rem"><div style="color:var(--stone);font-size:0.82rem">No sessions logged for today</div></div>'; return; }
+  el.innerHTML = sess.map(function(s) {
+    var nn = s.status === "attended" && !s.hasNotes;
+    return '<div class="session-item' + (nn ? " notes-needed" : "") + (s.status === "cancelled" ? " cancelled" : "") + '"><div class="session-time">' + (s.time || "&#8212;") + '</div><div class="session-client-name">' + clientName(s.clientId) + '</div><div class="session-loc">' + s.location + '</div><div class="session-actions">' + (nn ? '<button class="btn btn-outline btn-sm" onclick="openNotesForSession(\'' + s.clientId + '\',\'' + s.id + '\')">&#128221; Notes</button>' : '') + '<button class="btn btn-outline btn-sm" onclick="editSession(\'' + s.id + '\')">Edit</button></div></div>';
+  }).join("");
+}
+
 function getWeekSessions() {
-  const now = new Date();
-  const mon = new Date(now);
-  mon.setDate(now.getDate() - (now.getDay() === 0 ? 6 : now.getDay() - 1));
-  mon.setHours(0,0,0,0);
-  const sun = new Date(mon);
-  sun.setDate(mon.getDate() + 6);
-  return data.sessions.filter(s => {
-    const d = new Date(s.date + 'T12:00:00');
-    return d >= mon && d <= sun;
-  });
+  var now = new Date(); var dow = now.getDay() === 0 ? 7 : now.getDay();
+  var mon = new Date(now); mon.setDate(now.getDate() - dow + 1); mon.setHours(0,0,0,0);
+  var sun = new Date(mon); sun.setDate(mon.getDate() + 6);
+  return data.sessions.filter(function(s) { var d = new Date(s.date + "T12:00:00"); return d >= mon && d <= sun; });
 }
 
 function renderWeekGrid() {
-  const now = new Date();
-  const dayOfWeek = now.getDay() === 0 ? 7 : now.getDay();
-  const monday = new Date(now);
-  monday.setDate(now.getDate() - dayOfWeek + 1);
-
-  const days = ['Mon','Tue','Wed','Thu','Fri'];
-  let html = '';
-  for (let i = 0; i < 5; i++) {
-    const d = new Date(monday);
-    d.setDate(monday.getDate() + i);
-    const dateStr = d.toISOString().split('T')[0];
-    const isToday = dateStr === today();
-    const daySessions = data.sessions.filter(s => s.date === dateStr);
-    html += `<div class="week-day ${isToday ? 'today' : ''}">
-      <div class="week-day-label">${days[i]} ${d.getDate()}</div>
-      ${daySessions.map(s => `<div class="week-session">${clientName(s.clientId)}</div>`).join('')}
-    </div>`;
+  var now = new Date(); var dow = now.getDay() === 0 ? 7 : now.getDay();
+  var mon = new Date(now); mon.setDate(now.getDate() - dow + 1);
+  var days = ["Mon","Tue","Wed","Thu","Fri"];
+  var html = "";
+  for (var i = 0; i < 5; i++) {
+    var d = new Date(mon); d.setDate(mon.getDate() + i);
+    var ds = d.toISOString().split("T")[0];
+    var isToday = ds === todayStr();
+    var ds2 = data.sessions.filter(function(s) { return s.date === ds; });
+    html += '<div class="week-day' + (isToday ? " today" : "") + '"><div class="week-day-label">' + days[i] + " " + d.getDate() + '</div>' + ds2.map(function(s) { return '<div class="week-session">' + clientName(s.clientId) + '</div>'; }).join("") + '</div>';
   }
-  document.getElementById('weekGrid').innerHTML = html;
+  document.getElementById("weekGrid").innerHTML = html;
 }
 
 function checkBillingDue() {
-  const due = [];
-  const todayStr = today();
-  data.clients.filter(c => c.status === 'active' && c.billing && c.billing !== '0').forEach(c => {
+  var due = []; var t = todayStr();
+  data.clients.filter(function(c) { return c.status === "active" && c.billing && c.billing !== "0"; }).forEach(function(c) {
     if (!c.last_invoiced) return;
-    const lastInv = new Date(c.last_invoiced + 'T12:00:00');
-    const weeks = parseInt(c.billing);
-    const nextDue = new Date(lastInv);
-    nextDue.setDate(lastInv.getDate() + weeks * 7);
-    const nextDueStr = nextDue.toISOString().split('T')[0];
-    if (nextDueStr <= todayStr) {
-      const uninvoiced = data.sessions.filter(s => s.clientId === c.id && s.status === 'attended' && !s.invoiceId && s.date > c.last_invoiced);
-      if (uninvoiced.length > 0) due.push(c);
+    var last = new Date(c.last_invoiced + "T12:00:00");
+    var next = new Date(last); next.setDate(last.getDate() + parseInt(c.billing) * 7);
+    if (next.toISOString().split("T")[0] <= t) {
+      var uninv = data.sessions.filter(function(s) { return s.clientId === c.id && s.status === "attended" && !s.invoiceId && s.date > c.last_invoiced; });
+      if (uninv.length > 0) due.push(c);
     }
   });
   return due;
 }
 
 function renderBillingPrompts() {
-  const due = checkBillingDue();
-  const el = document.getElementById('billingPrompts');
-  if (due.length === 0) { el.innerHTML = ''; return; }
-  el.innerHTML = due.map(c => {
-    const uninvoiced = data.sessions.filter(s => s.clientId === c.id && s.status === 'attended' && !s.invoiceId);
-    return `<div class="billing-prompt">
-      <div class="billing-prompt-title">💷 Invoice due: ${c.first} ${c.last}</div>
-      <div class="billing-prompt-sub">${uninvoiced.length} session${uninvoiced.length !== 1 ? 's' : ''} ready to invoice (${c.billing}-weekly cycle)</div>
-      <button class="btn btn-gold btn-sm" onclick="openBillingModal('${c.id}')">Review & Generate Invoice</button>
-    </div>`;
-  }).join('');
+  var due = checkBillingDue();
+  document.getElementById("billingPrompts").innerHTML = due.map(function(c) {
+    var uninv = data.sessions.filter(function(s) { return s.clientId === c.id && s.status === "attended" && !s.invoiceId; });
+    return '<div class="billing-prompt"><div class="billing-prompt-title">&#163; Invoice due: ' + c.first + ' ' + c.last + '</div><div class="billing-prompt-sub">' + uninv.length + ' session' + (uninv.length !== 1 ? "s" : "") + ' ready (' + c.billing + '-weekly cycle)</div><button class="btn btn-gold btn-sm" onclick="openBillingModal(\'' + c.id + '\')">Review &amp; Generate</button></div>';
+  }).join("");
 }
 
 function renderOutstandingInvoices() {
-  const unpaid = data.invoices.filter(i => i.status !== 'paid');
-  const el = document.getElementById('outstandingList');
-  if (unpaid.length === 0) {
-    el.innerHTML = '<div class="empty-state" style="padding:1rem"><div class="empty-state-sub">No outstanding invoices</div></div>';
-    return;
-  }
-  el.innerHTML = `<table>
-    <thead><tr><th>Invoice</th><th>Client</th><th>Date</th><th>Amount</th><th>Status</th><th></th></tr></thead>
-    <tbody>${unpaid.map(inv => `
-      <tr>
-        <td>${inv.number}</td>
-        <td>${clientName(inv.clientId)}</td>
-        <td>${formatDate(inv.date)}</td>
-        <td><strong>${formatCurrency(inv.amount)}</strong></td>
-        <td><span class="badge badge-unpaid">Unpaid</span></td>
-        <td><button class="btn btn-outline btn-sm" onclick="viewInvoice('${inv.id}')">View</button></td>
-      </tr>`).join('')}
-    </tbody>
-  </table>`;
+  var unpaid = data.invoices.filter(function(i) { return i.status !== "paid"; });
+  var el = document.getElementById("outstandingList");
+  if (unpaid.length === 0) { el.innerHTML = '<div class="empty-state" style="padding:1rem"><div style="color:var(--stone);font-size:0.82rem">No outstanding invoices</div></div>'; return; }
+  el.innerHTML = '<table><thead><tr><th>Invoice</th><th>Client</th><th>Date</th><th>Amount</th><th>Status</th><th></th></tr></thead><tbody>' + unpaid.map(function(inv) {
+    return '<tr><td>' + inv.number + '</td><td>' + clientName(inv.clientId) + '</td><td>' + fmtDate(inv.date) + '</td><td><strong>' + fmtCurrency(inv.amount) + '</strong></td><td><span class="badge badge-unpaid">Unpaid</span></td><td><button class="btn btn-outline btn-sm" onclick="viewInvoice(\'' + inv.id + '\')">View</button></td></tr>';
+  }).join("") + '</tbody></table>';
 }
 
-// ══════════════════════════════════════════════════════════
-// CLIENTS
-// ══════════════════════════════════════════════════════════
+// ══ CLIENTS ══
 function renderClients() {
-  const tbody = document.getElementById('clientsTable');
-  if (data.clients.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--stone);padding:2rem">No clients yet</td></tr>';
-    return;
-  }
-  tbody.innerHTML = data.clients.map(c => {
-    const uninvoiced = data.sessions.filter(s => s.clientId === c.id && s.status === 'attended' && !s.invoiceId).length;
-    return `<tr>
-      <td><strong>${c.first} ${c.last}</strong></td>
-      <td><span class="badge badge-${c.status}">${c.status}</span></td>
-      <td>${c.location || '—'}</td>
-      <td>${formatCurrency(c.rate || 0)}</td>
-      <td>${c.slot || '—'}</td>
-      <td>${c.billing === '0' ? 'Manual' : c.billing ? 'Every ' + c.billing + ' weeks' : '—'}</td>
-      <td>${uninvoiced > 0 ? `<span class="badge badge-due">${uninvoiced} session${uninvoiced !== 1 ? 's' : ''}</span>` : '—'}</td>
-      <td>
-        <div class="btn-group">
-          <button class="btn btn-outline btn-sm" onclick="editClient('${c.id}')">Edit</button>
-          <button class="btn btn-outline btn-sm" onclick="showPanel('notes');selectNotesClient('${c.id}')">Notes</button>
-          <button class="btn btn-danger btn-sm" onclick="deleteClient('${c.id}')">×</button>
-        </div>
-      </td>
-    </tr>`;
-  }).join('');
+  var tbody = document.getElementById("clientsTable");
+  if (data.clients.length === 0) { tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--stone);padding:2rem">No clients yet</td></tr>'; return; }
+  tbody.innerHTML = data.clients.map(function(c) {
+    var uninv = data.sessions.filter(function(s) { return s.clientId === c.id && s.status === "attended" && !s.invoiceId; }).length;
+    return '<tr><td><strong>' + c.first + ' ' + c.last + '</strong></td><td><span class="badge badge-' + c.status + '">' + c.status + '</span></td><td>' + (c.location || "&#8212;") + '</td><td>&#163;' + (c.rate || 0) + '</td><td>' + (c.slot || "&#8212;") + '</td><td>' + (c.billing === "0" ? "Manual" : c.billing ? "Every " + c.billing + " weeks" : "&#8212;") + '</td><td>' + (uninv > 0 ? '<span class="badge badge-due">' + uninv + ' session' + (uninv !== 1 ? "s" : "") + '</span>' : "&#8212;") + '</td><td><div class="btn-group"><button class="btn btn-outline btn-sm" onclick="editClient(\'' + c.id + '\')">Edit</button><button class="btn btn-outline btn-sm" onclick="goToNotes(\'' + c.id + '\')">Notes</button><button class="btn btn-danger btn-sm" onclick="deleteClient(\'' + c.id + '\')">&#215;</button></div></td></tr>';
+  }).join("");
 }
 
 function openClientModal(id) {
-  document.getElementById('cm_id').value = id || '';
-  document.getElementById('clientModalTitle').textContent = id ? 'Edit Client' : 'Add Client';
-  if (id) {
-    const c = clientById(id);
-    if (c) {
-      document.getElementById('cm_first').value = c.first || '';
-      document.getElementById('cm_last').value = c.last || '';
-      document.getElementById('cm_email').value = c.email || '';
-      document.getElementById('cm_phone').value = c.phone || '';
-      document.getElementById('cm_address').value = c.address || '';
-      document.getElementById('cm_gp_name').value = c.gp_name || '';
-      document.getElementById('cm_location').value = c.location || 'Norwich';
-      document.getElementById('cm_rate').value = c.rate || 60;
-      document.getElementById('cm_slot').value = c.slot || '';
-      document.getElementById('cm_frequency').value = c.frequency || 'weekly';
-      document.getElementById('cm_billing').value = c.billing || '4';
-      document.getElementById('cm_start').value = c.start || '';
-      document.getElementById('cm_status').value = c.status || 'active';
-      document.getElementById('cm_last_invoiced').value = c.last_invoiced || '';
-      document.getElementById('cm_notes').value = c.notes || '';
-    }
-  } else {
-    document.getElementById('cm_first').value = '';
-    document.getElementById('cm_last').value = '';
-    document.getElementById('cm_email').value = '';
-    document.getElementById('cm_phone').value = '';
-    document.getElementById('cm_address').value = '';
-    document.getElementById('cm_gp_name').value = '';
-    document.getElementById('cm_location').value = 'Norwich';
-    document.getElementById('cm_rate').value = data.settings.rate_norwich || 60;
-    document.getElementById('cm_slot').value = '';
-    document.getElementById('cm_frequency').value = 'weekly';
-    document.getElementById('cm_billing').value = '4';
-    document.getElementById('cm_start').value = today();
-    document.getElementById('cm_status').value = 'active';
-    document.getElementById('cm_last_invoiced').value = '';
-    document.getElementById('cm_notes').value = '';
-  }
-  openModal('clientModal');
+  var c = id ? clientById(id) : null;
+  document.getElementById("cm_id").value = id || "";
+  document.getElementById("clientModalTitle").textContent = id ? "Edit Client" : "Add Client";
+  document.getElementById("cm_first").value = c ? (c.first || "") : "";
+  document.getElementById("cm_last").value = c ? (c.last || "") : "";
+  document.getElementById("cm_email").value = c ? (c.email || "") : "";
+  document.getElementById("cm_phone").value = c ? (c.phone || "") : "";
+  document.getElementById("cm_address").value = c ? (c.address || "") : "";
+  document.getElementById("cm_gp_name").value = c ? (c.gp_name || "") : "";
+  document.getElementById("cm_location").value = c ? (c.location || "Norwich") : "Norwich";
+  document.getElementById("cm_rate").value = c ? (c.rate || 60) : (data.settings.rate_norwich || 60);
+  document.getElementById("cm_slot").value = c ? (c.slot || "") : "";
+  document.getElementById("cm_frequency").value = c ? (c.frequency || "weekly") : "weekly";
+  document.getElementById("cm_billing").value = c ? (c.billing || "4") : "4";
+  document.getElementById("cm_start").value = c ? (c.start || "") : todayStr();
+  document.getElementById("cm_status").value = c ? (c.status || "active") : "active";
+  document.getElementById("cm_last_invoiced").value = c ? (c.last_invoiced || "") : "";
+  document.getElementById("cm_notes").value = c ? (c.notes || "") : "";
+  openModal("clientModal");
 }
 
 function editClient(id) { openClientModal(id); }
-
-function updateRateFromLocation() {
-  const loc = document.getElementById('cm_location').value;
-  const rates = { 'Harley Street': data.settings.rate_london, 'Norwich': data.settings.rate_norwich, 'Online': data.settings.rate_online };
-  document.getElementById('cm_rate').value = rates[loc] || 60;
-}
-
-function saveClient() {
-  const first = document.getElementById('cm_first').value.trim();
-  const last = document.getElementById('cm_last').value.trim();
-  if (!first || !last) { alert('Please enter client name.'); return; }
-  const id = document.getElementById('cm_id').value || uid();
-  const client = {
-    id, first, last,
-    email: document.getElementById('cm_email').value,
-    phone: document.getElementById('cm_phone').value,
-    address: document.getElementById('cm_address').value,
-    gp_name: document.getElementById('cm_gp_name').value,
-    location: document.getElementById('cm_location').value,
-    rate: parseFloat(document.getElementById('cm_rate').value) || 60,
-    slot: document.getElementById('cm_slot').value,
-    frequency: document.getElementById('cm_frequency').value,
-    billing: document.getElementById('cm_billing').value,
-    start: document.getElementById('cm_start').value,
-    status: document.getElementById('cm_status').value,
-    last_invoiced: document.getElementById('cm_last_invoiced').value,
-    notes: document.getElementById('cm_notes').value
-  };
-  const idx = data.clients.findIndex(c => c.id === id);
-  if (idx >= 0) data.clients[idx] = client; else data.clients.push(client);
-  save(); closeModal('clientModal'); renderClients();
-}
-
 function deleteClient(id) {
-  if (!confirm('Remove this client? Their sessions, invoices, and notes will remain.')) return;
-  data.clients = data.clients.filter(c => c.id !== id);
-  save(); renderClients();
+  if (!confirm("Remove this client?")) return;
+  data.clients = data.clients.filter(function(c) { return c.id !== id; });
+  saveData(); renderClients();
 }
+function goToNotes(id) { showPanel("notes"); selectNotesClient(id); }
 
-// ══════════════════════════════════════════════════════════
-// SESSIONS
-// ══════════════════════════════════════════════════════════
+document.getElementById("btnAddClient").addEventListener("click", function() { openClientModal(null); });
+document.getElementById("btnCancelClient").addEventListener("click", function() { closeModal("clientModal"); });
+document.getElementById("btnSaveClient").addEventListener("click", function() {
+  var first = document.getElementById("cm_first").value.trim();
+  var last = document.getElementById("cm_last").value.trim();
+  if (!first || !last) { alert("Please enter client name."); return; }
+  var id = document.getElementById("cm_id").value || uid();
+  var client = {
+    id: id, first: first, last: last,
+    email: document.getElementById("cm_email").value,
+    phone: document.getElementById("cm_phone").value,
+    address: document.getElementById("cm_address").value,
+    gp_name: document.getElementById("cm_gp_name").value,
+    location: document.getElementById("cm_location").value,
+    rate: parseFloat(document.getElementById("cm_rate").value) || 60,
+    slot: document.getElementById("cm_slot").value,
+    frequency: document.getElementById("cm_frequency").value,
+    billing: document.getElementById("cm_billing").value,
+    start: document.getElementById("cm_start").value,
+    status: document.getElementById("cm_status").value,
+    last_invoiced: document.getElementById("cm_last_invoiced").value,
+    notes: document.getElementById("cm_notes").value
+  };
+  var idx = data.clients.findIndex(function(c) { return c.id === id; });
+  if (idx >= 0) data.clients[idx] = client; else data.clients.push(client);
+  saveData(); closeModal("clientModal"); renderClients();
+});
+
+// ══ SESSIONS ══
 function populateClientFilter() {
-  const sel = document.getElementById('sessionFilterClient');
-  const cur = sel.value;
-  sel.innerHTML = '<option value="">All clients</option>' +
-    data.clients.map(c => `<option value="${c.id}">${c.first} ${c.last}</option>`).join('');
+  var sel = document.getElementById("sessionFilterClient");
+  var cur = sel.value;
+  sel.innerHTML = '<option value="">All</option>' + data.clients.map(function(c) { return '<option value="' + c.id + '">' + c.first + ' ' + c.last + '</option>'; }).join("");
   sel.value = cur;
 }
 
 function populateClientSelects() {
-  ['sm_client','im_client'].forEach(id => {
-    const sel = document.getElementById(id);
+  ["sm_client", "im_client"].forEach(function(selId) {
+    var sel = document.getElementById(selId);
     if (!sel) return;
-    sel.innerHTML = data.clients.filter(c => c.status !== 'ended').map(c =>
-      `<option value="${c.id}">${c.first} ${c.last}</option>`).join('');
+    sel.innerHTML = data.clients.filter(function(c) { return c.status !== "ended"; }).map(function(c) { return '<option value="' + c.id + '">' + c.first + ' ' + c.last + '</option>'; }).join("");
   });
 }
 
 function renderSessions() {
-  const clientFilter = document.getElementById('sessionFilterClient').value;
-  const statusFilter = document.getElementById('sessionFilterStatus').value;
-  const invoicedFilter = document.getElementById('sessionFilterInvoiced').value;
-  let sessions = [...data.sessions].sort((a,b) => b.date.localeCompare(a.date));
-  if (clientFilter) sessions = sessions.filter(s => s.clientId === clientFilter);
-  if (statusFilter) sessions = sessions.filter(s => s.status === statusFilter);
-  if (invoicedFilter === 'yes') sessions = sessions.filter(s => s.invoiceId);
-  if (invoicedFilter === 'no') sessions = sessions.filter(s => !s.invoiceId && s.status === 'attended');
-  const tbody = document.getElementById('sessionsTable');
-  if (sessions.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--stone);padding:2rem">No sessions found</td></tr>';
-    return;
-  }
-  tbody.innerHTML = sessions.map(s => `<tr>
-    <td>${formatDate(s.date)}</td>
-    <td><strong>${clientName(s.clientId)}</strong></td>
-    <td>${s.location}</td>
-    <td><span class="badge badge-${s.status === 'attended' ? 'active' : 'paused'}">${s.status}</span></td>
-    <td>${s.hasNotes ? '✓' : s.status === 'attended' ? '<span style="color:var(--amber)">Needed</span>' : '—'}</td>
-    <td>${s.invoiceId ? '<span class="badge badge-paid">Yes</span>' : s.status === 'attended' ? '<span class="badge badge-unpaid">No</span>' : '—'}</td>
-    <td>
-      <div class="btn-group">
-        <button class="btn btn-outline btn-sm" onclick="editSession('${s.id}')">Edit</button>
-        ${!s.hasNotes && s.status === 'attended' ? `<button class="btn btn-outline btn-sm" onclick="openNotesForSession('${s.clientId}','${s.id}')">📝</button>` : ''}
-        <button class="btn btn-danger btn-sm" onclick="deleteSession('${s.id}')">×</button>
-      </div>
-    </td>
-  </tr>`).join('');
+  var cf = document.getElementById("sessionFilterClient").value;
+  var sf = document.getElementById("sessionFilterStatus").value;
+  var inf = document.getElementById("sessionFilterInvoiced").value;
+  var sess = data.sessions.slice().sort(function(a, b) { return b.date.localeCompare(a.date); });
+  if (cf) sess = sess.filter(function(s) { return s.clientId === cf; });
+  if (sf) sess = sess.filter(function(s) { return s.status === sf; });
+  if (inf === "yes") sess = sess.filter(function(s) { return s.invoiceId; });
+  if (inf === "no") sess = sess.filter(function(s) { return !s.invoiceId && s.status === "attended"; });
+  var tbody = document.getElementById("sessionsTable");
+  if (sess.length === 0) { tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--stone);padding:2rem">No sessions found</td></tr>'; return; }
+  tbody.innerHTML = sess.map(function(s) {
+    return '<tr><td>' + fmtDate(s.date) + '</td><td><strong>' + clientName(s.clientId) + '</strong></td><td>' + s.location + '</td><td><span class="badge badge-' + s.status + '">' + s.status + '</span></td><td>' + (s.hasNotes ? "&#10003;" : s.status === "attended" ? '<span style="color:var(--amber)">Needed</span>' : "&#8212;") + '</td><td>' + (s.invoiceId ? '<span class="badge badge-paid">Yes</span>' : s.status === "attended" ? '<span class="badge badge-unpaid">No</span>' : "&#8212;") + '</td><td><div class="btn-group"><button class="btn btn-outline btn-sm" onclick="editSession(\'' + s.id + '\')">Edit</button>' + (!s.hasNotes && s.status === "attended" ? '<button class="btn btn-outline btn-sm" onclick="openNotesForSession(\'' + s.clientId + '\',\'' + s.id + '\')">&#128221;</button>' : '') + '<button class="btn btn-danger btn-sm" onclick="deleteSession(\'' + s.id + '\')">&#215;</button></div></td></tr>';
+  }).join("");
 }
+
+document.getElementById("sessionFilterClient").addEventListener("change", renderSessions);
+document.getElementById("sessionFilterStatus").addEventListener("change", renderSessions);
+document.getElementById("sessionFilterInvoiced").addEventListener("change", renderSessions);
 
 function openSessionModal(id) {
   populateClientSelects();
-  document.getElementById('sm_id').value = id || '';
-  if (id) {
-    const s = data.sessions.find(x => x.id === id);
-    if (s) {
-      document.getElementById('sm_client').value = s.clientId;
-      document.getElementById('sm_date').value = s.date;
-      document.getElementById('sm_location').value = s.location;
-      document.getElementById('sm_status').value = s.status;
-      document.getElementById('sm_duration').value = s.duration || '50';
-      document.getElementById('sm_rate').value = s.rate || 0;
-      document.getElementById('sm_note').value = s.note || '';
-    }
-  } else {
-    document.getElementById('sm_date').value = today();
-    document.getElementById('sm_location').value = 'Norwich';
-    document.getElementById('sm_status').value = 'attended';
-    document.getElementById('sm_duration').value = '50';
-    document.getElementById('sm_rate').value = '0';
-    document.getElementById('sm_note').value = '';
-  }
-  openModal('sessionModal');
+  document.getElementById("sm_id").value = id || "";
+  var s = id ? data.sessions.find(function(x) { return x.id === id; }) : null;
+  document.getElementById("sm_client").value = s ? s.clientId : (data.clients[0] ? data.clients[0].id : "");
+  document.getElementById("sm_date").value = s ? s.date : todayStr();
+  document.getElementById("sm_location").value = s ? s.location : "Norwich";
+  document.getElementById("sm_status").value = s ? s.status : "attended";
+  document.getElementById("sm_duration").value = s ? (s.duration || "50") : "50";
+  document.getElementById("sm_rate").value = s ? (s.rate || 0) : 0;
+  document.getElementById("sm_note").value = s ? (s.note || "") : "";
+  openModal("sessionModal");
 }
 
 function editSession(id) { openSessionModal(id); }
-
-function saveSession() {
-  const clientId = document.getElementById('sm_client').value;
-  const date = document.getElementById('sm_date').value;
-  if (!clientId || !date) { alert('Please select a client and date.'); return; }
-  const id = document.getElementById('sm_id').value || uid();
-  const client = clientById(clientId);
-  let rate = parseFloat(document.getElementById('sm_rate').value);
-  if (!rate || rate === 0) { rate = client ? client.rate : 60; }
-  const session = {
-    id, clientId, date,
-    location: document.getElementById('sm_location').value,
-    status: document.getElementById('sm_status').value,
-    duration: document.getElementById('sm_duration').value,
-    rate, note: document.getElementById('sm_note').value,
-    hasNotes: data.sessions.find(s => s.id === id)?.hasNotes || false,
-    invoiceId: data.sessions.find(s => s.id === id)?.invoiceId || null
-  };
-  const idx = data.sessions.findIndex(s => s.id === id);
-  if (idx >= 0) data.sessions[idx] = session; else data.sessions.push(session);
-  save(); closeModal('sessionModal'); renderSessions();
-}
-
 function deleteSession(id) {
-  if (!confirm('Delete this session?')) return;
-  data.sessions = data.sessions.filter(s => s.id !== id);
-  save(); renderSessions();
+  if (!confirm("Delete this session?")) return;
+  data.sessions = data.sessions.filter(function(s) { return s.id !== id; });
+  saveData(); renderSessions();
 }
 
-// ══════════════════════════════════════════════════════════
-// CLINICAL NOTES — ONE AT A TIME
-// ══════════════════════════════════════════════════════════
-let currentNotesClientId = null;
-let currentNotesMode = 'intake';
-let qIndex = { intake: 0, formulation: 0, session: 0 };
+document.getElementById("btnAddSession").addEventListener("click", function() { openSessionModal(null); });
+document.getElementById("btnLogSession").addEventListener("click", function() { openSessionModal(null); });
+document.getElementById("btnCancelSession").addEventListener("click", function() { closeModal("sessionModal"); });
+document.getElementById("btnSaveSession").addEventListener("click", function() {
+  var clientId = document.getElementById("sm_client").value;
+  var date = document.getElementById("sm_date").value;
+  if (!clientId || !date) { alert("Please select a client and date."); return; }
+  var id = document.getElementById("sm_id").value || uid();
+  var c = clientById(clientId);
+  var rate = parseFloat(document.getElementById("sm_rate").value);
+  if (!rate || rate === 0) rate = c ? c.rate : 60;
+  var existing = data.sessions.find(function(s) { return s.id === id; });
+  var session = {
+    id: id, clientId: clientId, date: date,
+    location: document.getElementById("sm_location").value,
+    status: document.getElementById("sm_status").value,
+    duration: document.getElementById("sm_duration").value,
+    rate: rate, note: document.getElementById("sm_note").value,
+    hasNotes: existing ? existing.hasNotes : false,
+    invoiceId: existing ? existing.invoiceId : null
+  };
+  var idx = data.sessions.findIndex(function(s) { return s.id === id; });
+  if (idx >= 0) data.sessions[idx] = session; else data.sessions.push(session);
+  saveData(); closeModal("sessionModal"); renderSessions();
+});
 
-const INTAKE_QUESTIONS = [
-  { id:'presenting', section:'Presenting', q:'What brings this person to therapy now — and why now?', hint:'The timing is often as significant as the content. What has shifted that made this the moment to seek help? Use their own language where possible.' },
-  { id:'duration', section:'Presenting', q:'How long has this difficulty been present?', hint:'' },
-  { id:'tried', section:'Presenting', q:'What has been tried, and what has and hasn't helped?', hint:'' },
-  { id:'family', section:'Background', q:'Family background — atmosphere, relational dynamics, physical environment growing up', hint:'Attend to what is said and how it is said. The narrative style itself carries attachment information.' },
-  { id:'current', section:'Background', q:'Current life situation', hint:'' },
-  { id:'support', section:'Background', q:'Social support network', hint:'' },
-  { id:'previous_therapy', section:'Background', q:'Previous therapy experience — what was useful, what wasn't', hint:'Previous therapeutic experience often carries information about relational expectation and the working alliance.' },
-  { id:'events', section:'Additional History', q:'Additional major life events not already covered', hint:'' },
-  { id:'psychiatric', section:'Additional History', q:'Psychiatric history — any diagnosis, medication, contact with mental health services', hint:'Note the person's relationship to any diagnosis or medication as well as the facts.' },
-  { id:'risk', section:'Additional History', q:'Risk — current thoughts of self-harm or ending life; any previous actions', hint:'Record clearly. Risk assessment is ongoing — this is the baseline.' },
-  { id:'goals', section:'Goals & Hopes', q:'What does this person hope will be different?', hint:'' },
-  { id:'markers', section:'Goals & Hopes', q:'What would they notice first if things began to shift?', hint:'' },
-  { id:'presentation', section:'Initial Observations', q:'Presentation — affect, relatedness, body language, quality of contact', hint:'What did you notice before they spoke? Somatic countertransference from the first moment.' },
-  { id:'counter', section:'Initial Observations', q:'What did this person activate in you?', hint:'Countertransference at intake is clinically significant. Note honestly.' },
+// ══ CLINICAL NOTES ══
+var INTAKE_QS = [
+  { id:"presenting", section:"Presenting", q:"What brings this person to therapy now — and why now?", hint:"The timing is often as significant as the content. What has shifted that made this the moment to seek help? Use their own language where possible." },
+  { id:"duration", section:"Presenting", q:"How long has this difficulty been present?", hint:"" },
+  { id:"tried", section:"Presenting", q:"What has been tried, and what has and hasn't helped?", hint:"" },
+  { id:"family", section:"Background", q:"Family background — atmosphere, relational dynamics, physical environment growing up", hint:"Attend to what is said and how it is said. The narrative style itself carries attachment information." },
+  { id:"current", section:"Background", q:"Current life situation", hint:"" },
+  { id:"support", section:"Background", q:"Social support network", hint:"" },
+  { id:"previous_therapy", section:"Background", q:"Previous therapy experience — what was useful, what wasn't", hint:"Previous therapeutic experience often carries information about relational expectation and the working alliance." },
+  { id:"events", section:"Additional History", q:"Additional major life events not already covered", hint:"" },
+  { id:"psychiatric", section:"Additional History", q:"Psychiatric history — diagnosis, medication, contact with mental health services", hint:"Note the person's relationship to any diagnosis or medication as well as the facts." },
+  { id:"risk", section:"Additional History", q:"Risk — current thoughts of self-harm or ending life; any previous actions", hint:"Record clearly. Risk assessment is ongoing — this is the baseline." },
+  { id:"goals", section:"Goals", q:"What does this person hope will be different?", hint:"" },
+  { id:"markers", section:"Goals", q:"What would they notice first if things began to shift?", hint:"" },
+  { id:"presentation", section:"Initial Observations", q:"Presentation — affect, relatedness, body language, quality of contact", hint:"What did you notice before they spoke? Somatic countertransference from the first moment." },
+  { id:"counter", section:"Initial Observations", q:"What did this person activate in you?", hint:"Countertransference at intake is clinically significant. Note honestly." }
 ];
 
-const FORMULATION_QUESTIONS = [
-  { id:'developmental', section:'Developmental Reading', q:'Where does the presenting difficulty appear to root?', hint:'Balint / Winnicott / Mahler / Fonagy. Which developmental layer is most live? Pre-symbolic (basic fault)? True/false self? Separation-individuation? Mentalization failure? More than one may be present — name the primary level and any secondary.' },
-  { id:'needed', section:'Developmental Reading', q:'What did this person need that they didn't receive?', hint:'Be specific. Generic warmth does not repair a specific wound. The reparation must match the developmental level.' },
-  { id:'adaptation', section:'Developmental Reading', q:'What formed instead — the adaptive strategy', hint:'This is not pathology. It is the logical adaptation to what was available. Name it with respect.' },
-  { id:'rig', section:'Relational Pattern', q:'What is the core relational pattern — the RIG — that keeps repeating?', hint:'In Stern's terms: what does this person expect to happen when they bring the full weight of something to another person? This is the destructive RIG that the therapeutic relationship must provide a new version of.' },
-  { id:'reparative_rig', section:'Relational Pattern', q:'What is the reparative RIG — the precise inversion of the destructive pattern?', hint:'Generic warmth does not repair a specific wound. Name the specific relational provision required.' },
-  { id:'attachment', section:'Attachment & Mentalization', q:'Attachment pattern — reading from narrative style and relational history', hint:'Secure / anxious-preoccupied / dismissive-avoidant / disorganised. Note what in the narrative style, not just the content, informs this reading.' },
-  { id:'mentalization', section:'Attachment & Mentalization', q:'Mentalization capacity — reflective functioning baseline and collapse conditions', hint:'Can this person hold their own and another's mind simultaneously? Under what conditions does mentalization collapse? What does epistemic trust look like here?' },
-  { id:'alien_self', section:'Attachment & Mentalization', q:'Alien self — what has been internalised that doesn't feel like theirs?', hint:'Fonagy: when mirroring reflects the caregiver's state rather than the infant's, something foreign is internalised. What is this person externalising — and into whom?' },
-  { id:'window', section:'Nervous System', q:'Window of tolerance — current width and collapse conditions', hint:'Porges / Van der Kolk: how wide is the window? What narrows it? What system — ventral vagal, sympathetic, dorsal vagal — is most active? This shapes the sequencing.' },
-  { id:'somatic', section:'Nervous System', q:'Somatic presentation — body patterns, breath, posture, activation', hint:'What does this person's body do in the room? What does your body do in response? Ogden: somatic countertransference as data.' },
-  { id:'sequencing', section:'Sequencing Position', q:'Where in the seven-layer sequence is the work currently needed?', hint:'Rogers (ground) → Kohut (container) → Stern (mechanism) → Levine (interrupted completion) → Van der Kolk (window) → Freud (descent) → Adler (reorientation). Name the current layer and what must be in place before progression becomes appropriate.' },
-  { id:'modes', section:'Sequencing Position', q:'Five modes — which are most alive?', hint:'Clarkson: Working alliance / Transferential / Reparative / Person-to-person / Transpersonal. What is most active now and what does the clinical moment require?' },
-  { id:'transference', section:'Transferential Field', q:'Transferential material — what is being activated in the room', hint:'What role is this person recruiting you into (Sandler's role responsiveness)? Is there a shared fantasy beginning to form? What organising principles from your own history are being activated?' },
-  { id:'countertransference', section:'Transferential Field', q:'Countertransference — what this case activates in you', hint:'Your somatic response. Your emotional response. What pulls you toward technique or distance. What makes you want to rescue, withdraw, or over-explain. This is clinical data.' },
-  { id:'immediate', section:'Temporal Dimension', q:'What stage of the immediate landscape is this person in?', hint:'Kübler-Ross for the immediate: receive what is present, don't rush the stages. What needs to be held before anything else can be introduced?' },
-  { id:'longer_arc', section:'Temporal Dimension', q:'Longer arc — Tonkin reading', hint:'The grief doesn't shrink — the person grows around it. What does a larger life look like for this person? Not as a goal to be stated, but as a clinical orientation.' },
-  { id:'provision', section:'Clinical Plan', q:'The specific relational provision this person needs from this relationship', hint:'' },
-  { id:'risks', section:'Clinical Plan', q:'What to hold carefully — risks, ethical considerations, things to monitor', hint:'Risk, competence, dual relationship, scope. Name honestly.' },
-  { id:'supervision', section:'Clinical Plan', q:'What this case needs from supervision', hint:'' },
+var FORM_QS = [
+  { id:"developmental", section:"Developmental Reading", q:"Where does the presenting difficulty appear to root?", hint:"Balint / Winnicott / Mahler / Fonagy. Which layer is most live? Pre-symbolic (basic fault)? True/false self? Separation-individuation? Mentalization failure? Name the primary level and any secondary." },
+  { id:"needed", section:"Developmental Reading", q:"What did this person need that they didn't receive?", hint:"Be specific. Generic warmth does not repair a specific wound. The reparation must match the developmental level." },
+  { id:"adaptation", section:"Developmental Reading", q:"What formed instead — the adaptive strategy", hint:"This is not pathology. It is the logical adaptation to what was available. Name it with respect." },
+  { id:"rig", section:"Relational Pattern", q:"What is the core relational pattern — the RIG — that keeps repeating?", hint:"What does this person expect to happen when they bring the full weight of something to another person? This is the destructive RIG the therapeutic relationship must provide a new version of." },
+  { id:"reparative_rig", section:"Relational Pattern", q:"What is the reparative RIG — the precise inversion of the destructive pattern?", hint:"Generic warmth does not repair a specific wound. Name the specific relational provision required." },
+  { id:"attachment", section:"Attachment & Mentalization", q:"Attachment pattern — reading from narrative style and relational history", hint:"Secure / anxious-preoccupied / dismissive-avoidant / disorganised. Note what in the narrative style, not just the content, informs this reading." },
+  { id:"mentalization", section:"Attachment & Mentalization", q:"Mentalization capacity — reflective functioning baseline and collapse conditions", hint:"Can this person hold their own and another's mind simultaneously? Under what conditions does mentalization collapse? What does epistemic trust look like here?" },
+  { id:"alien_self", section:"Attachment & Mentalization", q:"Alien self — what has been internalised that doesn't feel like theirs?", hint:"Fonagy: when mirroring reflects the caregiver's state rather than the infant's, something foreign is internalised. What is this person externalising — and into whom?" },
+  { id:"window", section:"Nervous System", q:"Window of tolerance — current width and collapse conditions", hint:"Porges / Van der Kolk: how wide is the window? What narrows it? What system — ventral vagal, sympathetic, dorsal vagal — is most active? This shapes the sequencing." },
+  { id:"somatic", section:"Nervous System", q:"Somatic presentation — body patterns, breath, posture, activation", hint:"What does this person's body do in the room? What does your body do in response? Somatic countertransference as data." },
+  { id:"sequencing", section:"Sequencing Position", q:"Where in the seven-layer sequence is the work currently needed?", hint:"Rogers (ground) → Kohut (container) → Stern (mechanism) → Levine (interrupted completion) → Van der Kolk (window) → Freud (descent) → Adler (reorientation). Name the layer and what must be in place before progression is appropriate." },
+  { id:"modes", section:"Sequencing Position", q:"Five modes — which are most alive?", hint:"Clarkson: Working alliance / Transferential / Reparative / Person-to-person / Transpersonal. What is most active now and what does the clinical moment require?" },
+  { id:"transference", section:"Transferential Field", q:"Transferential material — what is being activated in the room", hint:"What role is this person recruiting you into (Sandler's role responsiveness)? Is there a shared fantasy beginning to form? What organising principles from your own history are being activated?" },
+  { id:"countertransference", section:"Transferential Field", q:"Countertransference — what this case activates in you", hint:"Your somatic response. Your emotional response. What pulls you toward technique or distance. This is clinical data." },
+  { id:"immediate", section:"Temporal Dimension", q:"What stage of the immediate landscape is this person in?", hint:"Kübler-Ross for the immediate: receive what is present, don't rush the stages. What needs to be held before anything else can be introduced?" },
+  { id:"longer_arc", section:"Temporal Dimension", q:"Longer arc — Tonkin reading", hint:"The grief doesn't shrink — the person grows around it. What does a larger life look like for this person? Not as a goal to be stated, but as a clinical orientation." },
+  { id:"provision", section:"Clinical Plan", q:"The specific relational provision this person needs from this relationship", hint:"" },
+  { id:"risks", section:"Clinical Plan", q:"What to hold carefully — risks, ethical considerations, things to monitor", hint:"Risk, competence, dual relationship, scope. Name honestly." },
+  { id:"supervision", section:"Clinical Plan", q:"What this case needs from supervision", hint:"" }
 ];
 
-const SESSION_QUESTIONS = [
-  { id:'where_were_we', section:'Orientation', q:'Where were we — the thread from last session', hint:'What was live, where the sequencing was, what had been left in the room.' },
-  { id:'what_happened', section:'This Session', q:'What happened in this session', hint:'Not a transcript — what was clinically significant. What arrived, what was received, what was named.' },
-  { id:'shifted', section:'This Session', q:'What shifted — or didn't', hint:'Slow is not the same as stuck. A session where nothing moved is still data. What does the absence of movement tell you?' },
-  { id:'somatic_transfer', section:'This Session', q:'Somatic and transferential notes', hint:'What did your body do? What was activated in you? What role were you being recruited into? Any moments of meeting — unexpected, unscripted genuine contact?' },
-  { id:'sequencing', section:'Position', q:'Sequencing position after this session', hint:'Has the layer shifted? Is the window wider or narrower than last time? What does the nervous system appear to be doing with what has been offered?' },
-  { id:'next', section:'Next Session', q:'What the next session needs', hint:'Not a plan — an orientation. What must be available in you for the next session to be what this person needs?' },
-  { id:'risk', section:'Safety', q:'Risk update — any change since last assessment', hint:'' },
-  { id:'supervision', section:'Supervision', q:'Anything to bring to supervision', hint:'' },
+var SESSION_QS = [
+  { id:"where_were_we", section:"Orientation", q:"Where were we — the thread from last session", hint:"What was live, where the sequencing was, what had been left in the room." },
+  { id:"what_happened", section:"This Session", q:"What happened in this session", hint:"Not a transcript — what was clinically significant. What arrived, what was received, what was named." },
+  { id:"shifted", section:"This Session", q:"What shifted — or didn't", hint:"Slow is not the same as stuck. A session where nothing moved is still data. What does the absence of movement tell you?" },
+  { id:"somatic_transfer", section:"This Session", q:"Somatic and transferential notes", hint:"What did your body do? What was activated in you? What role were you being recruited into? Any moments of meeting — unexpected, unscripted genuine contact?" },
+  { id:"sequencing", section:"Position", q:"Sequencing position after this session", hint:"Has the layer shifted? Is the window wider or narrower than last time? What does the nervous system appear to be doing with what has been offered?" },
+  { id:"next", section:"Next Session", q:"What the next session needs", hint:"Not a plan — an orientation. What must be available in you for the next session to be what this person needs?" },
+  { id:"risk", section:"Safety", q:"Risk update — any change since last assessment", hint:"" },
+  { id:"supervision", section:"Supervision", q:"Anything to bring to supervision", hint:"" }
 ];
 
-const Q_SETS = { intake: INTAKE_QUESTIONS, formulation: FORMULATION_QUESTIONS, session: SESSION_QUESTIONS };
+var QS_MAP = { intake: INTAKE_QS, formulation: FORM_QS, session: SESSION_QS };
 
 function populateNotesClients() {
-  const sel = document.getElementById('notesClientSelect');
-  sel.innerHTML = '<option value="">Select client</option>' +
-    data.clients.map(c => `<option value="${c.id}">${c.first} ${c.last}</option>`).join('');
-  if (currentNotesClientId) { sel.value = currentNotesClientId; loadNotesForClient(); }
+  var sel = document.getElementById("notesClientSelect");
+  sel.innerHTML = '<option value="">Select client</option>' + data.clients.map(function(c) { return '<option value="' + c.id + '">' + c.first + ' ' + c.last + '</option>'; }).join("");
+  if (currentNotesClientId) { sel.value = currentNotesClientId; showNotesContent(); }
 }
+
+document.getElementById("notesClientSelect").addEventListener("change", function() {
+  currentNotesClientId = this.value;
+  if (currentNotesClientId) showNotesContent(); else { document.getElementById("notesContent").style.display = "none"; document.getElementById("notesEmpty").style.display = ""; }
+});
 
 function selectNotesClient(id) {
   currentNotesClientId = id;
-  document.getElementById('notesClientSelect').value = id;
-  loadNotesForClient();
+  document.getElementById("notesClientSelect").value = id;
+  showNotesContent();
 }
 
-function loadNotesForClient() {
-  const id = document.getElementById('notesClientSelect').value;
-  currentNotesClientId = id;
-  if (!id) {
-    document.getElementById('notesContent').style.display = 'none';
-    document.getElementById('notesEmpty').style.display = '';
-    return;
-  }
-  document.getElementById('notesContent').style.display = '';
-  document.getElementById('notesEmpty').style.display = 'none';
-  if (!data.notes[id]) data.notes[id] = { intake:{}, formulation:{}, sessionNotes:[] };
-  showNotesMode(currentNotesMode);
+function showNotesContent() {
+  if (!data.notes[currentNotesClientId]) data.notes[currentNotesClientId] = { intake:{}, formulation:{}, sessionNotes:[] };
+  document.getElementById("notesContent").style.display = "";
+  document.getElementById("notesEmpty").style.display = "none";
+  setNotesMode(currentNotesMode);
 }
 
-function showNotesMode(mode) {
+function setNotesMode(mode) {
   currentNotesMode = mode;
-  document.querySelectorAll('.notes-mode-tab').forEach(t => t.classList.remove('active'));
-  const tab = document.querySelector(`.notes-mode-tab[onclick="showNotesMode('${mode}')"]`);
-  if (tab) tab.classList.add('active');
-  ['intake','formulation','session','history'].forEach(m => {
-    const el = document.getElementById('notesMode-' + m);
-    if (el) el.style.display = m === mode ? '' : 'none';
+  ["intake","formulation","session","history"].forEach(function(m) {
+    document.getElementById("notesMode-" + m).style.display = m === mode ? "" : "none";
+    document.getElementById("ntab-" + m).classList.toggle("active", m === mode);
   });
-  if (mode === 'history') renderNotesHistory();
-  else if (mode === 'session') { populateSessionNoteSelect(); }
-  else if (mode === 'intake' || mode === 'formulation') {
-    startQuestions(mode, qIndex[mode] || 0);
+  if (mode === "history") renderNotesHistory();
+  else if (mode === "session") populateSessionNoteSelect();
+  else startQFlow(mode, qCursor[mode] || 0);
+}
+
+document.getElementById("ntab-intake").addEventListener("click", function() { setNotesMode("intake"); });
+document.getElementById("ntab-formulation").addEventListener("click", function() { setNotesMode("formulation"); });
+document.getElementById("ntab-session").addEventListener("click", function() { setNotesMode("session"); });
+document.getElementById("ntab-history").addEventListener("click", function() { setNotesMode("history"); });
+
+function startQFlow(mode, idx) {
+  qCursor[mode] = idx;
+  document.getElementById(mode + "-complete").style.display = "none";
+  renderQ(mode, idx);
+}
+
+function renderQ(mode, idx) {
+  var qs = QS_MAP[mode];
+  var wrap = document.getElementById(mode + "-q-wrap");
+  var notes = data.notes[currentNotesClientId] ? (data.notes[currentNotesClientId][mode] || {}) : {};
+  var q = qs[idx];
+  var total = qs.length;
+  var pct = Math.round((idx / total) * 100);
+  var isLast = idx === total - 1;
+
+  wrap.innerHTML = '<div class="q-progress"><div class="q-progress-bar"><div class="q-progress-fill" style="width:' + pct + '%"></div></div><div class="q-progress-text">' + (idx+1) + ' of ' + total + '</div></div><div class="q-section-label">' + q.section + '</div><div class="q-question">' + q.q + '</div>' + (q.hint ? '<div class="q-hint">' + q.hint + '</div>' : '') + '<textarea class="q-textarea" id="q-answer" rows="6" placeholder="Type your notes here...">' + (notes[q.id] || "") + '</textarea><div class="q-nav"><div>' + (idx > 0 ? '<button class="btn btn-outline" id="q-back">&#8592; Back</button>' : '<span></span>') + '</div><span class="q-skip" id="q-skip">Skip &#8594;</span><div>' + (isLast ? '<button class="btn btn-gold" id="q-finish">Save &amp; Finish &#10003;</button>' : '<button class="btn btn-primary" id="q-next">Next &#8594;</button>') + '</div></div>';
+
+  document.getElementById("q-answer").focus();
+
+  if (idx > 0) {
+    document.getElementById("q-back").addEventListener("click", function() { saveQAnswer(mode, idx); startQFlow(mode, idx - 1); });
+  }
+  document.getElementById("q-skip").addEventListener("click", function() {
+    saveQAnswer(mode, idx);
+    if (idx < total - 1) startQFlow(mode, idx + 1); else finishQFlow(mode, idx);
+  });
+  if (isLast) {
+    document.getElementById("q-finish").addEventListener("click", function() { saveQAnswer(mode, idx); finishQFlow(mode, idx); });
+  } else {
+    document.getElementById("q-next").addEventListener("click", function() { saveQAnswer(mode, idx); startQFlow(mode, idx + 1); });
   }
 }
 
-function startQuestions(mode, idx) {
-  qIndex[mode] = idx;
-  const complete = document.getElementById(mode + '-complete');
-  if (complete) complete.classList.remove('active');
-  renderQuestion(mode, idx);
-}
-
-function renderQuestion(mode, idx) {
-  const questions = Q_SETS[mode];
-  const wrap = document.getElementById(mode + '-q-wrap');
-  if (!wrap) return;
-
-  // Hide complete screen
-  const complete = document.getElementById(mode + '-complete');
-  if (complete) complete.style.display = 'none';
-
-  // Get saved value
-  const notes = data.notes[currentNotesClientId]?.[mode] || {};
-  const q = questions[idx];
-  const total = questions.length;
-  const pct = Math.round((idx / total) * 100);
-
-  wrap.innerHTML = `
-    <div class="q-screen active">
-      <div class="q-progress">
-        <div class="q-progress-bar"><div class="q-progress-fill" style="width:${pct}%"></div></div>
-        <div class="q-progress-text">${idx + 1} of ${total}</div>
-      </div>
-      <div class="q-section-label">${q.section}</div>
-      <div class="q-question">${q.q}</div>
-      ${q.hint ? `<div class="q-hint">${q.hint}</div>` : ''}
-      <textarea class="q-textarea" id="q-current-answer" rows="6" placeholder="Type your notes here...">${notes[q.id] || ''}</textarea>
-      <div class="q-nav">
-        <div>
-          ${idx > 0 ? `<button class="btn btn-outline" onclick="saveAndMove('${mode}',${idx},-1)">← Back</button>` : '<span></span>'}
-        </div>
-        <span class="q-skip" onclick="saveAndMove('${mode}',${idx},1)">Skip →</span>
-        <div>
-          ${idx < total - 1
-            ? `<button class="btn btn-primary" onclick="saveAndMove('${mode}',${idx},1)">Next →</button>`
-            : `<button class="btn btn-gold" onclick="saveAndFinish('${mode}',${idx})">Save & Finish ✓</button>`}
-        </div>
-      </div>
-    </div>`;
-
-  document.getElementById('q-current-answer').focus();
-}
-
-function saveAndMove(mode, idx, direction) {
-  saveCurrentAnswer(mode, idx);
-  const next = idx + direction;
-  const questions = Q_SETS[mode];
-  if (next >= 0 && next < questions.length) {
-    qIndex[mode] = next;
-    renderQuestion(mode, next);
-  }
-}
-
-function saveAndFinish(mode, idx) {
-  saveCurrentAnswer(mode, idx);
-  // Auto-save all
-  if (!data.notes[currentNotesClientId]) data.notes[currentNotesClientId] = { intake:{}, formulation:{}, sessionNotes:[] };
-  data.notes[currentNotesClientId][mode + '_saved'] = new Date().toISOString();
-  save();
-  const wrap = document.getElementById(mode + '-q-wrap');
-  if (wrap) wrap.innerHTML = '';
-  const complete = document.getElementById(mode + '-complete');
-  if (complete) { complete.style.display = 'flex'; }
-}
-
-function saveCurrentAnswer(mode, idx) {
-  const el = document.getElementById('q-current-answer');
+function saveQAnswer(mode, idx) {
+  var el = document.getElementById("q-answer");
   if (!el || !currentNotesClientId) return;
-  const q = Q_SETS[mode][idx];
-  if (!data.notes[currentNotesClientId]) data.notes[currentNotesClientId] = { intake:{}, formulation:{}, sessionNotes:[] };
+  var q = QS_MAP[mode][idx];
   if (!data.notes[currentNotesClientId][mode]) data.notes[currentNotesClientId][mode] = {};
   data.notes[currentNotesClientId][mode][q.id] = el.value;
-  save();
+  saveData();
 }
 
-// SESSION NOTE
-function onSessionNoteSelectChange() {
-  const sessionId = document.getElementById('sessionNoteSelect').value;
-  if (sessionId) startSessionQuestions(sessionId);
+function finishQFlow(mode, idx) {
+  saveQAnswer(mode, idx);
+  data.notes[currentNotesClientId][mode + "_saved"] = new Date().toISOString();
+  saveData();
+  document.getElementById(mode + "-q-wrap").innerHTML = "";
+  var comp = document.getElementById(mode + "-complete");
+  var nextMode = mode === "intake" ? "formulation" : "session";
+  comp.style.display = "";
+  comp.innerHTML = '<div class="q-complete-icon">&#10003;</div><div class="q-complete-title">Notes saved.</div><div class="q-complete-sub">You can review everything in the History tab. Return to any question using the back button.</div><div class="btn-group" style="justify-content:center"><button class="btn btn-outline" id="comp-review">Review from start</button><button class="btn btn-primary" id="comp-next">' + (mode === "session" ? "View history &#8594;" : "Continue to " + nextMode + " &#8594;") + '</button></div>';
+  document.getElementById("comp-review").addEventListener("click", function() { startQFlow(mode, 0); });
+  document.getElementById("comp-next").addEventListener("click", function() { setNotesMode(mode === "session" ? "history" : nextMode); });
 }
 
+// SESSION NOTES
 function populateSessionNoteSelect() {
   if (!currentNotesClientId) return;
-  const sessions = data.sessions.filter(s => s.clientId === currentNotesClientId && s.status === 'attended')
-    .sort((a,b) => b.date.localeCompare(a.date));
-  const sel = document.getElementById('sessionNoteSelect');
-  sel.innerHTML = '<option value="">Select session</option>' +
-    sessions.map(s => `<option value="${s.id}">${formatDate(s.date)} — ${s.location}</option>`).join('');
+  var sess = data.sessions.filter(function(s) { return s.clientId === currentNotesClientId && s.status === "attended"; }).sort(function(a, b) { return b.date.localeCompare(a.date); });
+  var sel = document.getElementById("sessionNoteSelect");
+  sel.innerHTML = '<option value="">Select session</option>' + sess.map(function(s) { return '<option value="' + s.id + '">' + fmtDate(s.date) + ' — ' + s.location + '</option>'; }).join("");
+  sel.onchange = function() { if (this.value) startSessionQFlow(this.value, 0); };
 }
 
-function startSessionQuestions(sessionId) {
-  if (!sessionId) return;
-  qIndex.session = 0;
-  const complete = document.getElementById('session-complete');
-  if (complete) complete.style.display = 'none';
-  renderSessionQuestion(sessionId, 0);
+function startSessionQFlow(sessionId, idx) {
+  currentSessionNoteId = sessionId;
+  qCursor.session = idx;
+  document.getElementById("session-complete").style.display = "none";
+  renderSessionQ(sessionId, idx);
 }
 
-function renderSessionQuestion(sessionId, idx) {
-  const questions = SESSION_QUESTIONS;
-  const wrap = document.getElementById('session-q-wrap');
-  if (!wrap) return;
-  const sn = (data.notes[currentNotesClientId]?.sessionNotes || []).find(n => n.sessionId === sessionId);
-  const q = questions[idx];
-  const total = questions.length;
-  const pct = Math.round((idx / total) * 100);
+function renderSessionQ(sessionId, idx) {
+  var qs = SESSION_QS;
+  var wrap = document.getElementById("session-q-wrap");
+  var sn = (data.notes[currentNotesClientId] && data.notes[currentNotesClientId].sessionNotes) ? data.notes[currentNotesClientId].sessionNotes.find(function(n) { return n.sessionId === sessionId; }) : null;
+  var q = qs[idx];
+  var total = qs.length;
+  var pct = Math.round((idx / total) * 100);
+  var isLast = idx === total - 1;
 
-  wrap.innerHTML = `
-    <div class="q-screen active">
-      <div class="q-progress">
-        <div class="q-progress-bar"><div class="q-progress-fill" style="width:${pct}%"></div></div>
-        <div class="q-progress-text">${idx + 1} of ${total}</div>
-      </div>
-      <div class="q-section-label">${q.section}</div>
-      <div class="q-question">${q.q}</div>
-      ${q.hint ? `<div class="q-hint">${q.hint}</div>` : ''}
-      <textarea class="q-textarea" id="q-current-answer" rows="6" placeholder="Type your notes here...">${sn ? (sn[q.id] || '') : ''}</textarea>
-      <div class="q-nav">
-        <div>
-          ${idx > 0 ? `<button class="btn btn-outline" onclick="saveSessionAnswerAndMove('${sessionId}',${idx},-1)">← Back</button>` : '<span></span>'}
-        </div>
-        <span class="q-skip" onclick="saveSessionAnswerAndMove('${sessionId}',${idx},1)">Skip →</span>
-        <div>
-          ${idx < total - 1
-            ? `<button class="btn btn-primary" onclick="saveSessionAnswerAndMove('${sessionId}',${idx},1)">Next →</button>`
-            : `<button class="btn btn-gold" onclick="finishSessionNote('${sessionId}',${idx})">Save & Finish ✓</button>`}
-        </div>
-      </div>
-    </div>`;
+  wrap.innerHTML = '<div class="q-progress"><div class="q-progress-bar"><div class="q-progress-fill" style="width:' + pct + '%"></div></div><div class="q-progress-text">' + (idx+1) + ' of ' + total + '</div></div><div class="q-section-label">' + q.section + '</div><div class="q-question">' + q.q + '</div>' + (q.hint ? '<div class="q-hint">' + q.hint + '</div>' : '') + '<textarea class="q-textarea" id="sq-answer" rows="6" placeholder="Type your notes here...">' + (sn ? (sn[q.id] || "") : "") + '</textarea><div class="q-nav"><div>' + (idx > 0 ? '<button class="btn btn-outline" id="sq-back">&#8592; Back</button>' : '<span></span>') + '</div><span class="q-skip" id="sq-skip">Skip &#8594;</span><div>' + (isLast ? '<button class="btn btn-gold" id="sq-finish">Save &amp; Finish &#10003;</button>' : '<button class="btn btn-primary" id="sq-next">Next &#8594;</button>') + '</div></div>';
 
-  document.getElementById('q-current-answer').focus();
-}
+  document.getElementById("sq-answer").focus();
 
-function saveSessionAnswerAndMove(sessionId, idx, direction) {
-  saveSessionAnswer(sessionId, idx);
-  const next = idx + direction;
-  if (next >= 0 && next < SESSION_QUESTIONS.length) {
-    renderSessionQuestion(sessionId, next);
+  if (idx > 0) {
+    document.getElementById("sq-back").addEventListener("click", function() { saveSQAnswer(sessionId, idx); startSessionQFlow(sessionId, idx - 1); });
+  }
+  document.getElementById("sq-skip").addEventListener("click", function() {
+    saveSQAnswer(sessionId, idx);
+    if (idx < total - 1) startSessionQFlow(sessionId, idx + 1); else finishSessionNote(sessionId, idx);
+  });
+  if (isLast) {
+    document.getElementById("sq-finish").addEventListener("click", function() { saveSQAnswer(sessionId, idx); finishSessionNote(sessionId, idx); });
+  } else {
+    document.getElementById("sq-next").addEventListener("click", function() { saveSQAnswer(sessionId, idx); startSessionQFlow(sessionId, idx + 1); });
   }
 }
 
-function saveSessionAnswer(sessionId, idx) {
-  const el = document.getElementById('q-current-answer');
+function saveSQAnswer(sessionId, idx) {
+  var el = document.getElementById("sq-answer");
   if (!el || !currentNotesClientId) return;
-  const q = SESSION_QUESTIONS[idx];
-  if (!data.notes[currentNotesClientId]) data.notes[currentNotesClientId] = { intake:{}, formulation:{}, sessionNotes:[] };
-  let sn = data.notes[currentNotesClientId].sessionNotes.find(n => n.sessionId === sessionId);
-  if (!sn) { sn = { sessionId, saved: new Date().toISOString() }; data.notes[currentNotesClientId].sessionNotes.push(sn); }
+  var q = SESSION_QS[idx];
+  if (!data.notes[currentNotesClientId].sessionNotes) data.notes[currentNotesClientId].sessionNotes = [];
+  var sn = data.notes[currentNotesClientId].sessionNotes.find(function(n) { return n.sessionId === sessionId; });
+  if (!sn) { sn = { sessionId: sessionId, saved: new Date().toISOString() }; data.notes[currentNotesClientId].sessionNotes.push(sn); }
   sn[q.id] = el.value;
-  save();
+  saveData();
 }
 
 function finishSessionNote(sessionId, idx) {
-  saveSessionAnswer(sessionId, idx);
-  // Mark session as having notes
-  const sIdx = data.sessions.findIndex(s => s.id === sessionId);
-  if (sIdx >= 0) data.sessions[sIdx].hasNotes = true;
-  save();
-  const wrap = document.getElementById('session-q-wrap');
-  if (wrap) wrap.innerHTML = '';
-  const complete = document.getElementById('session-complete');
-  if (complete) complete.style.display = 'flex';
+  saveSQAnswer(sessionId, idx);
+  var si = data.sessions.findIndex(function(s) { return s.id === sessionId; });
+  if (si >= 0) data.sessions[si].hasNotes = true;
+  saveData();
+  document.getElementById("session-q-wrap").innerHTML = "";
+  var comp = document.getElementById("session-complete");
+  comp.style.display = "";
+  comp.innerHTML = '<div class="q-complete-icon">&#10003;</div><div class="q-complete-title">Session note saved.</div><div class="q-complete-sub">This session is marked as noted.</div><div class="btn-group" style="justify-content:center"><button class="btn btn-outline" id="scomp-review">Review</button><button class="btn btn-primary" id="scomp-hist">View history &#8594;</button></div>';
+  document.getElementById("scomp-review").addEventListener("click", function() { startSessionQFlow(sessionId, 0); });
+  document.getElementById("scomp-hist").addEventListener("click", function() { setNotesMode("history"); });
 }
-
-function saveNotes(mode) { /* kept for compatibility */ }
-function saveSessionNote() { /* kept for compatibility */ }
-function loadNoteFields() { /* kept for compatibility */ }
 
 function renderNotesHistory() {
   if (!currentNotesClientId) return;
-  const notes = data.notes[currentNotesClientId] || {};
-  const el = document.getElementById('notesHistory');
-  let html = '';
-
+  var notes = data.notes[currentNotesClientId] || {};
+  var html = "";
   if (notes.intake_saved) {
-    html += `<div style="margin-bottom:2rem"><div style="font-family:var(--serif);font-size:1.05rem;color:var(--slate-dk);padding-bottom:0.5rem;border-bottom:1px solid var(--warm);margin-bottom:1rem">Intake — ${formatDate(notes.intake_saved.split('T')[0])}</div>`;
-    const intake = notes.intake || {};
-    INTAKE_QUESTIONS.forEach(q => {
-      if (intake[q.id]) html += `<p style="margin-bottom:1rem"><strong style="font-size:0.7rem;color:var(--stone);text-transform:uppercase;letter-spacing:0.08em;display:block;margin-bottom:0.2rem">${q.q}</strong>${intake[q.id].replace(/
-/g,'<br>')}</p>`;
-    });
+    html += '<div style="margin-bottom:2rem"><div style="font-family:var(--serif);font-size:1.05rem;color:var(--slate-dk);padding-bottom:0.5rem;border-bottom:1px solid var(--warm);margin-bottom:1rem">Intake — ' + fmtDate(notes.intake_saved.split("T")[0]) + '</div>';
+    INTAKE_QS.forEach(function(q) { if (notes.intake && notes.intake[q.id]) html += '<p style="margin-bottom:1rem"><strong style="font-size:0.68rem;color:var(--stone);text-transform:uppercase;letter-spacing:0.08em;display:block;margin-bottom:0.2rem">' + q.q + '</strong>' + notes.intake[q.id].replace(/\n/g, "<br>") + '</p>'; });
     html += '</div>';
   }
-
   if (notes.formulation_saved) {
-    html += `<div style="margin-bottom:2rem"><div style="font-family:var(--serif);font-size:1.05rem;color:var(--slate-dk);padding-bottom:0.5rem;border-bottom:1px solid var(--warm);margin-bottom:1rem">Formulation — ${formatDate(notes.formulation_saved.split('T')[0])}</div>`;
-    const form = notes.formulation || {};
-    FORMULATION_QUESTIONS.forEach(q => {
-      if (form[q.id]) html += `<p style="margin-bottom:1rem"><strong style="font-size:0.7rem;color:var(--stone);text-transform:uppercase;letter-spacing:0.08em;display:block;margin-bottom:0.2rem">${q.q}</strong>${form[q.id].replace(/
-/g,'<br>')}</p>`;
-    });
+    html += '<div style="margin-bottom:2rem"><div style="font-family:var(--serif);font-size:1.05rem;color:var(--slate-dk);padding-bottom:0.5rem;border-bottom:1px solid var(--warm);margin-bottom:1rem">Formulation — ' + fmtDate(notes.formulation_saved.split("T")[0]) + '</div>';
+    FORM_QS.forEach(function(q) { if (notes.formulation && notes.formulation[q.id]) html += '<p style="margin-bottom:1rem"><strong style="font-size:0.68rem;color:var(--stone);text-transform:uppercase;letter-spacing:0.08em;display:block;margin-bottom:0.2rem">' + q.q + '</strong>' + notes.formulation[q.id].replace(/\n/g, "<br>") + '</p>'; });
     html += '</div>';
   }
-
-  const sessionNotes = (notes.sessionNotes || []).sort((a,b) => b.saved.localeCompare(a.saved));
-  sessionNotes.forEach(sn => {
-    const session = data.sessions.find(s => s.id === sn.sessionId);
-    html += `<div style="margin-bottom:2rem"><div style="font-family:var(--serif);font-size:1.05rem;color:var(--slate-dk);padding-bottom:0.5rem;border-bottom:1px solid var(--warm);margin-bottom:1rem">Session — ${session ? formatDate(session.date) : 'Unknown'}</div>`;
-    SESSION_QUESTIONS.forEach(q => {
-      if (sn[q.id]) html += `<p style="margin-bottom:1rem"><strong style="font-size:0.7rem;color:var(--stone);text-transform:uppercase;letter-spacing:0.08em;display:block;margin-bottom:0.2rem">${q.q}</strong>${sn[q.id].replace(/
-/g,'<br>')}</p>`;
-    });
+  (notes.sessionNotes || []).slice().sort(function(a, b) { return b.saved.localeCompare(a.saved); }).forEach(function(sn) {
+    var sess = data.sessions.find(function(s) { return s.id === sn.sessionId; });
+    html += '<div style="margin-bottom:2rem"><div style="font-family:var(--serif);font-size:1.05rem;color:var(--slate-dk);padding-bottom:0.5rem;border-bottom:1px solid var(--warm);margin-bottom:1rem">Session — ' + (sess ? fmtDate(sess.date) : "Unknown") + '</div>';
+    SESSION_QS.forEach(function(q) { if (sn[q.id]) html += '<p style="margin-bottom:1rem"><strong style="font-size:0.68rem;color:var(--stone);text-transform:uppercase;letter-spacing:0.08em;display:block;margin-bottom:0.2rem">' + q.q + '</strong>' + sn[q.id].replace(/\n/g, "<br>") + '</p>'; });
     html += '</div>';
   });
-
-  el.innerHTML = html || '<div class="empty-state" style="padding:2rem"><div class="empty-state-sub">No notes recorded yet</div></div>';
+  document.getElementById("notesHistory").innerHTML = html || '<div class="empty-state" style="padding:2rem"><div style="color:var(--stone);font-size:0.82rem">No notes recorded yet</div></div>';
 }
 
 function openNotesForSession(clientId, sessionId) {
-  showPanel('notes');
-  setTimeout(() => {
+  showPanel("notes");
+  setTimeout(function() {
     selectNotesClient(clientId);
-    setTimeout(() => {
-      showNotesMode('session');
-      document.getElementById('sessionNoteSelect').value = sessionId;
-      startSessionQuestions(sessionId);
+    setTimeout(function() {
+      setNotesMode("session");
+      document.getElementById("sessionNoteSelect").value = sessionId;
+      startSessionQFlow(sessionId, 0);
     }, 100);
   }, 100);
 }
 
-// ══════════════════════════════════════════════════════════
-// INVOICES
-// ══════════════════════════════════════════════════════════// ══════════════════════════════════════════════════════════
-// INVOICES
-// ══════════════════════════════════════════════════════════
+// ══ INVOICES ══
 function renderInvoices() {
-  const tbody = document.getElementById('invoicesTable');
-  const sorted = [...data.invoices].sort((a,b) => b.date.localeCompare(a.date));
-  if (sorted.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--stone);padding:2rem">No invoices yet</td></tr>';
-    return;
-  }
-  tbody.innerHTML = sorted.map(inv => `<tr>
-    <td>${inv.number}</td>
-    <td>${clientName(inv.clientId)}</td>
-    <td>${formatDate(inv.date)}</td>
-    <td>${inv.sessionIds?.length || '—'}</td>
-    <td><strong>${formatCurrency(inv.amount)}</strong></td>
-    <td><span class="badge badge-${inv.status === 'paid' ? 'paid' : 'unpaid'}">${inv.status}</span></td>
-    <td>
-      <div class="btn-group">
-        <button class="btn btn-outline btn-sm" onclick="viewInvoice('${inv.id}')">View</button>
-        ${inv.status !== 'paid' ? `<button class="btn btn-success btn-sm" onclick="markInvoicePaid('${inv.id}')">Mark Paid</button>` : ''}
-        <button class="btn btn-danger btn-sm" onclick="deleteInvoice('${inv.id}')">×</button>
-      </div>
-    </td>
-  </tr>`).join('');
+  var tbody = document.getElementById("invoicesTable");
+  var sorted = data.invoices.slice().sort(function(a, b) { return b.date.localeCompare(a.date); });
+  if (sorted.length === 0) { tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--stone);padding:2rem">No invoices yet</td></tr>'; return; }
+  tbody.innerHTML = sorted.map(function(inv) {
+    return '<tr><td>' + inv.number + '</td><td>' + clientName(inv.clientId) + '</td><td>' + fmtDate(inv.date) + '</td><td>' + (inv.sessionIds ? inv.sessionIds.length : "&#8212;") + '</td><td><strong>' + fmtCurrency(inv.amount) + '</strong></td><td><span class="badge badge-' + (inv.status === "paid" ? "paid" : "unpaid") + '">' + inv.status + '</span></td><td><div class="btn-group"><button class="btn btn-outline btn-sm" onclick="viewInvoice(\'' + inv.id + '\')">View</button>' + (inv.status !== "paid" ? '<button class="btn btn-success btn-sm" onclick="markInvoicePaid(\'' + inv.id + '\')">Paid</button>' : '') + '<button class="btn btn-danger btn-sm" onclick="deleteInvoice(\'' + inv.id + '\')">&#215;</button></div></td></tr>';
+  }).join("");
 }
 
 function openInvoiceModal() {
   populateClientSelects();
-  document.getElementById('im_number').value = nextInvNumber();
-  document.getElementById('im_date').value = today();
-  document.getElementById('im_note').value = data.settings.invoice_note;
-  document.getElementById('im_sessions_list').innerHTML = '<p style="color:var(--stone);font-size:0.82rem">Select a client to see uninvoiced sessions</p>';
-  document.getElementById('im_preview_wrap').innerHTML = '';
-  openModal('invoiceModal');
+  document.getElementById("im_number").value = nextInvNo();
+  document.getElementById("im_date").value = todayStr();
+  document.getElementById("im_note").value = data.settings.invoice_note;
+  document.getElementById("im_sessions_list").innerHTML = '<div style="color:var(--stone);font-size:0.82rem">Select a client to load uninvoiced sessions</div>';
+  document.getElementById("im_client").onchange = loadSessionsForInvoice;
+  openModal("invoiceModal");
 }
 
 function loadSessionsForInvoice() {
-  const clientId = document.getElementById('im_client').value;
+  var clientId = document.getElementById("im_client").value;
   if (!clientId) return;
-  const sessions = data.sessions.filter(s => s.clientId === clientId && s.status === 'attended' && !s.invoiceId)
-    .sort((a,b) => a.date.localeCompare(b.date));
-  if (sessions.length === 0) {
-    document.getElementById('im_sessions_list').innerHTML = '<p style="color:var(--stone);font-size:0.82rem">No uninvoiced sessions for this client</p>';
-    return;
-  }
-  document.getElementById('im_sessions_list').innerHTML = sessions.map(s =>
-    `<label style="display:flex;align-items:center;gap:0.5rem;padding:0.4rem 0;font-size:0.85rem;cursor:pointer">
-      <input type="checkbox" name="inv_session" value="${s.id}" checked>
-      ${formatDate(s.date)} — ${s.location} — ${formatCurrency(s.rate)}
-    </label>`
-  ).join('');
+  var sess = data.sessions.filter(function(s) { return s.clientId === clientId && s.status === "attended" && !s.invoiceId; }).sort(function(a, b) { return a.date.localeCompare(b.date); });
+  if (sess.length === 0) { document.getElementById("im_sessions_list").innerHTML = '<div style="color:var(--stone);font-size:0.82rem">No uninvoiced sessions</div>'; return; }
+  document.getElementById("im_sessions_list").innerHTML = sess.map(function(s) {
+    return '<label style="display:flex;align-items:center;gap:0.5rem;padding:0.4rem 0;font-size:0.84rem;cursor:pointer"><input type="checkbox" name="inv_sess" value="' + s.id + '" checked> ' + fmtDate(s.date) + ' — ' + s.location + ' — &#163;' + s.rate.toFixed(2) + '</label>';
+  }).join("");
 }
 
-function getSelectedSessions() {
-  return [...document.querySelectorAll('input[name="inv_session"]:checked')].map(cb => cb.value);
-}
-
-function buildInvoiceHTML(inv, client) {
-  const sessions = data.sessions.filter(s => inv.sessionIds?.includes(s.id));
-  return `
-    <div class="invoice-preview">
-      <div class="inv-logo-wrap">Martin Alderton <span>|</span> Psychotherapeutic Counselling</div>
-      <hr class="inv-rule">
-      <div class="inv-heading">Invoice</div>
-      <div class="inv-meta">
-        <div>
-          <div class="inv-meta-label">Invoice To</div>
-          <div style="font-size:0.88rem;line-height:1.6"><strong>${client.first} ${client.last}</strong>${client.email ? '<br>' + client.email : ''}</div>
-        </div>
-        <div class="inv-meta-right">
-          <div class="inv-meta-label">Invoice Details</div>
-          <div style="font-size:0.88rem;line-height:1.6"><strong>${inv.number}</strong><br>${formatDate(inv.date)}<br>${sessions[0]?.location || ''}</div>
-        </div>
-      </div>
-      <div class="inv-table-wrap">
-        <table>
-          <thead><tr><th>Description</th><th style="text-align:right">Amount</th></tr></thead>
-          <tbody>
-            ${sessions.map(s => `<tr><td>Psychotherapeutic Counselling session<br><span style="font-size:0.78rem;color:var(--stone)">${formatDate(s.date)} — ${s.location}</span></td><td style="text-align:right">${formatCurrency(s.rate)}</td></tr>`).join('')}
-          </tbody>
-          <tfoot>
-            <tr>
-              <td style="text-align:right;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--stone)">Total Due</td>
-              <td style="text-align:right"><span class="inv-total">${formatCurrency(inv.amount)}</span></td>
-            </tr>
-          </tfoot>
-        </table>
-      </div>
-      <div class="inv-payment-title">Payment Details</div>
-      <hr class="inv-payment-rule">
-      <div style="display:grid;grid-template-columns:auto 1fr;gap:0.25rem 1.5rem;font-size:0.82rem;color:var(--ink-lt);margin-bottom:0.5rem">
-        <span style="color:var(--stone);font-size:0.72rem;font-weight:500">Account Name</span><span>${data.settings.bank_name}</span>
-        <span style="color:var(--stone);font-size:0.72rem;font-weight:500">Account Number</span><span>${data.settings.bank_acc}</span>
-        <span style="color:var(--stone);font-size:0.72rem;font-weight:500">Sort Code</span><span>${data.settings.bank_sort}</span>
-        <span style="color:var(--stone);font-size:0.72rem;font-weight:500">Reference</span><span>${client.last}</span>
-      </div>
-      ${inv.note ? `<p style="font-size:0.8rem;color:var(--stone);font-style:italic">${inv.note}</p>` : ''}
-      ${inv.terms ? `<p style="font-size:0.8rem;color:var(--stone);font-style:italic;margin-top:0.25rem">${inv.terms}</p>` : ''}
-      <div class="inv-footer-bar">
-        ${data.settings.name} &nbsp;|&nbsp; ${data.settings.creds}<br>
-        117 Harley Street, London &nbsp;|&nbsp; Norwich &nbsp;|&nbsp; Online<br>
-        ${data.settings.email} &nbsp;|&nbsp; ${data.settings.phone}
-      </div>
-    </div>`;
-}
-
-function previewInvoice() {
-  const clientId = document.getElementById('im_client').value;
-  const selectedIds = getSelectedSessions();
-  if (!clientId || selectedIds.length === 0) { alert('Please select a client and at least one session.'); return; }
-  const client = clientById(clientId);
-  const sessions = data.sessions.filter(s => selectedIds.includes(s.id));
-  const amount = sessions.reduce((sum, s) => sum + s.rate, 0);
-  const inv = {
-    id: 'preview',
-    clientId,
-    number: document.getElementById('im_number').value,
-    date: document.getElementById('im_date').value,
-    sessionIds: selectedIds,
-    amount,
-    note: document.getElementById('im_note').value,
-    terms: document.getElementById('im_terms').value
-  };
-  document.getElementById('im_preview_wrap').innerHTML = buildInvoiceHTML(inv, client);
-}
-
-function generateAndSaveInvoice() {
-  const clientId = document.getElementById('im_client').value;
-  const selectedIds = getSelectedSessions();
-  if (!clientId || selectedIds.length === 0) { alert('Please select a client and at least one session.'); return; }
-  const client = clientById(clientId);
-  const sessions = data.sessions.filter(s => selectedIds.includes(s.id));
-  const amount = sessions.reduce((sum, s) => sum + s.rate, 0);
-  const inv = {
-    id: uid(),
-    clientId,
-    number: document.getElementById('im_number').value,
-    date: document.getElementById('im_date').value,
-    sessionIds: selectedIds,
-    amount,
-    status: 'unpaid',
-    note: document.getElementById('im_note').value,
-    terms: document.getElementById('im_terms').value
-  };
+document.getElementById("btnCreateInvoice").addEventListener("click", openInvoiceModal);
+document.getElementById("btnCancelInvoice").addEventListener("click", function() { closeModal("invoiceModal"); });
+document.getElementById("btnGenerateInvoice").addEventListener("click", function() {
+  var clientId = document.getElementById("im_client").value;
+  var selectedIds = Array.from(document.querySelectorAll('input[name="inv_sess"]:checked')).map(function(cb) { return cb.value; });
+  if (!clientId || selectedIds.length === 0) { alert("Please select a client and at least one session."); return; }
+  var c = clientById(clientId);
+  var sess = data.sessions.filter(function(s) { return selectedIds.indexOf(s.id) >= 0; });
+  var amount = sess.reduce(function(sum, s) { return sum + s.rate; }, 0);
+  var inv = { id: uid(), clientId: clientId, number: document.getElementById("im_number").value, date: document.getElementById("im_date").value, sessionIds: selectedIds, amount: amount, status: "unpaid", note: document.getElementById("im_note").value, terms: document.getElementById("im_terms").value };
   data.invoices.push(inv);
-  selectedIds.forEach(sid => {
-    const idx = data.sessions.findIndex(s => s.id === sid);
-    if (idx >= 0) data.sessions[idx].invoiceId = inv.id;
-  });
-  // Update client last_invoiced
-  const clientIdx = data.clients.findIndex(c => c.id === clientId);
-  if (clientIdx >= 0) data.clients[clientIdx].last_invoiced = inv.date;
-  save(); save();
-  closeModal('invoiceModal');
-  viewInvoice(inv.id);
-  renderInvoices();
+  selectedIds.forEach(function(sid) { var i = data.sessions.findIndex(function(s) { return s.id === sid; }); if (i >= 0) data.sessions[i].invoiceId = inv.id; });
+  var ci = data.clients.findIndex(function(c) { return c.id === clientId; });
+  if (ci >= 0) data.clients[ci].last_invoiced = inv.date;
+  saveData(); closeModal("invoiceModal"); viewInvoice(inv.id); renderInvoices();
+});
+
+function buildInvHTML(inv) {
+  var c = clientById(inv.clientId);
+  if (!c) return "";
+  var sess = data.sessions.filter(function(s) { return inv.sessionIds && inv.sessionIds.indexOf(s.id) >= 0; });
+  return '<div class="invoice-preview"><div class="inv-logo">Martin Alderton <span>|</span> Psychotherapeutic Counselling</div><hr class="inv-rule"><div class="inv-heading">Invoice</div><div class="inv-meta"><div><div class="inv-meta-label">Invoice To</div><div style="font-size:0.88rem;line-height:1.6"><strong>' + c.first + ' ' + c.last + '</strong>' + (c.email ? '<br>' + c.email : '') + '</div></div><div class="inv-meta-right"><div class="inv-meta-label">Invoice Details</div><div style="font-size:0.88rem;line-height:1.6"><strong>' + inv.number + '</strong><br>' + fmtDate(inv.date) + '</div></div></div><table><thead><tr><th>Description</th><th style="text-align:right">Amount</th></tr></thead><tbody>' + sess.map(function(s) { return '<tr><td>Psychotherapeutic Counselling session<br><span style="font-size:0.78rem;color:var(--stone)">' + fmtDate(s.date) + ' &#8212; ' + s.location + '</span></td><td style="text-align:right">&#163;' + s.rate.toFixed(2) + '</td></tr>'; }).join('') + '</tbody><tfoot><tr><td style="text-align:right;font-size:0.72rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--stone)">Total Due</td><td style="text-align:right"><span class="inv-total">&#163;' + inv.amount.toFixed(2) + '</span></td></tr></tfoot></table><div class="inv-pay-title">Payment Details</div><hr class="inv-pay-rule"><div style="display:grid;grid-template-columns:auto 1fr;gap:0.25rem 1.5rem;font-size:0.82rem;margin-bottom:0.5rem"><span style="color:var(--stone);font-size:0.7rem;font-weight:500">Account Name</span><span>' + data.settings.bank_name + '</span><span style="color:var(--stone);font-size:0.7rem;font-weight:500">Account Number</span><span>' + data.settings.bank_acc + '</span><span style="color:var(--stone);font-size:0.7rem;font-weight:500">Sort Code</span><span>' + data.settings.bank_sort + '</span><span style="color:var(--stone);font-size:0.7rem;font-weight:500">Reference</span><span>' + c.last + '</span></div>' + (inv.note ? '<p style="font-size:0.78rem;color:var(--stone);font-style:italic">' + inv.note + '</p>' : '') + (inv.terms ? '<p style="font-size:0.78rem;color:var(--stone);font-style:italic;margin-top:0.2rem">' + inv.terms + '</p>' : '') + '<div class="inv-footer-bar">' + data.settings.name + ' &nbsp;|&nbsp; ' + data.settings.creds + '<br>117 Harley Street, London &nbsp;|&nbsp; Norwich &nbsp;|&nbsp; Online<br>' + data.settings.email + ' &nbsp;|&nbsp; ' + data.settings.phone + '</div></div>';
 }
 
 function viewInvoice(id) {
   currentViewInvoiceId = id;
-  const inv = data.invoices.find(i => i.id === id);
+  var inv = data.invoices.find(function(i) { return i.id === id; });
   if (!inv) return;
-  const client = clientById(inv.clientId);
-  document.getElementById('invoiceViewContent').innerHTML = buildInvoiceHTML(inv, client);
-  const btn = document.getElementById('markPaidBtn');
-  btn.style.display = inv.status === 'paid' ? 'none' : '';
-  openModal('invoiceViewModal');
+  document.getElementById("invoiceViewContent").innerHTML = buildInvHTML(inv);
+  document.getElementById("markPaidBtn").style.display = inv.status === "paid" ? "none" : "";
+  openModal("invoiceViewModal");
 }
 
-function markCurrentInvoicePaid() { markInvoicePaid(currentViewInvoiceId); closeModal('invoiceViewModal'); }
+document.getElementById("btnCloseInvoiceView").addEventListener("click", function() { closeModal("invoiceViewModal"); });
+document.getElementById("markPaidBtn").addEventListener("click", function() {
+  markInvoicePaid(currentViewInvoiceId);
+  closeModal("invoiceViewModal");
+});
+
 function markInvoicePaid(id) {
-  const idx = data.invoices.findIndex(i => i.id === id);
-  if (idx >= 0) { data.invoices[idx].status = 'paid'; data.invoices[idx].paid_date = today(); }
-  save(); renderInvoices(); renderDashboard();
+  var i = data.invoices.findIndex(function(inv) { return inv.id === id; });
+  if (i >= 0) { data.invoices[i].status = "paid"; data.invoices[i].paid_date = todayStr(); }
+  saveData(); renderInvoices(); renderDashboard();
 }
 
 function deleteInvoice(id) {
-  if (!confirm('Delete this invoice? Sessions will be marked as uninvoiced.')) return;
-  const inv = data.invoices.find(i => i.id === id);
-  if (inv?.sessionIds) {
-    inv.sessionIds.forEach(sid => {
-      const idx = data.sessions.findIndex(s => s.id === sid);
-      if (idx >= 0) data.sessions[idx].invoiceId = null;
-    });
+  if (!confirm("Delete this invoice? Sessions will be marked as uninvoiced.")) return;
+  var inv = data.invoices.find(function(i) { return i.id === id; });
+  if (inv && inv.sessionIds) {
+    inv.sessionIds.forEach(function(sid) { var i = data.sessions.findIndex(function(s) { return s.id === sid; }); if (i >= 0) data.sessions[i].invoiceId = null; });
   }
-  data.invoices = data.invoices.filter(i => i.id !== id);
-  save(); renderInvoices();
+  data.invoices = data.invoices.filter(function(i) { return i.id !== id; });
+  saveData(); renderInvoices();
 }
-
-function printInvoice() { window.print(); }
 
 // BILLING MODAL
 function openBillingModal(clientId) {
   currentBillingClient = clientId;
-  const client = clientById(clientId);
-  document.getElementById('billingModalTitle').textContent = `Invoice: ${client.first} ${client.last}`;
-  document.getElementById('bm_number').value = nextInvNumber();
-  document.getElementById('bm_date').value = today();
-  const sessions = data.sessions.filter(s => s.clientId === clientId && s.status === 'attended' && !s.invoiceId)
-    .sort((a,b) => a.date.localeCompare(b.date));
-  document.getElementById('billingSessionsList').innerHTML = sessions.map(s =>
-    `<label style="display:flex;align-items:center;gap:0.5rem;padding:0.4rem 0;font-size:0.85rem;cursor:pointer">
-      <input type="checkbox" name="billing_session" value="${s.id}" checked>
-      ${formatDate(s.date)} — ${s.location} — ${formatCurrency(s.rate)}
-    </label>`
-  ).join('') || '<p style="color:var(--stone);font-size:0.82rem">No uninvoiced sessions found</p>';
-  openModal('billingModal');
+  var c = clientById(clientId);
+  document.getElementById("billingModalTitle").textContent = "Invoice: " + c.first + " " + c.last;
+  document.getElementById("bm_number").value = nextInvNo();
+  document.getElementById("bm_date").value = todayStr();
+  var sess = data.sessions.filter(function(s) { return s.clientId === clientId && s.status === "attended" && !s.invoiceId; }).sort(function(a, b) { return a.date.localeCompare(b.date); });
+  document.getElementById("billingSessionsList").innerHTML = sess.map(function(s) {
+    return '<label style="display:flex;align-items:center;gap:0.5rem;padding:0.4rem 0;font-size:0.84rem;cursor:pointer"><input type="checkbox" name="bill_sess" value="' + s.id + '" checked> ' + fmtDate(s.date) + ' — ' + s.location + ' — &#163;' + s.rate.toFixed(2) + '</label>';
+  }).join("") || '<div style="color:var(--stone);font-size:0.82rem">No uninvoiced sessions found</div>';
+  openModal("billingModal");
 }
 
-function confirmBillingInvoice() {
-  const clientId = currentBillingClient;
-  const selectedIds = [...document.querySelectorAll('input[name="billing_session"]:checked')].map(cb => cb.value);
-  if (selectedIds.length === 0) { alert('Please select at least one session.'); return; }
-  const client = clientById(clientId);
-  const sessions = data.sessions.filter(s => selectedIds.includes(s.id));
-  const amount = sessions.reduce((sum, s) => sum + s.rate, 0);
-  const inv = {
-    id: uid(),
-    clientId,
-    number: document.getElementById('bm_number').value,
-    date: document.getElementById('bm_date').value,
-    sessionIds: selectedIds,
-    amount,
-    status: 'unpaid',
-    note: data.settings.invoice_note,
-    terms: data.settings.payment_terms
-  };
+window.openBillingModal = openBillingModal;
+window.openNotesForSession = openNotesForSession;
+window.viewInvoice = viewInvoice;
+window.editClient = editClient;
+window.deleteClient = deleteClient;
+window.goToNotes = goToNotes;
+window.editSession = editSession;
+window.deleteSession = deleteSession;
+window.markInvoicePaid = markInvoicePaid;
+window.deleteInvoice = deleteInvoice;
+
+document.getElementById("btnCancelBilling").addEventListener("click", function() { closeModal("billingModal"); });
+document.getElementById("btnConfirmBilling").addEventListener("click", function() {
+  var selectedIds = Array.from(document.querySelectorAll('input[name="bill_sess"]:checked')).map(function(cb) { return cb.value; });
+  if (selectedIds.length === 0) { alert("Please select at least one session."); return; }
+  var c = clientById(currentBillingClient);
+  var sess = data.sessions.filter(function(s) { return selectedIds.indexOf(s.id) >= 0; });
+  var amount = sess.reduce(function(sum, s) { return sum + s.rate; }, 0);
+  var inv = { id: uid(), clientId: currentBillingClient, number: document.getElementById("bm_number").value, date: document.getElementById("bm_date").value, sessionIds: selectedIds, amount: amount, status: "unpaid", note: data.settings.invoice_note, terms: data.settings.payment_terms };
   data.invoices.push(inv);
-  selectedIds.forEach(sid => {
-    const idx = data.sessions.findIndex(s => s.id === sid);
-    if (idx >= 0) data.sessions[idx].invoiceId = inv.id;
-  });
-  const clientIdx = data.clients.findIndex(c => c.id === clientId);
-  if (clientIdx >= 0) data.clients[clientIdx].last_invoiced = inv.date;
-  save();
-  closeModal('billingModal');
-  viewInvoice(inv.id);
-  renderDashboard();
-}
+  selectedIds.forEach(function(sid) { var i = data.sessions.findIndex(function(s) { return s.id === sid; }); if (i >= 0) data.sessions[i].invoiceId = inv.id; });
+  var ci = data.clients.findIndex(function(x) { return x.id === currentBillingClient; });
+  if (ci >= 0) data.clients[ci].last_invoiced = inv.date;
+  saveData(); closeModal("billingModal"); viewInvoice(inv.id); renderDashboard();
+});
 
-// ══════════════════════════════════════════════════════════
-// SETTINGS
-// ══════════════════════════════════════════════════════════
+// ══ SETTINGS ══
 function applySettings() {
-  const s = data.settings;
-  if (document.getElementById('set_name')) {
-    document.getElementById('set_name').value = s.name || '';
-    document.getElementById('set_creds').value = s.creds || '';
-    document.getElementById('set_email').value = s.email || '';
-    document.getElementById('set_phone').value = s.phone || '';
-    document.getElementById('set_bank_name').value = s.bank_name || '';
-    document.getElementById('set_bank_acc').value = s.bank_acc || '';
-    document.getElementById('set_bank_sort').value = s.bank_sort || '';
-    document.getElementById('set_rate_london').value = s.rate_london || 110;
-    document.getElementById('set_rate_norwich').value = s.rate_norwich || 60;
-    document.getElementById('set_rate_online').value = s.rate_online || 110;
-    document.getElementById('set_payment_terms').value = s.payment_terms || '';
-    document.getElementById('set_invoice_note').value = s.invoice_note || '';
-  }
+  var s = data.settings;
+  document.getElementById("set_name").value = s.name || "";
+  document.getElementById("set_creds").value = s.creds || "";
+  document.getElementById("set_email").value = s.email || "";
+  document.getElementById("set_phone").value = s.phone || "";
+  document.getElementById("set_bank_name").value = s.bank_name || "";
+  document.getElementById("set_bank_acc").value = s.bank_acc || "";
+  document.getElementById("set_bank_sort").value = s.bank_sort || "";
+  document.getElementById("set_rate_london").value = s.rate_london || 110;
+  document.getElementById("set_rate_norwich").value = s.rate_norwich || 60;
+  document.getElementById("set_rate_online").value = s.rate_online || 110;
+  document.getElementById("set_payment_terms").value = s.payment_terms || "";
+  document.getElementById("set_invoice_note").value = s.invoice_note || "";
 }
 
-function saveSettings() {
-  data.settings = {
-    ...data.settings,
-    name: document.getElementById('set_name').value,
-    creds: document.getElementById('set_creds').value,
-    email: document.getElementById('set_email').value,
-    phone: document.getElementById('set_phone').value,
-    bank_name: document.getElementById('set_bank_name').value,
-    bank_acc: document.getElementById('set_bank_acc').value,
-    bank_sort: document.getElementById('set_bank_sort').value,
-    rate_london: parseFloat(document.getElementById('set_rate_london').value),
-    rate_norwich: parseFloat(document.getElementById('set_rate_norwich').value),
-    rate_online: parseFloat(document.getElementById('set_rate_online').value),
-    payment_terms: document.getElementById('set_payment_terms').value,
-    invoice_note: document.getElementById('set_invoice_note').value
-  };
-  save(); alert('Settings saved.');
-}
+document.getElementById("btnSaveSettings").addEventListener("click", function() {
+  data.settings.name = document.getElementById("set_name").value;
+  data.settings.creds = document.getElementById("set_creds").value;
+  data.settings.email = document.getElementById("set_email").value;
+  data.settings.phone = document.getElementById("set_phone").value;
+  data.settings.bank_name = document.getElementById("set_bank_name").value;
+  data.settings.bank_acc = document.getElementById("set_bank_acc").value;
+  data.settings.bank_sort = document.getElementById("set_bank_sort").value;
+  data.settings.rate_london = parseFloat(document.getElementById("set_rate_london").value);
+  data.settings.rate_norwich = parseFloat(document.getElementById("set_rate_norwich").value);
+  data.settings.rate_online = parseFloat(document.getElementById("set_rate_online").value);
+  data.settings.payment_terms = document.getElementById("set_payment_terms").value;
+  data.settings.invoice_note = document.getElementById("set_invoice_note").value;
+  saveData(); alert("Settings saved.");
+});
 
-function exportData() {
-  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'practice-data-' + today() + '.json';
-  a.click();
-}
+document.getElementById("btnChangePw").addEventListener("click", function() {
+  var current = document.getElementById("set_pw_current").value;
+  var newPw = document.getElementById("set_pw_new").value;
+  var confirm = document.getElementById("set_pw_confirm").value;
+  var msg = document.getElementById("set_pw_msg");
+  if (current !== getPw() && current !== RECOVERY) { msg.textContent = "Current password incorrect."; msg.style.color = "var(--red)"; return; }
+  if (!newPw || newPw.length < 4) { msg.textContent = "New password must be at least 4 characters."; msg.style.color = "var(--red)"; return; }
+  if (newPw !== confirm) { msg.textContent = "Passwords do not match."; msg.style.color = "var(--red)"; return; }
+  localStorage.setItem("practicePassword", newPw);
+  msg.textContent = "Password updated."; msg.style.color = "var(--green)";
+  document.getElementById("set_pw_current").value = "";
+  document.getElementById("set_pw_new").value = "";
+  document.getElementById("set_pw_confirm").value = "";
+});
 
-function clearAllData() {
-  if (!confirm('This will delete all clients, sessions, invoices, and notes. This cannot be undone. Are you absolutely sure?')) return;
-  if (!confirm('Final confirmation: delete all practice data?')) return;
-  localStorage.removeItem('practiceData_v2');
-  location.reload();
-}
+document.getElementById("btnExport").addEventListener("click", function() {
+  var blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+  var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "practice-data-" + todayStr() + ".json"; a.click();
+});
 
-// ══════════════════════════════════════════════════════════
-// INIT
-// ══════════════════════════════════════════════════════════
-// Check lock on load
-if (!sessionStorage.getItem('practiceUnlocked')) {
-  document.getElementById('lockScreen').classList.remove('hidden');
-} else {
-  document.getElementById('lockScreen').classList.add('hidden');
-}
-load();
+document.getElementById("btnClearData").addEventListener("click", function() {
+  if (!confirm("Delete all clients, sessions, invoices and notes? This cannot be undone.")) return;
+  if (!confirm("Final confirmation: delete everything?")) return;
+  localStorage.removeItem("practiceData_v3"); location.reload();
+});
+
+// ══ INIT ══
+loadData();
+applySettings();
 renderDashboard();
-document.getElementById('headerDate').textContent = new Date().toLocaleDateString('en-GB', { weekday:'long', day:'numeric', month:'long' });
+
+})();
 </script>
 </body>
 </html>
