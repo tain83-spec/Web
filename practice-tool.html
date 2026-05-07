@@ -190,6 +190,21 @@ hr.divider{border:none;border-top:1px solid var(--warm);margin:1.25rem 0}
 
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+.prompt-list{background:var(--cream);border:1px solid var(--warm);border-radius:4px;margin-bottom:0.75rem;overflow:hidden}
+.prompt-list-header{padding:0.6rem 1rem;cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-size:0.72rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--stone);user-select:none}
+.prompt-list-header:hover{background:rgba(0,0,0,0.03)}
+.prompt-list-toggle{font-size:0.65rem;color:var(--stone);transition:transform 0.2s}
+.prompt-list-toggle.open{transform:rotate(180deg)}
+.prompt-list-body{display:none;padding:0.5rem 1rem 0.75rem}
+.prompt-list-body.open{display:block}
+.prompt-list-section{margin-bottom:0.5rem}
+.prompt-list-section-label{font-size:0.62rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:0.2rem}
+.prompt-list-item{font-size:0.78rem;color:var(--ink-lt);padding:0.15rem 0;line-height:1.4}
+.prompt-list-item::before{content:"— ";color:var(--stone)}
+.inline-dictate{display:inline-flex;align-items:center;gap:0.3rem;padding:0.25rem 0.6rem;border-radius:3px;border:1px solid rgba(0,0,0,0.12);background:transparent;font-family:var(--sans);font-size:0.68rem;color:var(--stone);cursor:pointer;margin-top:0.3rem;transition:all 0.15s}
+.inline-dictate:hover{border-color:var(--slate);color:var(--slate)}
+.inline-dictate.recording{background:#FDECEA;border-color:var(--red);color:var(--red);animation:pulse 1.2s ease-in-out infinite}
+.inline-dot{width:6px;height:6px;border-radius:50%;background:currentColor;flex-shrink:0}
 .dictate-btn{padding:0.55rem 1rem;border-radius:4px;border:1px solid var(--slate);background:transparent;color:var(--slate);font-family:var(--sans);font-size:0.78rem;font-weight:500;cursor:pointer;display:inline-flex;align-items:center;gap:0.4rem;transition:all 0.15s}
 .dictate-btn:hover{background:var(--cream)}
 .dictate-btn.recording{background:#FDECEA;border-color:var(--red);color:var(--red);animation:pulse 1.2s ease-in-out infinite}
@@ -320,10 +335,12 @@ hr.divider{border:none;border-top:1px solid var(--warm);margin:1.25rem 0}
       <div class="notes-mode-tab" id="ntab-formulation">Formulation</div>
       <div class="notes-mode-tab" id="ntab-session">Session Update</div>
       <div class="notes-mode-tab" id="ntab-history">History</div>
+      <div class="notes-mode-tab" id="ntab-reflection">Reflection</div>
     </div>
     <div id="notesMode-intake">
       <div class="card">
         <div class="card-header"><div class="card-title">Intake &#8212; Free Dictation</div></div>
+        <div class="prompt-list" id="intake-prompt-list"><div class="prompt-list-header" onclick="togglePromptList('intake')"><span>What to cover</span><span class="prompt-list-toggle" id="intake-toggle">&#9660;</span></div><div class="prompt-list-body" id="intake-prompt-body"></div></div>
         <p style="font-size:0.78rem;color:var(--stone);font-style:italic;margin-bottom:0.75rem;line-height:1.5">Speak or type freely after the session. Cover what you observed, what the person brought, background, risk, your gut response. Do not structure it &#8212; just think aloud. Claude will extract and organise the clinical content.</p>
         <textarea id="intake-dictation" rows="8" style="width:100%;min-height:200px;padding:1rem;border:1px solid rgba(0,0,0,0.1);border-radius:6px;font-family:var(--sans);font-size:0.92rem;color:var(--ink);background:var(--cream);resize:vertical;line-height:1.7" placeholder="Dictate freely here. Everything you noticed, everything they said, your immediate response..."></textarea>
         <div style="display:flex;align-items:center;gap:0.75rem;margin-top:1rem">
@@ -343,6 +360,7 @@ hr.divider{border:none;border-top:1px solid var(--warm);margin:1.25rem 0}
     <div id="notesMode-formulation" style="display:none">
       <div class="card">
         <div class="card-header"><div class="card-title">Formulation &#8212; Free Dictation</div></div>
+        <div class="prompt-list" id="formulation-prompt-list"><div class="prompt-list-header" onclick="togglePromptList('formulation')"><span>What to cover</span><span class="prompt-list-toggle" id="formulation-toggle">&#9660;</span></div><div class="prompt-list-body" id="formulation-prompt-body"></div></div>
         <p style="font-size:0.78rem;color:var(--stone);font-style:italic;margin-bottom:0.75rem;line-height:1.5">Think aloud about your clinical reading. What layer is live? What do you understand about how this formed? What does the transferential field feel like? Speak from your model.</p>
         <textarea id="formulation-dictation" rows="8" style="width:100%;min-height:200px;padding:1rem;border:1px solid rgba(0,0,0,0.1);border-radius:6px;font-family:var(--sans);font-size:0.92rem;color:var(--ink);background:var(--cream);resize:vertical;line-height:1.7" placeholder="Your clinical thinking unfiltered. Developmental layer, relational pattern, countertransference, sequencing position..."></textarea>
         <div style="display:flex;align-items:center;gap:0.75rem;margin-top:1rem">
@@ -365,6 +383,7 @@ hr.divider{border:none;border-top:1px solid var(--warm);margin:1.25rem 0}
           <div class="card-title">Session Update &#8212; Free Dictation</div>
           <div class="form-group" style="min-width:180px"><select id="sessionNoteSelect"><option value="">Select session</option></select></div>
         </div>
+        <div class="prompt-list" id="session-prompt-list"><div class="prompt-list-header" onclick="togglePromptList('session')"><span>What to cover</span><span class="prompt-list-toggle" id="session-toggle">&#9660;</span></div><div class="prompt-list-body" id="session-prompt-body"></div></div>
         <p style="font-size:0.78rem;color:var(--stone);font-style:italic;margin-bottom:0.75rem;line-height:1.5">Reflect while the session is present. What happened, what shifted, what you noticed in yourself, what needs to carry forward.</p>
         <textarea id="session-dictation" rows="8" style="width:100%;min-height:200px;padding:1rem;border:1px solid rgba(0,0,0,0.1);border-radius:6px;font-family:var(--sans);font-size:0.92rem;color:var(--ink);background:var(--cream);resize:vertical;line-height:1.7" placeholder="What happened in this session. What shifted or did not. What your body did. What comes next..."></textarea>
         <div style="display:flex;align-items:center;gap:0.75rem;margin-top:1rem">
@@ -381,6 +400,94 @@ hr.divider{border:none;border-top:1px solid var(--warm);margin:1.25rem 0}
         </div>
       </div>
     </div>
+    <!-- REFLECTION -->
+    <div id="notesMode-reflection" style="display:none">
+
+      <!-- 1. Relational Resonance -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Relational Resonance</div>
+          <span style="font-size:0.72rem;color:var(--stone);font-style:italic">What this person stirs in you</span>
+        </div>
+        <p style="font-size:0.78rem;color:var(--stone);font-style:italic;margin-bottom:0.75rem;line-height:1.5">Speak freely about what this person activates in you beyond the clinical. Why does this particular person land in this particular way? No structure — just what's present. Claude will offer a reflection, not an analysis.</p>
+        <textarea id="resonance-dictation" rows="6" style="width:100%;padding:1rem;border:1px solid rgba(0,0,0,0.1);border-radius:6px;font-family:var(--sans);font-size:0.92rem;color:var(--ink);background:var(--cream);resize:vertical;line-height:1.7" placeholder="What does this person stir in you? Where does it come from? What feels familiar?"></textarea>
+        <div style="display:flex;align-items:center;gap:0.75rem;margin-top:1rem">
+          <button class="dictate-btn" id="btnDictateResonance"><span class="mic-dot"></span> Dictate</button>
+          <button class="btn btn-gold" id="btnProcessResonance">Reflect with Claude</button>
+          <span id="resonanceStatus" style="font-size:0.78rem;color:var(--stone);font-style:italic;flex:1"></span>
+        </div>
+        <div id="resonance-output" style="display:none;margin-top:1.25rem">
+          <div style="background:linear-gradient(135deg,#f0ebe4,#ede6d8);border-radius:6px;padding:1.25rem 1.5rem;border-left:3px solid var(--gold)">
+            <div style="font-size:0.62rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--stone);margin-bottom:0.6rem">Claude&#8217;s Reflection</div>
+            <div id="resonance-response" style="font-size:0.9rem;color:var(--ink-lt);line-height:1.7;font-style:italic"></div>
+          </div>
+          <div style="margin-top:0.75rem;text-align:right"><button class="btn btn-outline btn-sm" id="btnSaveResonance">Save this reflection</button></div>
+        </div>
+        <div id="resonance-saved" style="display:none;margin-top:1rem"></div>
+      </div>
+
+      <!-- 2. Supervision Preparation -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Supervision Preparation</div>
+          <span style="font-size:0.72rem;color:var(--stone);font-style:italic">Auto-generated from your notes</span>
+        </div>
+        <p style="font-size:0.78rem;color:var(--stone);font-style:italic;margin-bottom:0.75rem;line-height:1.5">Claude reads your intake, formulation, and session notes and generates a supervision brief: the case in three sentences, the question you&#8217;re actually bringing, and what you might be avoiding asking.</p>
+        <div id="supervision-prep-output" style="display:none;margin-bottom:1rem">
+          <div style="background:var(--cream);border-radius:6px;padding:1.25rem;border:1px solid var(--warm)">
+            <div id="supervision-prep-response" style="font-size:0.88rem;color:var(--ink-lt);line-height:1.7"></div>
+          </div>
+          <div style="margin-top:0.75rem;text-align:right"><button class="btn btn-outline btn-sm" id="btnSaveSupervisionPrep">Save</button></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:0.75rem">
+          <button class="btn btn-gold" id="btnGenerateSupervisionPrep">Generate Supervision Brief</button>
+          <span id="supervisionPrepStatus" style="font-size:0.78rem;color:var(--stone);font-style:italic;flex:1"></span>
+        </div>
+      </div>
+
+      <!-- 3. The Moment That Stays -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">The Moment That Stays</div>
+          <div class="form-group" style="min-width:180px"><select id="momentSessionSelect"><option value="">Select session</option></select></div>
+        </div>
+        <p style="font-size:0.78rem;color:var(--stone);font-style:italic;margin-bottom:0.75rem;line-height:1.5">What moment from this session is still present in you? One prompt only. Claude will offer a single reflective observation — not analysis, not instruction. Something that might open the thinking rather than close it.</p>
+        <textarea id="moment-dictation" rows="4" style="width:100%;padding:1rem;border:1px solid rgba(0,0,0,0.1);border-radius:6px;font-family:var(--sans);font-size:0.92rem;color:var(--ink);background:var(--cream);resize:vertical;line-height:1.7" placeholder="The moment that is still with you..."></textarea>
+        <div style="display:flex;align-items:center;gap:0.75rem;margin-top:1rem">
+          <button class="dictate-btn" id="btnDictateMoment"><span class="mic-dot"></span> Dictate</button>
+          <button class="btn btn-gold" id="btnProcessMoment">Reflect with Claude</button>
+          <span id="momentStatus" style="font-size:0.78rem;color:var(--stone);font-style:italic;flex:1"></span>
+        </div>
+        <div id="moment-output" style="display:none;margin-top:1.25rem">
+          <div style="background:linear-gradient(135deg,#f0ebe4,#ede6d8);border-radius:6px;padding:1.25rem 1.5rem;border-left:3px solid var(--gold)">
+            <div style="font-size:0.62rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--stone);margin-bottom:0.6rem">Claude&#8217;s Observation</div>
+            <div id="moment-response" style="font-size:0.9rem;color:var(--ink-lt);line-height:1.7;font-style:italic"></div>
+          </div>
+          <div style="margin-top:0.75rem;text-align:right"><button class="btn btn-outline btn-sm" id="btnSaveMoment">Save</button></div>
+        </div>
+      </div>
+
+      <!-- 4. Pattern Tracking -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Pattern Tracking</div>
+          <span style="font-size:0.72rem;color:var(--stone);font-style:italic">Across the whole case</span>
+        </div>
+        <p style="font-size:0.78rem;color:var(--stone);font-style:italic;margin-bottom:0.75rem;line-height:1.5">Claude reads all session notes for this client and names what it notices repeating across the work. Not a summary — a pattern observation. What keeps coming back? What has not shifted? What is this person consistently not bringing?</p>
+        <div id="pattern-output" style="display:none;margin-bottom:1rem">
+          <div style="background:var(--cream);border-radius:6px;padding:1.25rem;border:1px solid var(--warm)">
+            <div id="pattern-response" style="font-size:0.88rem;color:var(--ink-lt);line-height:1.7"></div>
+          </div>
+          <div style="margin-top:0.75rem;text-align:right"><button class="btn btn-outline btn-sm" id="btnSavePattern">Save</button></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:0.75rem">
+          <button class="btn btn-gold" id="btnGeneratePattern">Run Pattern Analysis</button>
+          <span id="patternStatus" style="font-size:0.78rem;color:var(--stone);font-style:italic;flex:1"></span>
+        </div>
+      </div>
+
+    </div>
+
     <div id="notesMode-history" style="display:none"><div class="card"><div class="card-header"><div class="card-title">Case History</div></div><div id="notesHistory"></div></div></div>
   </div>
   <div id="notesEmpty" class="empty-state"><div class="empty-icon">&#128203;</div><div class="empty-title">Select a client to view or add notes</div><div style="font-size:0.82rem;color:var(--stone)">Notes are stored locally on this device</div></div>
@@ -1067,6 +1174,7 @@ function setNotesMode(mode) {
     document.getElementById("ntab-" + m).classList.toggle("active", m === mode);
   });
   if (mode === "history") renderNotesHistory();
+  else if (mode === "reflection") initReflectionTab();
   else if (mode === "session") populateSessionNoteSelect();
   else {
     var saved = data.notes[currentNotesClientId] && data.notes[currentNotesClientId][mode + "_dictation"];
@@ -1083,6 +1191,38 @@ document.getElementById("ntab-intake").addEventListener("click", function() { se
 document.getElementById("ntab-formulation").addEventListener("click", function() { setNotesMode("formulation"); });
 document.getElementById("ntab-session").addEventListener("click", function() { setNotesMode("session"); });
 document.getElementById("ntab-history").addEventListener("click", function() { setNotesMode("history"); });
+document.getElementById("ntab-reflection").addEventListener("click", function() { setNotesMode("reflection"); });
+
+// ── PROMPT LISTS ──
+function buildPromptListHTML(questions) {
+  var sections = {};
+  questions.forEach(function(q) {
+    if (!sections[q.section]) sections[q.section] = [];
+    sections[q.section].push(q.label);
+  });
+  return Object.keys(sections).map(function(s) {
+    return '<div class="prompt-list-section"><div class="prompt-list-section-label">' + s + '</div>' +
+      sections[s].map(function(l) { return '<div class="prompt-list-item">' + l + '</div>'; }).join('') +
+      '</div>';
+  }).join('');
+}
+
+function togglePromptList(mode) {
+  var body = document.getElementById(mode + '-prompt-body');
+  var toggle = document.getElementById(mode + '-toggle');
+  var isOpen = body.classList.contains('open');
+  if (isOpen) {
+    body.classList.remove('open');
+    toggle.classList.remove('open');
+  } else {
+    if (!body.innerHTML) {
+      var qs = { intake: INTAKE_QS, formulation: FORM_QS, session: SESSION_QS }[mode];
+      body.innerHTML = buildPromptListHTML(qs);
+    }
+    body.classList.add('open');
+    toggle.classList.add('open');
+  }
+}
 
 // ── SPEECH RECOGNITION ──
 var activeRecognition = null;
@@ -1148,6 +1288,40 @@ function startDictation(mode) {
     textarea.value = existingText;
   };
 
+  recognition.start();
+}
+
+function inlineDictate(targetId) {
+  var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) { alert("Speech recognition not supported in this browser. Use Chrome or Safari."); return; }
+  if (activeRecognition) { activeRecognition.stop(); return; }
+  var textarea = document.getElementById(targetId);
+  if (!textarea) return;
+  var btn = textarea.parentElement.querySelector('.inline-dictate');
+  var recognition = new SpeechRecognition();
+  recognition.continuous = true;
+  recognition.interimResults = true;
+  recognition.lang = "en-GB";
+  var existingText = textarea.value;
+  recognition.onstart = function() {
+    activeRecognition = recognition;
+    if (btn) { btn.classList.add('recording'); btn.innerHTML = '<span class="inline-dot"></span> Stop'; }
+  };
+  recognition.onresult = function(event) {
+    var interim = ""; var final = "";
+    for (var i = event.resultIndex; i < event.results.length; i++) {
+      if (event.results[i].isFinal) final += event.results[i][0].transcript + " ";
+      else interim += event.results[i][0].transcript;
+    }
+    if (final) existingText += final;
+    textarea.value = existingText + interim;
+  };
+  recognition.onerror = function(e) { if (e.error !== "aborted") console.error(e.error); };
+  recognition.onend = function() {
+    activeRecognition = null;
+    if (btn) { btn.classList.remove('recording'); btn.innerHTML = '<span class="inline-dot"></span> Dictate this'; }
+    textarea.value = existingText;
+  };
   recognition.start();
 }
 
@@ -1242,7 +1416,7 @@ function renderStructuredOutput(mode, structured, sessionId) {
       var rows = missing ? 2 : Math.min(8, Math.ceil(val.length / 80) + 1);
       html += '<div style="margin-bottom:0.9rem"><div style="font-size:0.66rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--stone);margin-bottom:0.25rem">' + q.label + '</div>';
       html += '<textarea id="sn-' + mode + '-' + q.id + '" rows="' + rows + '" style="width:100%;background:var(--cream);border:1px solid rgba(0,0,0,0.1);border-radius:4px;padding:0.65rem 0.8rem;font-family:var(--sans);font-size:0.85rem;color:var(--ink);resize:vertical;line-height:1.6">' + (missing ? "" : val.replace(/</g,"&lt;").replace(/>/g,"&gt;")) + '</textarea>';
-      if (missing) html += '<div style="font-size:0.7rem;color:var(--amber);margin-top:0.15rem">Not covered in dictation — add manually if needed</div>';
+      if (missing) html += '<div style="display:flex;align-items:center;gap:0.5rem;margin-top:0.3rem"><span style="font-size:0.7rem;color:var(--amber)">Not covered</span><button class="inline-dictate" onclick="inlineDictate(\'sn-'+mode+'-'+q.id+'\')"><span class="inline-dot"></span> Dictate this</button></div>';
       html += '</div>';
     });
     html += '</div>';
@@ -1287,6 +1461,247 @@ function populateSessionNoteSelect() {
     if (sn) { renderStructuredOutput("session", sn, sel.value); document.getElementById("session-output").style.display = ""; }
     else document.getElementById("session-output").style.display = "none";
   };
+}
+
+// ── REFLECTION ──────────────────────────────────────────────
+function initReflectionTab() {
+  if (!currentNotesClientId) return;
+  if (!data.notes[currentNotesClientId]) data.notes[currentNotesClientId] = { intake:{}, formulation:{}, sessionNotes:[], reflections:{} };
+  if (!data.notes[currentNotesClientId].reflections) data.notes[currentNotesClientId].reflections = {};
+  var saved = data.notes[currentNotesClientId].reflections;
+  // Restore saved resonance
+  if (saved.resonance_text) document.getElementById("resonance-dictation").value = saved.resonance_text;
+  if (saved.resonance_response) {
+    document.getElementById("resonance-response").innerHTML = saved.resonance_response;
+    document.getElementById("resonance-output").style.display = "";
+  }
+  // Restore supervision prep
+  if (saved.supervision_prep) {
+    document.getElementById("supervision-prep-response").innerHTML = saved.supervision_prep;
+    document.getElementById("supervision-prep-output").style.display = "";
+  }
+  // Restore pattern
+  if (saved.pattern) {
+    document.getElementById("pattern-response").innerHTML = saved.pattern;
+    document.getElementById("pattern-output").style.display = "";
+  }
+  // Populate moment session select
+  var sess = data.sessions.filter(function(s) { return s.clientId === currentNotesClientId && s.status === "attended"; }).sort(function(a,b) { return b.date.localeCompare(a.date); });
+  var sel = document.getElementById("momentSessionSelect");
+  sel.innerHTML = "<option value=''>Select session</option>" + sess.map(function(s) { return "<option value='" + s.id + "'>" + fmtDate(s.date) + " — " + s.location + "</option>"; }).join("");
+  sel.onchange = function() {
+    if (!this.value) return;
+    var saved2 = data.notes[currentNotesClientId].reflections;
+    var momentKey = "moment_" + this.value;
+    if (saved2[momentKey]) {
+      document.getElementById("moment-dictation").value = saved2[momentKey + "_text"] || "";
+      document.getElementById("moment-response").innerHTML = saved2[momentKey];
+      document.getElementById("moment-output").style.display = "";
+    } else {
+      document.getElementById("moment-dictation").value = "";
+      document.getElementById("moment-output").style.display = "none";
+    }
+  };
+}
+
+async function callClaudeReflection(systemPrompt, userContent, outputEl, statusEl, btn, btnLabel) {
+  var apiKey = getApiKey();
+  if (!apiKey) { alert("Please add your Claude API key in Settings."); return null; }
+  btn.disabled = true;
+  var origHtml = btn.innerHTML;
+  btn.innerHTML = "<span style='display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,0.3);border-top-color:white;border-radius:50%;animation:spin 0.8s linear infinite;vertical-align:middle;margin-right:6px'></span>" + btnLabel;
+  statusEl.textContent = "Claude is thinking...";
+  try {
+    var response = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "x-api-key": apiKey, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
+      body: JSON.stringify({ model: "claude-sonnet-4-5", max_tokens: 1000, system: systemPrompt, messages: [{ role: "user", content: userContent }] })
+    });
+    if (!response.ok) { var err = await response.json(); throw new Error(err.error ? err.error.message : "API error " + response.status); }
+    var result = await response.json();
+    var text = result.content[0].text.trim();
+    statusEl.textContent = "";
+    return text;
+  } catch(e) {
+    statusEl.textContent = "Error: " + e.message;
+    return null;
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = origHtml;
+  }
+}
+
+// 1. RELATIONAL RESONANCE
+document.getElementById("btnDictateResonance").addEventListener("click", function() {
+  startDictationForTarget("resonance-dictation", this);
+});
+document.getElementById("btnProcessResonance").addEventListener("click", async function() {
+  var text = document.getElementById("resonance-dictation").value.trim();
+  if (!text) { alert("Please dictate or type something first."); return; }
+  var system = "You are a thoughtful, warm reflective presence for Martin Alderton, a UKCP-registered psychotherapeutic counsellor. He is sharing what a client stirs in him — not seeking analysis or technique, but reflection. Your role is to gently mirror back what you notice in his words. Offer one observation that might open his thinking rather than close it. Speak in the second person, present tense, warmly. Be brief — three to five sentences at most. Do not interpret, diagnose, or advise. Do not use clinical language. Hold space.";
+  var result = await callClaudeReflection(system, text, null, document.getElementById("resonanceStatus"), this, "Reflecting...");
+  if (result) {
+    document.getElementById("resonance-response").innerHTML = result.replace(/
+/g, "<br>");
+    document.getElementById("resonance-output").style.display = "";
+    if (!data.notes[currentNotesClientId].reflections) data.notes[currentNotesClientId].reflections = {};
+    data.notes[currentNotesClientId].reflections.resonance_text = text;
+    data.notes[currentNotesClientId].reflections.resonance_response = result.replace(/
+/g, "<br>");
+    saveData();
+  }
+});
+document.getElementById("btnSaveResonance").addEventListener("click", function() {
+  if (!data.notes[currentNotesClientId].reflections) data.notes[currentNotesClientId].reflections = {};
+  data.notes[currentNotesClientId].reflections.resonance_saved = new Date().toISOString();
+  saveData(); alert("Reflection saved.");
+});
+
+// 2. SUPERVISION PREPARATION
+document.getElementById("btnGenerateSupervisionPrep").addEventListener("click", async function() {
+  var notes = data.notes[currentNotesClientId] || {};
+  var client = clientById(currentNotesClientId);
+  var clientRef = client ? client.first + " " + client.last.charAt(0) + "." : "This client";
+  var intakeText = notes.intake ? Object.entries(notes.intake).map(function(e) { return e[0] + ": " + e[1]; }).join("
+") : "";
+  var formText = notes.formulation ? Object.entries(notes.formulation).map(function(e) { return e[0] + ": " + e[1]; }).join("
+") : "";
+  var sessionText = (notes.sessionNotes || []).slice(-3).map(function(sn) {
+    var s = data.sessions.find(function(x) { return x.id === sn.sessionId; });
+    return (s ? fmtDate(s.date) : "Session") + ":
+" + Object.entries(sn).filter(function(e) { return e[0] !== "sessionId" && e[0] !== "saved"; }).map(function(e) { return e[0] + ": " + e[1]; }).join("
+");
+  }).join("
+
+");
+  if (!intakeText && !formText && !sessionText) { alert("No notes found for this client yet. Add some notes first."); return; }
+  var combined = ["INTAKE:
+" + intakeText, "FORMULATION:
+" + formText, "RECENT SESSIONS:
+" + sessionText].filter(function(s) { return s.split("
+")[1]; }).join("
+
+---
+
+");
+  var system = "You are helping Martin Alderton, a UKCP-registered psychotherapeutic counsellor, prepare for clinical supervision. Based on his clinical notes, produce a concise supervision brief in three clearly labelled sections. Section 1: The case in three sentences — the essential clinical picture. Section 2: The question he is actually bringing — not the surface question, but what the notes suggest is really alive for him. Section 3: What he might be avoiding asking — name it directly but gently. Be honest. Do not flatter or soften. Use plain language.";
+  var result = await callClaudeReflection(system, "Here are my clinical notes:
+
+" + combined, null, document.getElementById("supervisionPrepStatus"), this, "Generating...");
+  if (result) {
+    document.getElementById("supervision-prep-response").innerHTML = result.replace(/
+/g, "<br>");
+    document.getElementById("supervision-prep-output").style.display = "";
+    if (!data.notes[currentNotesClientId].reflections) data.notes[currentNotesClientId].reflections = {};
+    data.notes[currentNotesClientId].reflections.supervision_prep = result.replace(/
+/g, "<br>");
+    saveData();
+  }
+});
+document.getElementById("btnSaveSupervisionPrep").addEventListener("click", function() {
+  saveData(); alert("Supervision brief saved.");
+});
+
+// 3. THE MOMENT THAT STAYS
+document.getElementById("btnDictateMoment").addEventListener("click", function() {
+  startDictationForTarget("moment-dictation", this);
+});
+document.getElementById("btnProcessMoment").addEventListener("click", async function() {
+  var text = document.getElementById("moment-dictation").value.trim();
+  var sessionId = document.getElementById("momentSessionSelect").value;
+  if (!text) { alert("Please describe the moment first."); return; }
+  var system = "You are a thoughtful, present reflective companion for Martin Alderton, a UKCP-registered psychotherapeutic counsellor. He is describing a moment from a session that is still with him. Offer one observation — not interpretation, not technique, not instruction. Something that might sit alongside the moment rather than explain it. Be brief, specific to what he has shared, and warm without being sentimental. Three sentences maximum.";
+  var result = await callClaudeReflection(system, text, null, document.getElementById("momentStatus"), this, "Reflecting...");
+  if (result) {
+    document.getElementById("moment-response").innerHTML = result.replace(/
+/g, "<br>");
+    document.getElementById("moment-output").style.display = "";
+    if (sessionId) {
+      if (!data.notes[currentNotesClientId].reflections) data.notes[currentNotesClientId].reflections = {};
+      data.notes[currentNotesClientId].reflections["moment_" + sessionId] = result.replace(/
+/g, "<br>");
+      data.notes[currentNotesClientId].reflections["moment_" + sessionId + "_text"] = text;
+      saveData();
+    }
+  }
+});
+document.getElementById("btnSaveMoment").addEventListener("click", function() {
+  saveData(); alert("Moment saved.");
+});
+
+// 4. PATTERN TRACKING
+document.getElementById("btnGeneratePattern").addEventListener("click", async function() {
+  var notes = data.notes[currentNotesClientId] || {};
+  var sessionNotes = notes.sessionNotes || [];
+  if (sessionNotes.length < 2) { alert("Pattern tracking needs at least two session notes. Add more session notes first."); return; }
+  var client = clientById(currentNotesClientId);
+  var intakeSummary = notes.intake ? Object.entries(notes.intake).filter(function(e) { return e[1] && e[1] !== "[Not covered in dictation]"; }).map(function(e) { return e[0] + ": " + e[1]; }).join("
+") : "";
+  var sessionSummaries = sessionNotes.map(function(sn, i) {
+    var s = data.sessions.find(function(x) { return x.id === sn.sessionId; });
+    var dateStr = s ? fmtDate(s.date) : "Session " + (i+1);
+    return dateStr + ":
+" + Object.entries(sn).filter(function(e) { return e[0] !== "sessionId" && e[0] !== "saved" && e[1] && e[1] !== "[Not covered in dictation]"; }).map(function(e) { return e[1]; }).join(" | ");
+  }).join("
+
+");
+  var system = "You are a clinical thinking partner for Martin Alderton, a UKCP-registered psychotherapeutic counsellor who works from a relational, trauma-informed integrative framework. He has given you his session notes for a client. Your task is to identify patterns across the work. What keeps returning? What has not shifted despite attempts to address it? What is this person consistently not bringing? What does the practitioner appear to consistently notice — or consistently not notice? Name what you see directly and plainly. Do not summarise or recap. Do not flatter. Organise your response under three headings: What keeps returning, What has not shifted, and What is absent. Be specific and use their actual words where possible.";
+  var combined = (intakeSummary ? "INTAKE CONTEXT:
+" + intakeSummary + "
+
+" : "") + "SESSION NOTES:
+
+" + sessionSummaries;
+  var result = await callClaudeReflection(system, combined, null, document.getElementById("patternStatus"), this, "Analysing...");
+  if (result) {
+    document.getElementById("pattern-response").innerHTML = result.replace(/
+/g, "<br>");
+    document.getElementById("pattern-output").style.display = "";
+    if (!data.notes[currentNotesClientId].reflections) data.notes[currentNotesClientId].reflections = {};
+    data.notes[currentNotesClientId].reflections.pattern = result.replace(/
+/g, "<br>");
+    data.notes[currentNotesClientId].reflections.pattern_date = new Date().toISOString();
+    saveData();
+  }
+});
+document.getElementById("btnSavePattern").addEventListener("click", function() {
+  saveData(); alert("Pattern analysis saved.");
+});
+
+// Generic dictation for reflection textareas
+function startDictationForTarget(targetId, btn) {
+  var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) { alert("Speech recognition not supported. Use Chrome or Safari."); return; }
+  if (activeRecognition) { activeRecognition.stop(); return; }
+  var textarea = document.getElementById(targetId);
+  var recognition = new SpeechRecognition();
+  recognition.continuous = true;
+  recognition.interimResults = true;
+  recognition.lang = "en-GB";
+  var existingText = textarea.value;
+  recognition.onstart = function() {
+    activeRecognition = recognition;
+    btn.classList.add("recording");
+    btn.innerHTML = "<span class='mic-dot'></span> Stop";
+  };
+  recognition.onresult = function(event) {
+    var interim = ""; var final = "";
+    for (var i = event.resultIndex; i < event.results.length; i++) {
+      if (event.results[i].isFinal) final += event.results[i][0].transcript + " ";
+      else interim += event.results[i][0].transcript;
+    }
+    if (final) existingText += final;
+    textarea.value = existingText + interim;
+    textarea.scrollTop = textarea.scrollHeight;
+  };
+  recognition.onerror = function(e) { if (e.error !== "aborted") console.error(e.error); };
+  recognition.onend = function() {
+    activeRecognition = null;
+    btn.classList.remove("recording");
+    btn.innerHTML = "<span class='mic-dot'></span> Dictate";
+    textarea.value = existingText;
+  };
+  recognition.start();
 }
 
 function renderNotesHistory() {
