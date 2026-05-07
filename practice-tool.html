@@ -189,6 +189,12 @@ hr.divider{border:none;border-top:1px solid var(--warm);margin:1.25rem 0}
 .layer-badge{display:inline-block;padding:0.15rem 0.5rem;border-radius:3px;font-size:0.6rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;background:var(--warm);color:var(--slate);margin-left:0.4rem}
 
 @keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+.dictate-btn{padding:0.55rem 1rem;border-radius:4px;border:1px solid var(--slate);background:transparent;color:var(--slate);font-family:var(--sans);font-size:0.78rem;font-weight:500;cursor:pointer;display:inline-flex;align-items:center;gap:0.4rem;transition:all 0.15s}
+.dictate-btn:hover{background:var(--cream)}
+.dictate-btn.recording{background:#FDECEA;border-color:var(--red);color:var(--red);animation:pulse 1.2s ease-in-out infinite}
+.dictate-btn.recording .mic-dot{background:var(--red)}
+.mic-dot{width:8px;height:8px;border-radius:50%;background:var(--slate);flex-shrink:0}
 @media(max-width:600px){
   .form-grid.cols-2,.form-grid.cols-3{grid-template-columns:1fr}
   .stats-grid{grid-template-columns:1fr 1fr}
@@ -321,6 +327,7 @@ hr.divider{border:none;border-top:1px solid var(--warm);margin:1.25rem 0}
         <p style="font-size:0.78rem;color:var(--stone);font-style:italic;margin-bottom:0.75rem;line-height:1.5">Speak or type freely after the session. Cover what you observed, what the person brought, background, risk, your gut response. Do not structure it &#8212; just think aloud. Claude will extract and organise the clinical content.</p>
         <textarea id="intake-dictation" rows="8" style="width:100%;min-height:200px;padding:1rem;border:1px solid rgba(0,0,0,0.1);border-radius:6px;font-family:var(--sans);font-size:0.92rem;color:var(--ink);background:var(--cream);resize:vertical;line-height:1.7" placeholder="Dictate freely here. Everything you noticed, everything they said, your immediate response..."></textarea>
         <div style="display:flex;align-items:center;gap:0.75rem;margin-top:1rem">
+          <button class="dictate-btn" id="btnDictateIntake"><span class="mic-dot"></span> Dictate</button>
           <button class="btn btn-gold" id="btnProcessIntake">Process with Claude</button>
           <span id="intakeStatus" style="font-size:0.78rem;color:var(--stone);font-style:italic;flex:1"></span>
         </div>
@@ -339,6 +346,7 @@ hr.divider{border:none;border-top:1px solid var(--warm);margin:1.25rem 0}
         <p style="font-size:0.78rem;color:var(--stone);font-style:italic;margin-bottom:0.75rem;line-height:1.5">Think aloud about your clinical reading. What layer is live? What do you understand about how this formed? What does the transferential field feel like? Speak from your model.</p>
         <textarea id="formulation-dictation" rows="8" style="width:100%;min-height:200px;padding:1rem;border:1px solid rgba(0,0,0,0.1);border-radius:6px;font-family:var(--sans);font-size:0.92rem;color:var(--ink);background:var(--cream);resize:vertical;line-height:1.7" placeholder="Your clinical thinking unfiltered. Developmental layer, relational pattern, countertransference, sequencing position..."></textarea>
         <div style="display:flex;align-items:center;gap:0.75rem;margin-top:1rem">
+          <button class="dictate-btn" id="btnDictateFormulation"><span class="mic-dot"></span> Dictate</button>
           <button class="btn btn-gold" id="btnProcessFormulation">Process with Claude</button>
           <span id="formulationStatus" style="font-size:0.78rem;color:var(--stone);font-style:italic;flex:1"></span>
         </div>
@@ -360,6 +368,7 @@ hr.divider{border:none;border-top:1px solid var(--warm);margin:1.25rem 0}
         <p style="font-size:0.78rem;color:var(--stone);font-style:italic;margin-bottom:0.75rem;line-height:1.5">Reflect while the session is present. What happened, what shifted, what you noticed in yourself, what needs to carry forward.</p>
         <textarea id="session-dictation" rows="8" style="width:100%;min-height:200px;padding:1rem;border:1px solid rgba(0,0,0,0.1);border-radius:6px;font-family:var(--sans);font-size:0.92rem;color:var(--ink);background:var(--cream);resize:vertical;line-height:1.7" placeholder="What happened in this session. What shifted or did not. What your body did. What comes next..."></textarea>
         <div style="display:flex;align-items:center;gap:0.75rem;margin-top:1rem">
+          <button class="dictate-btn" id="btnDictateSession"><span class="mic-dot"></span> Dictate</button>
           <button class="btn btn-gold" id="btnProcessSession">Process with Claude</button>
           <span id="sessionStatus" style="font-size:0.78rem;color:var(--stone);font-style:italic;flex:1"></span>
         </div>
@@ -1074,6 +1083,77 @@ document.getElementById("ntab-intake").addEventListener("click", function() { se
 document.getElementById("ntab-formulation").addEventListener("click", function() { setNotesMode("formulation"); });
 document.getElementById("ntab-session").addEventListener("click", function() { setNotesMode("session"); });
 document.getElementById("ntab-history").addEventListener("click", function() { setNotesMode("history"); });
+
+// ── SPEECH RECOGNITION ──
+var activeRecognition = null;
+var activeMode = null;
+
+function startDictation(mode) {
+  var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) {
+    alert("Speech recognition is not supported in this browser. Use Chrome or Safari, or type your dictation directly.");
+    return;
+  }
+
+  // If already recording this mode, stop it
+  if (activeRecognition && activeMode === mode) {
+    activeRecognition.stop();
+    return;
+  }
+
+  // Stop any existing recognition
+  if (activeRecognition) activeRecognition.stop();
+
+  var btn = document.getElementById("btnDictate" + mode.charAt(0).toUpperCase() + mode.slice(1));
+  var textarea = document.getElementById(mode + "-dictation");
+  var recognition = new SpeechRecognition();
+  recognition.continuous = true;
+  recognition.interimResults = true;
+  recognition.lang = "en-GB";
+
+  var existingText = textarea.value;
+  var interimText = "";
+
+  recognition.onstart = function() {
+    activeRecognition = recognition;
+    activeMode = mode;
+    btn.classList.add("recording");
+    btn.innerHTML = '<span class="mic-dot"></span> Stop';
+  };
+
+  recognition.onresult = function(event) {
+    var interim = "";
+    var final = "";
+    for (var i = event.resultIndex; i < event.results.length; i++) {
+      if (event.results[i].isFinal) {
+        final += event.results[i][0].transcript + " ";
+      } else {
+        interim += event.results[i][0].transcript;
+      }
+    }
+    if (final) existingText += final;
+    textarea.value = existingText + interim;
+    textarea.scrollTop = textarea.scrollHeight;
+  };
+
+  recognition.onerror = function(e) {
+    if (e.error !== "aborted") console.error("Speech error:", e.error);
+  };
+
+  recognition.onend = function() {
+    activeRecognition = null;
+    activeMode = null;
+    btn.classList.remove("recording");
+    btn.innerHTML = '<span class="mic-dot"></span> Dictate';
+    textarea.value = existingText;
+  };
+
+  recognition.start();
+}
+
+document.getElementById("btnDictateIntake").addEventListener("click", function() { startDictation("intake"); });
+document.getElementById("btnDictateFormulation").addEventListener("click", function() { startDictation("formulation"); });
+document.getElementById("btnDictateSession").addEventListener("click", function() { startDictation("session"); });
 
 async function processDictation(mode) {
   var dictation = document.getElementById(mode + "-dictation").value.trim();
