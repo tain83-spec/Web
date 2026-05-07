@@ -879,7 +879,7 @@ function renderTodaySessions(t) {
   if (sess.length === 0) { el.innerHTML = '<div class="empty-state" style="padding:1.5rem"><div style="color:var(--stone);font-size:0.82rem">No sessions logged for today</div></div>'; return; }
   el.innerHTML = sess.map(function(s) {
     var nn = s.status === "attended" && !s.hasNotes;
-    return '<div class="session-item' + (nn ? " notes-needed" : "") + (s.status === "cancelled" ? " cancelled" : "") + '"><div class="session-time">' + (s.time || "&#8212;") + '</div><div class="session-client-name">' + clientName(s.clientId) + '</div><div class="session-loc">' + s.location + '</div><div class="session-actions">' + (nn ? '<button class="btn btn-outline btn-sm" onclick="openNotesForSession(\'' + s.clientId + '\',\'' + s.id + '\')">&#128221; Notes</button>' : '') + '<button class="btn btn-outline btn-sm" onclick="editSession(\'' + s.id + '\')">Edit</button></div></div>';
+    return '<div class="session-item' + (nn ? " notes-needed" : "") + (s.status === "cancelled" ? " cancelled" : "") + '"><div class="session-time">' + (s.time || "&#8212;") + '</div><div class="session-client-name">' + clientName(s.clientId) + '</div><div class="session-loc">' + s.location + '</div><div class="session-actions">' + (nn ? '<button class="btn btn-outline btn-sm" onclick="openNotesForSession(&apos;' + s.clientId + '&quot;,&quot;' + s.id + '&quot;)">&#128221; Notes</button>' : '') + '<button class="btn btn-outline btn-sm" onclick="editSession(&apos;' + s.id + '&quot;)">Edit</button></div></div>';
   }).join("");
 }
 
@@ -923,7 +923,7 @@ function renderBillingPrompts() {
   var due = checkBillingDue();
   document.getElementById("billingPrompts").innerHTML = due.map(function(c) {
     var uninv = data.sessions.filter(function(s) { return s.clientId === c.id && s.status === "attended" && !s.invoiceId; });
-    return '<div class="billing-prompt"><div class="billing-prompt-title">&#163; Invoice due: ' + c.first + ' ' + c.last + '</div><div class="billing-prompt-sub">' + uninv.length + ' session' + (uninv.length !== 1 ? "s" : "") + ' ready (' + c.billing + '-weekly cycle)</div><button class="btn btn-gold btn-sm" onclick="openBillingModal(\'' + c.id + '\')">Review &amp; Generate</button></div>';
+    return '<div class="billing-prompt"><div class="billing-prompt-title">&#163; Invoice due: ' + c.first + ' ' + c.last + '</div><div class="billing-prompt-sub">' + uninv.length + ' session' + (uninv.length !== 1 ? "s" : "") + ' ready (' + c.billing + '-weekly cycle)</div><button class="btn btn-gold btn-sm" onclick="openBillingModal(&apos;' + c.id + '&quot;)">Review &amp; Generate</button></div>';
   }).join("");
 }
 
@@ -932,7 +932,7 @@ function renderOutstandingInvoices() {
   var el = document.getElementById("outstandingList");
   if (unpaid.length === 0) { el.innerHTML = '<div class="empty-state" style="padding:1rem"><div style="color:var(--stone);font-size:0.82rem">No outstanding invoices</div></div>'; return; }
   el.innerHTML = '<table><thead><tr><th>Invoice</th><th>Client</th><th>Date</th><th>Amount</th><th>Status</th><th></th></tr></thead><tbody>' + unpaid.map(function(inv) {
-    return '<tr><td>' + inv.number + '</td><td>' + clientName(inv.clientId) + '</td><td>' + fmtDate(inv.date) + '</td><td><strong>' + fmtCurrency(inv.amount) + '</strong></td><td><span class="badge badge-unpaid">Unpaid</span></td><td><button class="btn btn-outline btn-sm" onclick="viewInvoice(\'' + inv.id + '\')">View</button></td></tr>';
+    return '<tr><td>' + inv.number + '</td><td>' + clientName(inv.clientId) + '</td><td>' + fmtDate(inv.date) + '</td><td><strong>' + fmtCurrency(inv.amount) + '</strong></td><td><span class="badge badge-unpaid">Unpaid</span></td><td><button class="btn btn-outline btn-sm" onclick="viewInvoice(&apos;' + inv.id + '&quot;)">View</button></td></tr>';
   }).join("") + '</tbody></table>';
 }
 
@@ -942,7 +942,7 @@ function renderClients() {
   if (data.clients.length === 0) { tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--stone);padding:2rem">No clients yet</td></tr>'; return; }
   tbody.innerHTML = data.clients.map(function(c) {
     var uninv = data.sessions.filter(function(s) { return s.clientId === c.id && s.status === "attended" && !s.invoiceId; }).length;
-    return '<tr><td><strong>' + c.first + ' ' + c.last + '</strong></td><td><span class="badge badge-' + c.status + '">' + c.status + '</span></td><td>' + (c.location || "&#8212;") + '</td><td>&#163;' + (c.rate || 0) + '</td><td>' + (c.slot || "&#8212;") + '</td><td>' + (c.billing === "0" ? "Manual" : c.billing ? "Every " + c.billing + " weeks" : "&#8212;") + '</td><td>' + (uninv > 0 ? '<span class="badge badge-due">' + uninv + ' session' + (uninv !== 1 ? "s" : "") + '</span>' : "&#8212;") + '</td><td><div class="btn-group"><button class="btn btn-outline btn-sm" onclick="editClient(\'' + c.id + '\')">Edit</button><button class="btn btn-outline btn-sm" onclick="goToNotes(\'' + c.id + '\')">Notes</button><button class="btn btn-danger btn-sm" onclick="deleteClient(\'' + c.id + '\')">&#215;</button></div></td></tr>';
+    return '<tr><td><strong>' + c.first + ' ' + c.last + '</strong></td><td><span class="badge badge-' + c.status + '">' + c.status + '</span></td><td>' + (c.location || "&#8212;") + '</td><td>&#163;' + (c.rate || 0) + '</td><td>' + (c.slot || "&#8212;") + '</td><td>' + (c.billing === "0" ? "Manual" : c.billing ? "Every " + c.billing + " weeks" : "&#8212;") + '</td><td>' + (uninv > 0 ? '<span class="badge badge-due">' + uninv + ' session' + (uninv !== 1 ? "s" : "") + '</span>' : "&#8212;") + '</td><td><div class="btn-group"><button class="btn btn-outline btn-sm" onclick="editClient(&apos;' + c.id + '&quot;)">Edit</button><button class="btn btn-outline btn-sm" onclick="goToNotes(&apos;' + c.id + '&quot;)">Notes</button><button class="btn btn-danger btn-sm" onclick="deleteClient(&apos;' + c.id + '&quot;)">&#215;</button></div></td></tr>';
   }).join("");
 }
 
@@ -1032,7 +1032,7 @@ function renderSessions() {
   var tbody = document.getElementById("sessionsTable");
   if (sess.length === 0) { tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--stone);padding:2rem">No sessions found</td></tr>'; return; }
   tbody.innerHTML = sess.map(function(s) {
-    return '<tr><td>' + fmtDate(s.date) + '</td><td><strong>' + clientName(s.clientId) + '</strong></td><td>' + s.location + '</td><td><span class="badge badge-' + s.status + '">' + s.status + '</span></td><td>' + (s.hasNotes ? "&#10003;" : s.status === "attended" ? '<span style="color:var(--amber)">Needed</span>' : "&#8212;") + '</td><td>' + (s.invoiceId ? '<span class="badge badge-paid">Yes</span>' : s.status === "attended" ? '<span class="badge badge-unpaid">No</span>' : "&#8212;") + '</td><td><div class="btn-group"><button class="btn btn-outline btn-sm" onclick="editSession(\'' + s.id + '\')">Edit</button>' + (!s.hasNotes && s.status === "attended" ? '<button class="btn btn-outline btn-sm" onclick="openNotesForSession(\'' + s.clientId + '\',\'' + s.id + '\')">&#128221;</button>' : '') + '<button class="btn btn-danger btn-sm" onclick="deleteSession(\'' + s.id + '\')">&#215;</button></div></td></tr>';
+    return '<tr><td>' + fmtDate(s.date) + '</td><td><strong>' + clientName(s.clientId) + '</strong></td><td>' + s.location + '</td><td><span class="badge badge-' + s.status + '">' + s.status + '</span></td><td>' + (s.hasNotes ? "&#10003;" : s.status === "attended" ? '<span style="color:var(--amber)">Needed</span>' : "&#8212;") + '</td><td>' + (s.invoiceId ? '<span class="badge badge-paid">Yes</span>' : s.status === "attended" ? '<span class="badge badge-unpaid">No</span>' : "&#8212;") + '</td><td><div class="btn-group"><button class="btn btn-outline btn-sm" onclick="editSession(&apos;' + s.id + '&quot;)">Edit</button>' + (!s.hasNotes && s.status === "attended" ? '<button class="btn btn-outline btn-sm" onclick="openNotesForSession(&apos;' + s.clientId + '&quot;,&quot;' + s.id + '&quot;)">&#128221;</button>' : '') + '<button class="btn btn-danger btn-sm" onclick="deleteSession(&apos;' + s.id + '&quot;)">&#215;</button></div></td></tr>';
   }).join("");
 }
 
@@ -1291,13 +1291,13 @@ function startDictation(mode) {
   recognition.start();
 }
 
-function inlineDictate(targetId) {
+function inlineDictate(btnEl, targetId) {
   var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!SpeechRecognition) { alert("Speech recognition not supported in this browser. Use Chrome or Safari."); return; }
   if (activeRecognition) { activeRecognition.stop(); return; }
   var textarea = document.getElementById(targetId);
   if (!textarea) return;
-  var btn = textarea.parentElement.querySelector('.inline-dictate');
+  var btn = btnEl;
   var recognition = new SpeechRecognition();
   recognition.continuous = true;
   recognition.interimResults = true;
@@ -1416,7 +1416,7 @@ function renderStructuredOutput(mode, structured, sessionId) {
       var rows = missing ? 2 : Math.min(8, Math.ceil(val.length / 80) + 1);
       html += '<div style="margin-bottom:0.9rem"><div style="font-size:0.66rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--stone);margin-bottom:0.25rem">' + q.label + '</div>';
       html += '<textarea id="sn-' + mode + '-' + q.id + '" rows="' + rows + '" style="width:100%;background:var(--cream);border:1px solid rgba(0,0,0,0.1);border-radius:4px;padding:0.65rem 0.8rem;font-family:var(--sans);font-size:0.85rem;color:var(--ink);resize:vertical;line-height:1.6">' + (missing ? "" : val.replace(/</g,"&lt;").replace(/>/g,"&gt;")) + '</textarea>';
-      if (missing) html += '<div style="display:flex;align-items:center;gap:0.5rem;margin-top:0.3rem"><span style="font-size:0.7rem;color:var(--amber)">Not covered</span><button class="inline-dictate" onclick="inlineDictate(\'sn-'+mode+'-'+q.id+'\')"><span class="inline-dot"></span> Dictate this</button></div>';
+      if (missing) html += '<div style="display:flex;align-items:center;gap:0.5rem;margin-top:0.3rem"><span style="font-size:0.7rem;color:var(--amber)">Not covered</span><button class="inline-dictate" onclick="inlineDictate(this, &quot;sn-' + mode + '-' + q.id + '&quot;)"><span class="inline-dot"></span> Dictate this</button></div>';
       html += '</div>';
     });
     html += '</div>';
@@ -1746,7 +1746,7 @@ function renderInvoices() {
   var sorted = data.invoices.slice().sort(function(a, b) { return b.date.localeCompare(a.date); });
   if (sorted.length === 0) { tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--stone);padding:2rem">No invoices yet</td></tr>'; return; }
   tbody.innerHTML = sorted.map(function(inv) {
-    return '<tr><td>' + inv.number + '</td><td>' + clientName(inv.clientId) + '</td><td>' + fmtDate(inv.date) + '</td><td>' + (inv.sessionIds ? inv.sessionIds.length : "&#8212;") + '</td><td><strong>' + fmtCurrency(inv.amount) + '</strong></td><td><span class="badge badge-' + (inv.status === "paid" ? "paid" : "unpaid") + '">' + inv.status + '</span></td><td><div class="btn-group"><button class="btn btn-outline btn-sm" onclick="viewInvoice(\'' + inv.id + '\')">View</button>' + (inv.status !== "paid" ? '<button class="btn btn-success btn-sm" onclick="markInvoicePaid(\'' + inv.id + '\')">Paid</button>' : '') + '<button class="btn btn-danger btn-sm" onclick="deleteInvoice(\'' + inv.id + '\')">&#215;</button></div></td></tr>';
+    return '<tr><td>' + inv.number + '</td><td>' + clientName(inv.clientId) + '</td><td>' + fmtDate(inv.date) + '</td><td>' + (inv.sessionIds ? inv.sessionIds.length : "&#8212;") + '</td><td><strong>' + fmtCurrency(inv.amount) + '</strong></td><td><span class="badge badge-' + (inv.status === "paid" ? "paid" : "unpaid") + '">' + inv.status + '</span></td><td><div class="btn-group"><button class="btn btn-outline btn-sm" onclick="viewInvoice(&apos;' + inv.id + '&quot;)">View</button>' + (inv.status !== "paid" ? '<button class="btn btn-success btn-sm" onclick="markInvoicePaid(&apos;' + inv.id + '&quot;)">Paid</button>' : '') + '<button class="btn btn-danger btn-sm" onclick="deleteInvoice(&apos;' + inv.id + '&quot;)">&#215;</button></div></td></tr>';
   }).join("");
 }
 
