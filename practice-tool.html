@@ -188,6 +188,7 @@ tbody tr:last-child td{border-bottom:none}
 hr.divider{border:none;border-top:1px solid var(--warm);margin:1.25rem 0}
 .layer-badge{display:inline-block;padding:0.15rem 0.5rem;border-radius:3px;font-size:0.6rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;background:var(--warm);color:var(--slate);margin-left:0.4rem}
 
+@keyframes spin{to{transform:rotate(360deg)}}
 @media(max-width:600px){
   .form-grid.cols-2,.form-grid.cols-3{grid-template-columns:1fr}
   .stats-grid{grid-template-columns:1fr 1fr}
@@ -314,16 +315,61 @@ hr.divider{border:none;border-top:1px solid var(--warm);margin:1.25rem 0}
       <div class="notes-mode-tab" id="ntab-session">Session Update</div>
       <div class="notes-mode-tab" id="ntab-history">History</div>
     </div>
-    <div id="notesMode-intake"><div class="card"><div id="intake-q-wrap"></div><div class="q-complete" id="intake-complete" style="display:none"></div></div></div>
-    <div id="notesMode-formulation" style="display:none"><div class="card"><div id="formulation-q-wrap"></div><div class="q-complete" id="formulation-complete" style="display:none"></div></div></div>
+    <div id="notesMode-intake">
+      <div class="card">
+        <div class="card-header"><div class="card-title">Intake &#8212; Free Dictation</div></div>
+        <p style="font-size:0.78rem;color:var(--stone);font-style:italic;margin-bottom:0.75rem;line-height:1.5">Speak or type freely after the session. Cover what you observed, what the person brought, background, risk, your gut response. Do not structure it &#8212; just think aloud. Claude will extract and organise the clinical content.</p>
+        <textarea id="intake-dictation" rows="8" style="width:100%;min-height:200px;padding:1rem;border:1px solid rgba(0,0,0,0.1);border-radius:6px;font-family:var(--sans);font-size:0.92rem;color:var(--ink);background:var(--cream);resize:vertical;line-height:1.7" placeholder="Dictate freely here. Everything you noticed, everything they said, your immediate response..."></textarea>
+        <div style="display:flex;align-items:center;gap:0.75rem;margin-top:1rem">
+          <button class="btn btn-gold" id="btnProcessIntake">Process with Claude</button>
+          <span id="intakeStatus" style="font-size:0.78rem;color:var(--stone);font-style:italic;flex:1"></span>
+        </div>
+      </div>
+      <div id="intake-output" style="display:none">
+        <div class="card">
+          <div class="card-header"><div class="card-title">Structured Intake Notes</div><button class="btn btn-primary btn-sm" id="btnSaveIntake">Save</button></div>
+          <p style="font-size:0.78rem;color:var(--stone);margin-bottom:1.25rem;font-style:italic">Extracted from your dictation. Edit any field before saving.</p>
+          <div id="intake-structured"></div>
+        </div>
+      </div>
+    </div>
+    <div id="notesMode-formulation" style="display:none">
+      <div class="card">
+        <div class="card-header"><div class="card-title">Formulation &#8212; Free Dictation</div></div>
+        <p style="font-size:0.78rem;color:var(--stone);font-style:italic;margin-bottom:0.75rem;line-height:1.5">Think aloud about your clinical reading. What layer is live? What do you understand about how this formed? What does the transferential field feel like? Speak from your model.</p>
+        <textarea id="formulation-dictation" rows="8" style="width:100%;min-height:200px;padding:1rem;border:1px solid rgba(0,0,0,0.1);border-radius:6px;font-family:var(--sans);font-size:0.92rem;color:var(--ink);background:var(--cream);resize:vertical;line-height:1.7" placeholder="Your clinical thinking unfiltered. Developmental layer, relational pattern, countertransference, sequencing position..."></textarea>
+        <div style="display:flex;align-items:center;gap:0.75rem;margin-top:1rem">
+          <button class="btn btn-gold" id="btnProcessFormulation">Process with Claude</button>
+          <span id="formulationStatus" style="font-size:0.78rem;color:var(--stone);font-style:italic;flex:1"></span>
+        </div>
+      </div>
+      <div id="formulation-output" style="display:none">
+        <div class="card">
+          <div class="card-header"><div class="card-title">Structured Formulation</div><button class="btn btn-primary btn-sm" id="btnSaveFormulation">Save</button></div>
+          <p style="font-size:0.78rem;color:var(--stone);margin-bottom:1.25rem;font-style:italic">Extracted from your dictation. Edit any field before saving.</p>
+          <div id="formulation-structured"></div>
+        </div>
+      </div>
+    </div>
     <div id="notesMode-session" style="display:none">
       <div class="card">
         <div class="card-header">
-          <div class="card-title">Session Update</div>
+          <div class="card-title">Session Update &#8212; Free Dictation</div>
           <div class="form-group" style="min-width:180px"><select id="sessionNoteSelect"><option value="">Select session</option></select></div>
         </div>
-        <div id="session-q-wrap"></div>
-        <div class="q-complete" id="session-complete" style="display:none"></div>
+        <p style="font-size:0.78rem;color:var(--stone);font-style:italic;margin-bottom:0.75rem;line-height:1.5">Reflect while the session is present. What happened, what shifted, what you noticed in yourself, what needs to carry forward.</p>
+        <textarea id="session-dictation" rows="8" style="width:100%;min-height:200px;padding:1rem;border:1px solid rgba(0,0,0,0.1);border-radius:6px;font-family:var(--sans);font-size:0.92rem;color:var(--ink);background:var(--cream);resize:vertical;line-height:1.7" placeholder="What happened in this session. What shifted or did not. What your body did. What comes next..."></textarea>
+        <div style="display:flex;align-items:center;gap:0.75rem;margin-top:1rem">
+          <button class="btn btn-gold" id="btnProcessSession">Process with Claude</button>
+          <span id="sessionStatus" style="font-size:0.78rem;color:var(--stone);font-style:italic;flex:1"></span>
+        </div>
+      </div>
+      <div id="session-output" style="display:none">
+        <div class="card">
+          <div class="card-header"><div class="card-title">Structured Session Note</div><button class="btn btn-primary btn-sm" id="btnSaveSession">Save</button></div>
+          <p style="font-size:0.78rem;color:var(--stone);margin-bottom:1.25rem;font-style:italic">Extracted from your dictation. Edit any field before saving.</p>
+          <div id="session-structured"></div>
+        </div>
       </div>
     </div>
     <div id="notesMode-history" style="display:none"><div class="card"><div class="card-header"><div class="card-title">Case History</div></div><div id="notesHistory"></div></div></div>
@@ -386,6 +432,12 @@ hr.divider{border:none;border-top:1px solid var(--warm);margin:1.25rem 0}
       </div>
       <div class="form-group"><label>Invoice Note</label><input type="text" id="set_invoice_note"></div>
     </div>
+  </div>
+  <div class="card">
+    <div class="card-header"><div class="card-title">Claude API Key</div></div>
+    <p style="font-size:0.82rem;color:var(--stone);margin-bottom:1rem">Required for Clinical Notes dictation processing. Stored locally on this device only.</p>
+    <div class="form-group"><label>API Key</label><input type="password" id="set_api_key" placeholder="sk-ant-..."></div>
+    <div style="margin-top:0.4rem;font-size:0.72rem;color:var(--stone)">Your key is stored in localStorage and sent only to the Anthropic API.</div>
   </div>
   <div class="card">
     <div class="card-header"><div class="card-title">Change Password</div></div>
@@ -919,68 +971,71 @@ document.getElementById("btnSaveSession").addEventListener("click", function() {
   saveData(); closeModal("sessionModal"); renderSessions();
 });
 
-// ══ CLINICAL NOTES ══
+// ══ CLINICAL NOTES — DICTATION + CLAUDE API ══
 var INTAKE_QS = [
-  { id:"presenting", section:"Presenting", q:"What brings this person to therapy now — and why now?", hint:"The timing is often as significant as the content. What has shifted that made this the moment to seek help? Use their own language where possible." },
-  { id:"duration", section:"Presenting", q:"How long has this difficulty been present?", hint:"" },
-  { id:"tried", section:"Presenting", q:"What has been tried, and what has and hasn't helped?", hint:"" },
-  { id:"family", section:"Background", q:"Family background — atmosphere, relational dynamics, physical environment growing up", hint:"Attend to what is said and how it is said. The narrative style itself carries attachment information." },
-  { id:"current", section:"Background", q:"Current life situation", hint:"" },
-  { id:"support", section:"Background", q:"Social support network", hint:"" },
-  { id:"previous_therapy", section:"Background", q:"Previous therapy experience — what was useful, what wasn't", hint:"Previous therapeutic experience often carries information about relational expectation and the working alliance." },
-  { id:"events", section:"Additional History", q:"Additional major life events not already covered", hint:"" },
-  { id:"psychiatric", section:"Additional History", q:"Psychiatric history — diagnosis, medication, contact with mental health services", hint:"Note the person's relationship to any diagnosis or medication as well as the facts." },
-  { id:"risk", section:"Additional History", q:"Risk — current thoughts of self-harm or ending life; any previous actions", hint:"Record clearly. Risk assessment is ongoing — this is the baseline." },
-  { id:"goals", section:"Goals", q:"What does this person hope will be different?", hint:"" },
-  { id:"markers", section:"Goals", q:"What would they notice first if things began to shift?", hint:"" },
-  { id:"presentation", section:"Initial Observations", q:"Presentation — affect, relatedness, body language, quality of contact", hint:"What did you notice before they spoke? Somatic countertransference from the first moment." },
-  { id:"counter", section:"Initial Observations", q:"What did this person activate in you?", hint:"Countertransference at intake is clinically significant. Note honestly." }
+  { id:"presenting", section:"Presenting", label:"What brings this person to therapy now, and why now?" },
+  { id:"duration", section:"Presenting", label:"How long has this difficulty been present?" },
+  { id:"tried", section:"Presenting", label:"What has been tried, and what has and has not helped?" },
+  { id:"family", section:"Background", label:"Family background — atmosphere, relational dynamics, physical environment growing up" },
+  { id:"current", section:"Background", label:"Current life situation" },
+  { id:"support", section:"Background", label:"Social support network" },
+  { id:"previous_therapy", section:"Background", label:"Previous therapy experience — what was useful, what was not" },
+  { id:"events", section:"Additional History", label:"Additional major life events" },
+  { id:"psychiatric", section:"Additional History", label:"Psychiatric history — diagnosis, medication, services" },
+  { id:"risk", section:"Additional History", label:"Risk — self-harm, suicidal ideation, previous actions" },
+  { id:"goals", section:"Goals", label:"What does this person hope will be different?" },
+  { id:"markers", section:"Goals", label:"What would they notice first if things began to shift?" },
+  { id:"presentation", section:"Initial Observations", label:"Presentation — affect, relatedness, body language, quality of contact" },
+  { id:"counter", section:"Initial Observations", label:"What did this person activate in you?" }
 ];
 
 var FORM_QS = [
-  { id:"developmental", section:"Developmental Reading", q:"Where does the presenting difficulty appear to root?", hint:"Balint / Winnicott / Mahler / Fonagy. Which layer is most live? Pre-symbolic (basic fault)? True/false self? Separation-individuation? Mentalization failure? Name the primary level and any secondary." },
-  { id:"needed", section:"Developmental Reading", q:"What did this person need that they didn't receive?", hint:"Be specific. Generic warmth does not repair a specific wound. The reparation must match the developmental level." },
-  { id:"adaptation", section:"Developmental Reading", q:"What formed instead — the adaptive strategy", hint:"This is not pathology. It is the logical adaptation to what was available. Name it with respect." },
-  { id:"rig", section:"Relational Pattern", q:"What is the core relational pattern — the RIG — that keeps repeating?", hint:"What does this person expect to happen when they bring the full weight of something to another person? This is the destructive RIG the therapeutic relationship must provide a new version of." },
-  { id:"reparative_rig", section:"Relational Pattern", q:"What is the reparative RIG — the precise inversion of the destructive pattern?", hint:"Generic warmth does not repair a specific wound. Name the specific relational provision required." },
-  { id:"attachment", section:"Attachment & Mentalization", q:"Attachment pattern — reading from narrative style and relational history", hint:"Secure / anxious-preoccupied / dismissive-avoidant / disorganised. Note what in the narrative style, not just the content, informs this reading." },
-  { id:"mentalization", section:"Attachment & Mentalization", q:"Mentalization capacity — reflective functioning baseline and collapse conditions", hint:"Can this person hold their own and another's mind simultaneously? Under what conditions does mentalization collapse? What does epistemic trust look like here?" },
-  { id:"alien_self", section:"Attachment & Mentalization", q:"Alien self — what has been internalised that doesn't feel like theirs?", hint:"Fonagy: when mirroring reflects the caregiver's state rather than the infant's, something foreign is internalised. What is this person externalising — and into whom?" },
-  { id:"window", section:"Nervous System", q:"Window of tolerance — current width and collapse conditions", hint:"Porges / Van der Kolk: how wide is the window? What narrows it? What system — ventral vagal, sympathetic, dorsal vagal — is most active? This shapes the sequencing." },
-  { id:"somatic", section:"Nervous System", q:"Somatic presentation — body patterns, breath, posture, activation", hint:"What does this person's body do in the room? What does your body do in response? Somatic countertransference as data." },
-  { id:"sequencing", section:"Sequencing Position", q:"Where in the seven-layer sequence is the work currently needed?", hint:"Rogers (ground) → Kohut (container) → Stern (mechanism) → Levine (interrupted completion) → Van der Kolk (window) → Freud (descent) → Adler (reorientation). Name the layer and what must be in place before progression is appropriate." },
-  { id:"modes", section:"Sequencing Position", q:"Five modes — which are most alive?", hint:"Clarkson: Working alliance / Transferential / Reparative / Person-to-person / Transpersonal. What is most active now and what does the clinical moment require?" },
-  { id:"transference", section:"Transferential Field", q:"Transferential material — what is being activated in the room", hint:"What role is this person recruiting you into (Sandler's role responsiveness)? Is there a shared fantasy beginning to form? What organising principles from your own history are being activated?" },
-  { id:"countertransference", section:"Transferential Field", q:"Countertransference — what this case activates in you", hint:"Your somatic response. Your emotional response. What pulls you toward technique or distance. This is clinical data." },
-  { id:"immediate", section:"Temporal Dimension", q:"What stage of the immediate landscape is this person in?", hint:"Kübler-Ross for the immediate: receive what is present, don't rush the stages. What needs to be held before anything else can be introduced?" },
-  { id:"longer_arc", section:"Temporal Dimension", q:"Longer arc — Tonkin reading", hint:"The grief doesn't shrink — the person grows around it. What does a larger life look like for this person? Not as a goal to be stated, but as a clinical orientation." },
-  { id:"provision", section:"Clinical Plan", q:"The specific relational provision this person needs from this relationship", hint:"" },
-  { id:"risks", section:"Clinical Plan", q:"What to hold carefully — risks, ethical considerations, things to monitor", hint:"Risk, competence, dual relationship, scope. Name honestly." },
-  { id:"supervision", section:"Clinical Plan", q:"What this case needs from supervision", hint:"" }
+  { id:"developmental", section:"Developmental Reading", label:"Where does the presenting difficulty root? (Balint / Winnicott / Mahler / Fonagy)" },
+  { id:"needed", section:"Developmental Reading", label:"What did this person need that they did not receive?" },
+  { id:"adaptation", section:"Developmental Reading", label:"What formed instead — the adaptive strategy?" },
+  { id:"rig", section:"Relational Pattern", label:"The core relational pattern — the destructive RIG" },
+  { id:"reparative_rig", section:"Relational Pattern", label:"The reparative RIG — the precise inversion" },
+  { id:"attachment", section:"Attachment and Mentalization", label:"Attachment pattern — from narrative style and relational history" },
+  { id:"mentalization", section:"Attachment and Mentalization", label:"Mentalization capacity — baseline and collapse conditions" },
+  { id:"alien_self", section:"Attachment and Mentalization", label:"Alien self — what has been internalised that does not feel like theirs?" },
+  { id:"window", section:"Nervous System", label:"Window of tolerance — current width and collapse conditions" },
+  { id:"somatic", section:"Nervous System", label:"Somatic presentation — body patterns, breath, posture, activation" },
+  { id:"sequencing", section:"Sequencing", label:"Seven-layer sequencing position (Rogers to Kohut to Stern to Levine to VdK to Freud to Adler)" },
+  { id:"modes", section:"Sequencing", label:"Five modes — which are most alive? (Clarkson)" },
+  { id:"transference", section:"Transferential Field", label:"Transferential material — what is being activated in the room" },
+  { id:"countertransference", section:"Transferential Field", label:"Countertransference — what this case activates in you" },
+  { id:"immediate", section:"Temporal", label:"Immediate landscape — Kubler-Ross reading" },
+  { id:"longer_arc", section:"Temporal", label:"Longer arc — Tonkin reading" },
+  { id:"provision", section:"Clinical Plan", label:"The specific relational provision this person needs" },
+  { id:"risks", section:"Clinical Plan", label:"What to hold carefully — risks, ethical considerations" },
+  { id:"supervision", section:"Clinical Plan", label:"What this case needs from supervision" }
 ];
 
 var SESSION_QS = [
-  { id:"where_were_we", section:"Orientation", q:"Where were we — the thread from last session", hint:"What was live, where the sequencing was, what had been left in the room." },
-  { id:"what_happened", section:"This Session", q:"What happened in this session", hint:"Not a transcript — what was clinically significant. What arrived, what was received, what was named." },
-  { id:"shifted", section:"This Session", q:"What shifted — or didn't", hint:"Slow is not the same as stuck. A session where nothing moved is still data. What does the absence of movement tell you?" },
-  { id:"somatic_transfer", section:"This Session", q:"Somatic and transferential notes", hint:"What did your body do? What was activated in you? What role were you being recruited into? Any moments of meeting — unexpected, unscripted genuine contact?" },
-  { id:"sequencing", section:"Position", q:"Sequencing position after this session", hint:"Has the layer shifted? Is the window wider or narrower than last time? What does the nervous system appear to be doing with what has been offered?" },
-  { id:"next", section:"Next Session", q:"What the next session needs", hint:"Not a plan — an orientation. What must be available in you for the next session to be what this person needs?" },
-  { id:"risk", section:"Safety", q:"Risk update — any change since last assessment", hint:"" },
-  { id:"supervision", section:"Supervision", q:"Anything to bring to supervision", hint:"" }
+  { id:"where_were_we", section:"Orientation", label:"Where were we — the thread from last session" },
+  { id:"what_happened", section:"This Session", label:"What happened in this session" },
+  { id:"shifted", section:"This Session", label:"What shifted — or did not" },
+  { id:"somatic_transfer", section:"This Session", label:"Somatic and transferential notes" },
+  { id:"sequencing", section:"Position", label:"Sequencing position after this session" },
+  { id:"next", section:"Next Session", label:"What the next session needs" },
+  { id:"risk", section:"Safety", label:"Risk update — any change since last assessment" },
+  { id:"supervision", section:"Supervision", label:"Anything to bring to supervision" }
 ];
 
 var QS_MAP = { intake: INTAKE_QS, formulation: FORM_QS, session: SESSION_QS };
 
+function getApiKey() { return localStorage.getItem("practiceApiKey") || ""; }
+
 function populateNotesClients() {
   var sel = document.getElementById("notesClientSelect");
-  sel.innerHTML = '<option value="">Select client</option>' + data.clients.map(function(c) { return '<option value="' + c.id + '">' + c.first + ' ' + c.last + '</option>'; }).join("");
+  sel.innerHTML = "<option value=''>Select client</option>" + data.clients.map(function(c) { return "<option value='" + c.id + "'>" + c.first + " " + c.last + "</option>"; }).join("");
   if (currentNotesClientId) { sel.value = currentNotesClientId; showNotesContent(); }
 }
 
 document.getElementById("notesClientSelect").addEventListener("change", function() {
   currentNotesClientId = this.value;
-  if (currentNotesClientId) showNotesContent(); else { document.getElementById("notesContent").style.display = "none"; document.getElementById("notesEmpty").style.display = ""; }
+  if (currentNotesClientId) showNotesContent();
+  else { document.getElementById("notesContent").style.display = "none"; document.getElementById("notesEmpty").style.display = ""; }
 });
 
 function selectNotesClient(id) {
@@ -1004,7 +1059,15 @@ function setNotesMode(mode) {
   });
   if (mode === "history") renderNotesHistory();
   else if (mode === "session") populateSessionNoteSelect();
-  else startQFlow(mode, qCursor[mode] || 0);
+  else {
+    var saved = data.notes[currentNotesClientId] && data.notes[currentNotesClientId][mode + "_dictation"];
+    if (saved) document.getElementById(mode + "-dictation").value = saved;
+    var savedNotes = data.notes[currentNotesClientId] && data.notes[currentNotesClientId][mode];
+    if (savedNotes && Object.keys(savedNotes).length > 0) {
+      renderStructuredOutput(mode, savedNotes);
+      document.getElementById(mode + "-output").style.display = "";
+    }
+  }
 }
 
 document.getElementById("ntab-intake").addEventListener("click", function() { setNotesMode("intake"); });
@@ -1012,126 +1075,138 @@ document.getElementById("ntab-formulation").addEventListener("click", function()
 document.getElementById("ntab-session").addEventListener("click", function() { setNotesMode("session"); });
 document.getElementById("ntab-history").addEventListener("click", function() { setNotesMode("history"); });
 
-function startQFlow(mode, idx) {
-  qCursor[mode] = idx;
-  document.getElementById(mode + "-complete").style.display = "none";
-  renderQ(mode, idx);
+async function processDictation(mode) {
+  var dictation = document.getElementById(mode + "-dictation").value.trim();
+  if (!dictation) { alert("Please enter your dictation first."); return; }
+  var sessionId = mode === "session" ? document.getElementById("sessionNoteSelect").value : null;
+  if (mode === "session" && !sessionId) { alert("Please select a session first."); return; }
+  var apiKey = getApiKey();
+  if (!apiKey) { alert("Please add your Claude API key in Settings first."); return; }
+
+  var modeCapital = mode.charAt(0).toUpperCase() + mode.slice(1);
+  var btn = document.getElementById("btnProcess" + modeCapital);
+  var status = document.getElementById(mode + "Status");
+  btn.disabled = true;
+  btn.innerHTML = "<span style='display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,0.3);border-top-color:white;border-radius:50%;animation:spin 0.8s linear infinite;vertical-align:middle;margin-right:6px'></span>Processing...";
+  status.textContent = "Claude is reading your dictation...";
+
+  if (!data.notes[currentNotesClientId]) data.notes[currentNotesClientId] = { intake:{}, formulation:{}, sessionNotes:[] };
+  if (mode === "session") data.notes[currentNotesClientId].session_dictation = dictation;
+  else data.notes[currentNotesClientId][mode + "_dictation"] = dictation;
+  saveData();
+
+  var questions = QS_MAP[mode];
+  var qList = questions.map(function(q, i) { return (i+1) + ". [" + q.id + "] " + q.label; }).join("\n");
+  var keyList = questions.map(function(q) { return '{"' + q.id + '": "..."}'; }).join(", ");
+
+  var systemPrompt = "You are assisting Martin Alderton, a UKCP-registered psychotherapeutic counsellor, to organise his clinical notes. He works from a relational, trauma-informed integrative framework grounded in Rogers, Kohut, Stern, Levine, Van der Kolk, Fonagy, and Clarkson. He has dictated his raw reflections. Extract the content of his dictation into structured JSON mapping to the provided question IDs. Use his words directly where possible. Where a question is not addressed, use exactly the string: [Not covered in dictation]. Return ONLY valid JSON with no preamble, no markdown fences, no explanation.";
+
+  var userPrompt = "My dictation:\n\n" + dictation + "\n\nExtract into JSON with these keys:\n" + qList;
+
+  try {
+    var response = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": apiKey,
+        "anthropic-version": "2023-06-01",
+        "anthropic-dangerous-direct-browser-access": "true"
+      },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-20250514",
+        max_tokens: 4000,
+        system: systemPrompt,
+        messages: [{ role: "user", content: userPrompt }]
+      })
+    });
+    if (!response.ok) { var err = await response.json(); throw new Error(err.error ? err.error.message : "API error " + response.status); }
+    var result = await response.json();
+    var text = result.content[0].text.trim().replace(/^```json\n?/, "").replace(/\n?```$/, "").trim();
+    var structured = JSON.parse(text);
+
+    if (mode === "session") {
+      if (!data.notes[currentNotesClientId].sessionNotes) data.notes[currentNotesClientId].sessionNotes = [];
+      var sn = data.notes[currentNotesClientId].sessionNotes.find(function(n) { return n.sessionId === sessionId; });
+      if (!sn) { sn = { sessionId: sessionId, saved: new Date().toISOString() }; data.notes[currentNotesClientId].sessionNotes.push(sn); }
+      Object.assign(sn, structured); sn.saved = new Date().toISOString();
+    } else {
+      data.notes[currentNotesClientId][mode] = structured;
+      data.notes[currentNotesClientId][mode + "_saved"] = new Date().toISOString();
+    }
+    saveData();
+    renderStructuredOutput(mode, structured, sessionId);
+    document.getElementById(mode + "-output").style.display = "";
+    status.textContent = "Done. Review the structured notes below, then save.";
+  } catch(e) {
+    status.textContent = "Error: " + e.message;
+    console.error(e);
+  }
+  btn.disabled = false;
+  btn.innerHTML = "Process with Claude";
 }
 
-function renderQ(mode, idx) {
-  var qs = QS_MAP[mode];
-  var wrap = document.getElementById(mode + "-q-wrap");
-  var notes = data.notes[currentNotesClientId] ? (data.notes[currentNotesClientId][mode] || {}) : {};
-  var q = qs[idx];
-  var total = qs.length;
-  var pct = Math.round((idx / total) * 100);
-  var isLast = idx === total - 1;
+document.getElementById("btnProcessIntake").addEventListener("click", function() { processDictation("intake"); });
+document.getElementById("btnProcessFormulation").addEventListener("click", function() { processDictation("formulation"); });
+document.getElementById("btnProcessSession").addEventListener("click", function() { processDictation("session"); });
 
-  wrap.innerHTML = '<div class="q-progress"><div class="q-progress-bar"><div class="q-progress-fill" style="width:' + pct + '%"></div></div><div class="q-progress-text">' + (idx+1) + ' of ' + total + '</div></div><div class="q-section-label">' + q.section + '</div><div class="q-question">' + q.q + '</div>' + (q.hint ? '<div class="q-hint">' + q.hint + '</div>' : '') + '<textarea class="q-textarea" id="q-answer" rows="6" placeholder="Type your notes here...">' + (notes[q.id] || "") + '</textarea><div class="q-nav"><div>' + (idx > 0 ? '<button class="btn btn-outline" id="q-back">&#8592; Back</button>' : '<span></span>') + '</div><span class="q-skip" id="q-skip">Skip &#8594;</span><div>' + (isLast ? '<button class="btn btn-gold" id="q-finish">Save &amp; Finish &#10003;</button>' : '<button class="btn btn-primary" id="q-next">Next &#8594;</button>') + '</div></div>';
-
-  document.getElementById("q-answer").focus();
-
-  if (idx > 0) {
-    document.getElementById("q-back").addEventListener("click", function() { saveQAnswer(mode, idx); startQFlow(mode, idx - 1); });
-  }
-  document.getElementById("q-skip").addEventListener("click", function() {
-    saveQAnswer(mode, idx);
-    if (idx < total - 1) startQFlow(mode, idx + 1); else finishQFlow(mode, idx);
+function renderStructuredOutput(mode, structured, sessionId) {
+  var questions = QS_MAP[mode];
+  var sections = {};
+  questions.forEach(function(q) { if (!sections[q.section]) sections[q.section] = []; sections[q.section].push(q); });
+  var html = "";
+  Object.keys(sections).forEach(function(section) {
+    html += '<div style="margin-bottom:1.5rem"><div style="font-family:var(--serif);font-size:0.95rem;color:var(--slate-dk);padding-bottom:0.4rem;border-bottom:1px solid var(--warm);margin-bottom:0.75rem">' + section + '</div>';
+    sections[section].forEach(function(q) {
+      var val = structured[q.id] || "";
+      var missing = !val || val === "[Not covered in dictation]";
+      var rows = missing ? 2 : Math.min(8, Math.ceil(val.length / 80) + 1);
+      html += '<div style="margin-bottom:0.9rem"><div style="font-size:0.66rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--stone);margin-bottom:0.25rem">' + q.label + '</div>';
+      html += '<textarea id="sn-' + mode + '-' + q.id + '" rows="' + rows + '" style="width:100%;background:var(--cream);border:1px solid rgba(0,0,0,0.1);border-radius:4px;padding:0.65rem 0.8rem;font-family:var(--sans);font-size:0.85rem;color:var(--ink);resize:vertical;line-height:1.6">' + (missing ? "" : val.replace(/</g,"&lt;").replace(/>/g,"&gt;")) + '</textarea>';
+      if (missing) html += '<div style="font-size:0.7rem;color:var(--amber);margin-top:0.15rem">Not covered in dictation — add manually if needed</div>';
+      html += '</div>';
+    });
+    html += '</div>';
   });
-  if (isLast) {
-    document.getElementById("q-finish").addEventListener("click", function() { saveQAnswer(mode, idx); finishQFlow(mode, idx); });
+  document.getElementById(mode + "-structured").innerHTML = html;
+}
+
+function saveStructuredNotes(mode) {
+  var questions = QS_MAP[mode];
+  var sessionId = mode === "session" ? document.getElementById("sessionNoteSelect").value : null;
+  var structured = {};
+  questions.forEach(function(q) { var el = document.getElementById("sn-" + mode + "-" + q.id); if (el) structured[q.id] = el.value; });
+  if (!data.notes[currentNotesClientId]) data.notes[currentNotesClientId] = { intake:{}, formulation:{}, sessionNotes:[] };
+  if (mode === "session") {
+    if (!data.notes[currentNotesClientId].sessionNotes) data.notes[currentNotesClientId].sessionNotes = [];
+    var sn = data.notes[currentNotesClientId].sessionNotes.find(function(n) { return n.sessionId === sessionId; });
+    if (!sn) { sn = { sessionId: sessionId }; data.notes[currentNotesClientId].sessionNotes.push(sn); }
+    Object.assign(sn, structured); sn.saved = new Date().toISOString();
+    var si = data.sessions.findIndex(function(s) { return s.id === sessionId; });
+    if (si >= 0) data.sessions[si].hasNotes = true;
   } else {
-    document.getElementById("q-next").addEventListener("click", function() { saveQAnswer(mode, idx); startQFlow(mode, idx + 1); });
+    data.notes[currentNotesClientId][mode] = structured;
+    data.notes[currentNotesClientId][mode + "_saved"] = new Date().toISOString();
   }
+  saveData(); alert("Notes saved.");
 }
 
-function saveQAnswer(mode, idx) {
-  var el = document.getElementById("q-answer");
-  if (!el || !currentNotesClientId) return;
-  var q = QS_MAP[mode][idx];
-  if (!data.notes[currentNotesClientId][mode]) data.notes[currentNotesClientId][mode] = {};
-  data.notes[currentNotesClientId][mode][q.id] = el.value;
-  saveData();
-}
+document.getElementById("btnSaveIntake").addEventListener("click", function() { saveStructuredNotes("intake"); });
+document.getElementById("btnSaveFormulation").addEventListener("click", function() { saveStructuredNotes("formulation"); });
+document.getElementById("btnSaveSession").addEventListener("click", function() { saveStructuredNotes("session"); });
 
-function finishQFlow(mode, idx) {
-  saveQAnswer(mode, idx);
-  data.notes[currentNotesClientId][mode + "_saved"] = new Date().toISOString();
-  saveData();
-  document.getElementById(mode + "-q-wrap").innerHTML = "";
-  var comp = document.getElementById(mode + "-complete");
-  var nextMode = mode === "intake" ? "formulation" : "session";
-  comp.style.display = "";
-  comp.innerHTML = '<div class="q-complete-icon">&#10003;</div><div class="q-complete-title">Notes saved.</div><div class="q-complete-sub">You can review everything in the History tab. Return to any question using the back button.</div><div class="btn-group" style="justify-content:center"><button class="btn btn-outline" id="comp-review">Review from start</button><button class="btn btn-primary" id="comp-next">' + (mode === "session" ? "View history &#8594;" : "Continue to " + nextMode + " &#8594;") + '</button></div>';
-  document.getElementById("comp-review").addEventListener("click", function() { startQFlow(mode, 0); });
-  document.getElementById("comp-next").addEventListener("click", function() { setNotesMode(mode === "session" ? "history" : nextMode); });
-}
-
-// SESSION NOTES
 function populateSessionNoteSelect() {
   if (!currentNotesClientId) return;
-  var sess = data.sessions.filter(function(s) { return s.clientId === currentNotesClientId && s.status === "attended"; }).sort(function(a, b) { return b.date.localeCompare(a.date); });
+  var sess = data.sessions.filter(function(s) { return s.clientId === currentNotesClientId && s.status === "attended"; }).sort(function(a,b) { return b.date.localeCompare(a.date); });
   var sel = document.getElementById("sessionNoteSelect");
-  sel.innerHTML = '<option value="">Select session</option>' + sess.map(function(s) { return '<option value="' + s.id + '">' + fmtDate(s.date) + ' — ' + s.location + '</option>'; }).join("");
-  sel.onchange = function() { if (this.value) startSessionQFlow(this.value, 0); };
-}
-
-function startSessionQFlow(sessionId, idx) {
-  currentSessionNoteId = sessionId;
-  qCursor.session = idx;
-  document.getElementById("session-complete").style.display = "none";
-  renderSessionQ(sessionId, idx);
-}
-
-function renderSessionQ(sessionId, idx) {
-  var qs = SESSION_QS;
-  var wrap = document.getElementById("session-q-wrap");
-  var sn = (data.notes[currentNotesClientId] && data.notes[currentNotesClientId].sessionNotes) ? data.notes[currentNotesClientId].sessionNotes.find(function(n) { return n.sessionId === sessionId; }) : null;
-  var q = qs[idx];
-  var total = qs.length;
-  var pct = Math.round((idx / total) * 100);
-  var isLast = idx === total - 1;
-
-  wrap.innerHTML = '<div class="q-progress"><div class="q-progress-bar"><div class="q-progress-fill" style="width:' + pct + '%"></div></div><div class="q-progress-text">' + (idx+1) + ' of ' + total + '</div></div><div class="q-section-label">' + q.section + '</div><div class="q-question">' + q.q + '</div>' + (q.hint ? '<div class="q-hint">' + q.hint + '</div>' : '') + '<textarea class="q-textarea" id="sq-answer" rows="6" placeholder="Type your notes here...">' + (sn ? (sn[q.id] || "") : "") + '</textarea><div class="q-nav"><div>' + (idx > 0 ? '<button class="btn btn-outline" id="sq-back">&#8592; Back</button>' : '<span></span>') + '</div><span class="q-skip" id="sq-skip">Skip &#8594;</span><div>' + (isLast ? '<button class="btn btn-gold" id="sq-finish">Save &amp; Finish &#10003;</button>' : '<button class="btn btn-primary" id="sq-next">Next &#8594;</button>') + '</div></div>';
-
-  document.getElementById("sq-answer").focus();
-
-  if (idx > 0) {
-    document.getElementById("sq-back").addEventListener("click", function() { saveSQAnswer(sessionId, idx); startSessionQFlow(sessionId, idx - 1); });
-  }
-  document.getElementById("sq-skip").addEventListener("click", function() {
-    saveSQAnswer(sessionId, idx);
-    if (idx < total - 1) startSessionQFlow(sessionId, idx + 1); else finishSessionNote(sessionId, idx);
-  });
-  if (isLast) {
-    document.getElementById("sq-finish").addEventListener("click", function() { saveSQAnswer(sessionId, idx); finishSessionNote(sessionId, idx); });
-  } else {
-    document.getElementById("sq-next").addEventListener("click", function() { saveSQAnswer(sessionId, idx); startSessionQFlow(sessionId, idx + 1); });
-  }
-}
-
-function saveSQAnswer(sessionId, idx) {
-  var el = document.getElementById("sq-answer");
-  if (!el || !currentNotesClientId) return;
-  var q = SESSION_QS[idx];
-  if (!data.notes[currentNotesClientId].sessionNotes) data.notes[currentNotesClientId].sessionNotes = [];
-  var sn = data.notes[currentNotesClientId].sessionNotes.find(function(n) { return n.sessionId === sessionId; });
-  if (!sn) { sn = { sessionId: sessionId, saved: new Date().toISOString() }; data.notes[currentNotesClientId].sessionNotes.push(sn); }
-  sn[q.id] = el.value;
-  saveData();
-}
-
-function finishSessionNote(sessionId, idx) {
-  saveSQAnswer(sessionId, idx);
-  var si = data.sessions.findIndex(function(s) { return s.id === sessionId; });
-  if (si >= 0) data.sessions[si].hasNotes = true;
-  saveData();
-  document.getElementById("session-q-wrap").innerHTML = "";
-  var comp = document.getElementById("session-complete");
-  comp.style.display = "";
-  comp.innerHTML = '<div class="q-complete-icon">&#10003;</div><div class="q-complete-title">Session note saved.</div><div class="q-complete-sub">This session is marked as noted.</div><div class="btn-group" style="justify-content:center"><button class="btn btn-outline" id="scomp-review">Review</button><button class="btn btn-primary" id="scomp-hist">View history &#8594;</button></div>';
-  document.getElementById("scomp-review").addEventListener("click", function() { startSessionQFlow(sessionId, 0); });
-  document.getElementById("scomp-hist").addEventListener("click", function() { setNotesMode("history"); });
+  sel.innerHTML = "<option value=''>Select session</option>" + sess.map(function(s) { return "<option value='" + s.id + "'>" + fmtDate(s.date) + " — " + s.location + "</option>"; }).join("");
+  var savedD = data.notes[currentNotesClientId] && data.notes[currentNotesClientId].session_dictation;
+  if (savedD) document.getElementById("session-dictation").value = savedD;
+  sel.onchange = function() {
+    if (!this.value) { document.getElementById("session-output").style.display = "none"; return; }
+    var sn = (data.notes[currentNotesClientId] && data.notes[currentNotesClientId].sessionNotes) ? data.notes[currentNotesClientId].sessionNotes.find(function(n) { return n.sessionId === sel.value; }) : null;
+    if (sn) { renderStructuredOutput("session", sn, sel.value); document.getElementById("session-output").style.display = ""; }
+    else document.getElementById("session-output").style.display = "none";
+  };
 }
 
 function renderNotesHistory() {
@@ -1140,21 +1215,21 @@ function renderNotesHistory() {
   var html = "";
   if (notes.intake_saved) {
     html += '<div style="margin-bottom:2rem"><div style="font-family:var(--serif);font-size:1.05rem;color:var(--slate-dk);padding-bottom:0.5rem;border-bottom:1px solid var(--warm);margin-bottom:1rem">Intake — ' + fmtDate(notes.intake_saved.split("T")[0]) + '</div>';
-    INTAKE_QS.forEach(function(q) { if (notes.intake && notes.intake[q.id]) html += '<p style="margin-bottom:1rem"><strong style="font-size:0.68rem;color:var(--stone);text-transform:uppercase;letter-spacing:0.08em;display:block;margin-bottom:0.2rem">' + q.q + '</strong>' + notes.intake[q.id].replace(/\n/g, "<br>") + '</p>'; });
+    INTAKE_QS.forEach(function(q) { if (notes.intake && notes.intake[q.id] && notes.intake[q.id] !== "[Not covered in dictation]") html += '<p style="margin-bottom:1rem"><strong style="font-size:0.68rem;color:var(--stone);text-transform:uppercase;letter-spacing:0.08em;display:block;margin-bottom:0.2rem">' + q.label + '</strong>' + notes.intake[q.id].replace(/\n/g,"<br>") + '</p>'; });
     html += '</div>';
   }
   if (notes.formulation_saved) {
     html += '<div style="margin-bottom:2rem"><div style="font-family:var(--serif);font-size:1.05rem;color:var(--slate-dk);padding-bottom:0.5rem;border-bottom:1px solid var(--warm);margin-bottom:1rem">Formulation — ' + fmtDate(notes.formulation_saved.split("T")[0]) + '</div>';
-    FORM_QS.forEach(function(q) { if (notes.formulation && notes.formulation[q.id]) html += '<p style="margin-bottom:1rem"><strong style="font-size:0.68rem;color:var(--stone);text-transform:uppercase;letter-spacing:0.08em;display:block;margin-bottom:0.2rem">' + q.q + '</strong>' + notes.formulation[q.id].replace(/\n/g, "<br>") + '</p>'; });
+    FORM_QS.forEach(function(q) { if (notes.formulation && notes.formulation[q.id] && notes.formulation[q.id] !== "[Not covered in dictation]") html += '<p style="margin-bottom:1rem"><strong style="font-size:0.68rem;color:var(--stone);text-transform:uppercase;letter-spacing:0.08em;display:block;margin-bottom:0.2rem">' + q.label + '</strong>' + notes.formulation[q.id].replace(/\n/g,"<br>") + '</p>'; });
     html += '</div>';
   }
-  (notes.sessionNotes || []).slice().sort(function(a, b) { return b.saved.localeCompare(a.saved); }).forEach(function(sn) {
+  (notes.sessionNotes || []).slice().sort(function(a,b) { return b.saved.localeCompare(a.saved); }).forEach(function(sn) {
     var sess = data.sessions.find(function(s) { return s.id === sn.sessionId; });
     html += '<div style="margin-bottom:2rem"><div style="font-family:var(--serif);font-size:1.05rem;color:var(--slate-dk);padding-bottom:0.5rem;border-bottom:1px solid var(--warm);margin-bottom:1rem">Session — ' + (sess ? fmtDate(sess.date) : "Unknown") + '</div>';
-    SESSION_QS.forEach(function(q) { if (sn[q.id]) html += '<p style="margin-bottom:1rem"><strong style="font-size:0.68rem;color:var(--stone);text-transform:uppercase;letter-spacing:0.08em;display:block;margin-bottom:0.2rem">' + q.q + '</strong>' + sn[q.id].replace(/\n/g, "<br>") + '</p>'; });
+    SESSION_QS.forEach(function(q) { if (sn[q.id] && sn[q.id] !== "[Not covered in dictation]") html += '<p style="margin-bottom:1rem"><strong style="font-size:0.68rem;color:var(--stone);text-transform:uppercase;letter-spacing:0.08em;display:block;margin-bottom:0.2rem">' + q.label + '</strong>' + sn[q.id].replace(/\n/g,"<br>") + '</p>'; });
     html += '</div>';
   });
-  document.getElementById("notesHistory").innerHTML = html || '<div class="empty-state" style="padding:2rem"><div style="color:var(--stone);font-size:0.82rem">No notes recorded yet</div></div>';
+  document.getElementById("notesHistory").innerHTML = html || '<div class="empty-state"><div style="color:var(--stone);font-size:0.82rem">No notes recorded yet</div></div>';
 }
 
 function openNotesForSession(clientId, sessionId) {
@@ -1164,7 +1239,8 @@ function openNotesForSession(clientId, sessionId) {
     setTimeout(function() {
       setNotesMode("session");
       document.getElementById("sessionNoteSelect").value = sessionId;
-      startSessionQFlow(sessionId, 0);
+      var sn = (data.notes[clientId] && data.notes[clientId].sessionNotes) ? data.notes[clientId].sessionNotes.find(function(n) { return n.sessionId === sessionId; }) : null;
+      if (sn) { renderStructuredOutput("session", sn, sessionId); document.getElementById("session-output").style.display = ""; }
     }, 100);
   }, 100);
 }
@@ -1324,6 +1400,8 @@ document.getElementById("btnSaveSettings").addEventListener("click", function() 
   data.settings.rate_online = parseFloat(document.getElementById("set_rate_online").value);
   data.settings.payment_terms = document.getElementById("set_payment_terms").value;
   data.settings.invoice_note = document.getElementById("set_invoice_note").value;
+  var apiKey = document.getElementById("set_api_key").value.trim();
+  if (apiKey) localStorage.setItem("practiceApiKey", apiKey);
   saveData(); alert("Settings saved.");
 });
 
@@ -1354,6 +1432,10 @@ document.getElementById("btnClearData").addEventListener("click", function() {
 });
 
 // ══ INIT ══
+// Set API key if not already stored
+if (!localStorage.getItem("practiceApiKey")) {
+  localStorage.setItem("practiceApiKey", "sk-ant-api03-H82lFYpnUHzU0aTlFiYEtw3LLR_rBaEU-v2LwJ_LXacU1SiSke8p_0xFir2IOt7pjAyeqIRZCWzCmsFzC79VYw-Fh33OAAA");
+}
 loadData();
 applySettings();
 renderDashboard();
