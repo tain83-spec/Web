@@ -1,5 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import { MapPin, Monitor, ArrowRight, Clock } from "lucide-react";
 import type { Metadata } from "next";
 
@@ -146,18 +147,17 @@ export default function SessionsPage() {
       {/* FAQs */}
       <section className="py-24 px-6">
         <div className="mx-auto max-w-3xl">
-          <h2 className="font-serif text-3xl font-light mb-12">Common questions</h2>
-          <div className="divide-y divide-[var(--border)]">
-            {faqs.map((faq) => (
-              <div key={faq.q} className="py-8">
-                <h3 className="font-medium mb-3">{faq.q}</h3>
-                <p
-                  className="text-[var(--muted-foreground)] leading-relaxed text-sm"
-                  dangerouslySetInnerHTML={{ __html: faq.a }}
-                />
-              </div>
+          <h2 className="font-serif text-3xl font-light mb-8">Common questions</h2>
+          <Accordion type="single" collapsible className="w-full">
+            {faqs.map((faq, i) => (
+              <AccordionItem key={faq.q} value={`faq-${i}`}>
+                <AccordionTrigger>{faq.q}</AccordionTrigger>
+                <AccordionContent>
+                  <span dangerouslySetInnerHTML={{ __html: faq.a }} />
+                </AccordionContent>
+              </AccordionItem>
             ))}
-          </div>
+          </Accordion>
         </div>
       </section>
 

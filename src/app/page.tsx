@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowRight, MapPin, Monitor, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { StatBlock } from "@/components/StatBlock";
 
 const specialisms = [
   {
@@ -88,9 +89,17 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Divider */}
+      {/* Stats */}
       <div className="mx-auto max-w-6xl px-6">
-        <div className="h-px bg-[var(--border)]" />
+        <div className="border-t border-[var(--border)] py-12">
+          <StatBlock
+            stats={[
+              { value: "20+", label: "Years experience", note: "Mental health & addiction services" },
+              { value: "3", label: "Locations", note: "London, Norwich & online" },
+              { value: "50min", label: "Sessions", note: "Same time each week" },
+            ]}
+          />
+        </div>
       </div>
 
       {/* What brings people */}
