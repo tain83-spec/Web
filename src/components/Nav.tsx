@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
@@ -22,13 +23,22 @@ export function Nav() {
     <header className="fixed top-0 left-0 right-0 z-50 border-b border-[var(--border)] bg-[var(--background)]/95 backdrop-blur-sm">
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         {/* Brand */}
-        <Link href="/" className="flex flex-col leading-tight group">
-          <span className="font-serif text-xl font-medium tracking-tight text-[var(--foreground)] group-hover:text-[var(--accent)] transition-colors">
-            Martin Alderton
-          </span>
-          <span className="text-[10px] uppercase tracking-[0.2em] text-[var(--muted-foreground)]">
-            Psychotherapeutic Counselling
-          </span>
+        <Link href="/" className="flex items-center gap-3 group">
+          <Image
+            src="/logo-card.png"
+            alt="Martin Alderton Psychotherapeutic Counselling"
+            width={36}
+            height={36}
+            className="rounded-sm object-cover"
+          />
+          <div className="flex flex-col leading-tight">
+            <span className="font-serif text-xl font-medium tracking-tight text-[var(--foreground)] group-hover:text-[var(--accent)] transition-colors">
+              Martin Alderton
+            </span>
+            <span className="text-[10px] uppercase tracking-[0.2em] text-[var(--muted-foreground)]">
+              Psychotherapeutic Counselling
+            </span>
+          </div>
         </Link>
 
         {/* Desktop links */}

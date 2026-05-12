@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
@@ -88,7 +89,13 @@ export default function AboutPage() {
               </div>
 
               <div className="mt-6">
-                <Badge variant="outline">UKCP Registered</Badge>
+                <Image
+                  src="/ukcp-psa-logos.png"
+                  alt="UKCP and Professional Standards Authority accredited register logos"
+                  width={320}
+                  height={80}
+                  className="object-contain"
+                />
               </div>
             </div>
           </div>
