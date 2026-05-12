@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
@@ -101,14 +102,23 @@ export default function SessionsPage() {
               </p>
             </div>
 
-            <div className="flex items-center gap-4 p-8 bg-[var(--muted)]">
-              <Clock size={24} className="text-[var(--accent)] shrink-0" />
-              <div>
-                <p className="font-medium">50-minute sessions</p>
-                <p className="text-sm text-[var(--muted-foreground)] mt-1">
-                  Same time each week. Consistent, boundaried, reliable.
-                </p>
+            <div className="flex flex-col gap-6">
+              <div className="flex items-center gap-4 p-8 bg-[var(--muted)]">
+                <Clock size={24} className="text-[var(--accent)] shrink-0" />
+                <div>
+                  <p className="font-medium">50-minute sessions</p>
+                  <p className="text-sm text-[var(--muted-foreground)] mt-1">
+                    Same time each week. Consistent, boundaried, reliable.
+                  </p>
+                </div>
               </div>
+              <Image
+                src="/ukcp-psa-logos.png"
+                alt="UKCP and Professional Standards Authority accredited register logos"
+                width={280}
+                height={70}
+                className="object-contain"
+              />
             </div>
           </div>
         </div>
@@ -141,6 +151,19 @@ export default function SessionsPage() {
           <p className="mt-6 text-sm text-[var(--muted-foreground)]">
             Payment is due at the time of the session. I accept bank transfer and card payments.
           </p>
+
+          {/* Norwich practice photo */}
+          <div className="mt-10">
+            <div className="relative w-full aspect-[16/7] overflow-hidden">
+              <Image
+                src="/norwich-practice.jpg"
+                alt="Norwich practice room — a calm, comfortable therapy space"
+                fill
+                className="object-cover object-center"
+              />
+            </div>
+            <p className="mt-3 text-xs text-[var(--muted-foreground)]">Norwich practice room</p>
+          </div>
         </div>
       </section>
 
