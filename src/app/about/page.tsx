@@ -37,7 +37,7 @@ export default function AboutPage() {
               About
             </p>
             <h1 className="font-display text-white leading-[1.05] mb-6">
-              A therapist who understands what it means to need therapy
+              Therapy as an act of creation
             </h1>
             <p className="font-body text-lg text-white/60 max-w-[52ch]">
               UKCP-registered &mdash; over 20 years in mental health &amp; addiction services.
