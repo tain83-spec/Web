@@ -26,7 +26,7 @@ export default function AboutPage() {
           src="/martin-alderton.jpg"
           fill
           priority
-          style={{ objectFit: "cover", objectPosition: "center 35%" }}
+          style={{ objectFit: "cover", objectPosition: "65% 35%" }}
           alt="Martin Alderton, psychotherapeutic counsellor"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/45 to-black/10" />
