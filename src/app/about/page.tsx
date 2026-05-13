@@ -20,40 +20,40 @@ const credentials = [
 export default function AboutPage() {
   return (
     <>
-      <section style={{ padding: "0" }}>
-        <div style={{ display: "flex", alignItems: "stretch", minHeight: "85vh" }}>
+      {/* Hero — full-bleed portrait, same structure as home */}
+      <section className="relative h-[100dvh] min-h-[80vh] overflow-hidden">
+        <Image
+          src="/martin-alderton.jpg"
+          fill
+          priority
+          style={{ objectFit: "cover", objectPosition: "50% 20%" }}
+          alt="Martin Alderton, psychotherapeutic counsellor"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/45 to-black/10" />
 
-          {/* LEFT COLUMN — 55%, handles all its own padding */}
-          <div style={{
-            width: "55%",
-            padding: "clamp(5rem, 8vw, 8rem) clamp(1.5rem, 5vw, 5rem)",
-            display: "flex",
-            flexDirection: "column",
-          }}>
-            <p className="label" style={{ marginBottom: "1rem" }}>About</p>
-            <h2
-              className="font-display font-bold leading-tight"
-              style={{
-                fontSize: "clamp(2.5rem, 5vw, 4.5rem)",
-                lineHeight: 1.05,
-                color: "var(--ink)",
-                marginBottom: "3rem",
-              }}
-            >
+        <div className="absolute inset-0 flex items-end pb-24 px-[clamp(1.5rem,5vw,5rem)]">
+          <div className="max-w-[700px]">
+            <p className="font-body text-[0.7rem] uppercase tracking-[0.2em] text-white/50 mb-5">
+              About
+            </p>
+            <h1 className="font-display text-white leading-[1.05] mb-6">
               A therapist who understands what it means to need therapy
-            </h2>
+            </h1>
+            <p className="font-body text-lg text-white/60 max-w-[52ch]">
+              UKCP-registered &mdash; over 20 years in mental health &amp; addiction services.
+            </p>
+          </div>
+        </div>
+      </section>
 
-            <div
-              className="font-body"
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "1.25rem",
-                color: "var(--mid)",
-                lineHeight: 1.75,
-              }}
-            >
-              <p style={{ fontSize: "1.0625rem", color: "var(--ink)" }}>
+      {/* Bio content */}
+      <section className="py-32 px-[clamp(1.5rem,5vw,5rem)]">
+        <div className="mx-auto max-w-[1200px]">
+          <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-16">
+
+            {/* Left — bio */}
+            <div className="space-y-5 font-body text-[var(--mid)] leading-relaxed">
+              <p className="text-lg text-[var(--ink)]">
                 I&apos;m Martin Alderton — a UKCP-registered psychotherapeutic counsellor
                 with over 20 years working in residential mental health and addiction services,
                 supporting people through some of the most complex and difficult experiences a person can face.
@@ -79,43 +79,28 @@ export default function AboutPage() {
               </p>
             </div>
 
-            {/* Credentials — small-caps list at bottom */}
-            <div style={{ marginTop: "auto", paddingTop: "3rem", borderTop: "1px solid var(--rule)" }}>
-              <ul style={{ display: "flex", flexDirection: "column", gap: "0.4rem" }}>
-                {credentials.map((c) => (
-                  <li
-                    key={c}
-                    className="font-body"
-                    style={{
-                      fontSize: "0.7rem",
-                      textTransform: "uppercase",
-                      letterSpacing: "0.12em",
-                      color: "var(--mid)",
-                      opacity: 0.7,
-                    }}
-                  >
-                    {c}
-                  </li>
-                ))}
-              </ul>
+            {/* Right — credentials + quote */}
+            <div className="flex flex-col gap-8">
+              <div>
+                <p className="label mb-5">Credentials</p>
+                <ul className="space-y-3">
+                  {credentials.map((c) => (
+                    <li key={c} className="flex items-start gap-3">
+                      <div className="mt-2 h-1 w-4 bg-[var(--accent)] shrink-0" />
+                      <span className="font-body text-sm text-[var(--mid)]">{c}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="p-8 bg-[var(--surface)]">
+                <p className="font-display text-lg italic text-[var(--ink)]/75 leading-relaxed">
+                  &ldquo;The relationship between us is itself part of the therapy.&rdquo;
+                </p>
+              </div>
             </div>
-          </div>
 
-          {/* RIGHT COLUMN — 45%, zero padding, bleeds to viewport edge */}
-          <div style={{
-            width: "45%",
-            position: "relative",
-            flexShrink: 0,
-          }}>
-            <Image
-              src="/martin-alderton.jpg"
-              fill
-              style={{ objectFit: "cover", objectPosition: "50% 20%" }}
-              alt="Martin Alderton"
-              priority
-            />
           </div>
-
         </div>
       </section>
 
