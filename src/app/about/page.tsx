@@ -21,12 +21,12 @@ export default function AboutPage() {
   return (
     <>
       {/* Hero — full-bleed portrait, same structure as home */}
-      <section className="relative h-[100dvh] min-h-[80vh] overflow-hidden">
+      <section className="relative h-[100dvh] min-h-[90vh] overflow-hidden">
         <Image
           src="/martin-alderton.jpg"
           fill
           priority
-          style={{ objectFit: "cover", objectPosition: "50% 20%" }}
+          style={{ objectFit: "cover", objectPosition: "center 35%" }}
           alt="Martin Alderton, psychotherapeutic counsellor"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/45 to-black/10" />
