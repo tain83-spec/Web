@@ -20,33 +20,28 @@ const credentials = [
 export default function AboutPage() {
   return (
     <>
-      {/* Magazine spread — flex row is the ONLY child of section, no preceding siblings */}
-      <section style={{ paddingTop: "5.5rem" }}> {/* clear fixed nav */}
-        <div style={{ display: "flex", alignItems: "stretch" }}>
+      <section style={{ padding: "0" }}>
+        <div style={{ display: "flex", alignItems: "stretch", minHeight: "85vh" }}>
 
-          {/* LEFT — 55%, handles all internal spacing */}
-          <div
-            style={{
-              width: "55%",
-              padding: "4rem clamp(1.5rem, 5vw, 5rem) 6rem",
-              display: "flex",
-              flexDirection: "column",
-              flexShrink: 0,
-            }}
-          >
-            <p className="label" style={{ marginBottom: "1.5rem" }}>About</p>
-            <h1
-              className="font-display"
+          {/* LEFT COLUMN — 55%, handles all its own padding */}
+          <div style={{
+            width: "55%",
+            padding: "clamp(5rem, 8vw, 8rem) clamp(1.5rem, 5vw, 5rem)",
+            display: "flex",
+            flexDirection: "column",
+          }}>
+            <p className="label" style={{ marginBottom: "1rem" }}>About</p>
+            <h2
+              className="font-display font-bold leading-tight"
               style={{
                 fontSize: "clamp(2.5rem, 5vw, 4.5rem)",
-                fontWeight: 700,
                 lineHeight: 1.05,
                 color: "var(--ink)",
-                marginBottom: "2.5rem",
+                marginBottom: "3rem",
               }}
             >
               A therapist who understands what it means to need therapy
-            </h1>
+            </h2>
 
             <div
               className="font-body"
@@ -84,15 +79,9 @@ export default function AboutPage() {
               </p>
             </div>
 
-            {/* Credentials — pushed to bottom, small-caps, no box */}
-            <div
-              style={{
-                marginTop: "auto",
-                paddingTop: "3rem",
-                borderTop: "1px solid var(--rule)",
-              }}
-            >
-              <ul style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+            {/* Credentials — small-caps list at bottom */}
+            <div style={{ marginTop: "auto", paddingTop: "3rem", borderTop: "1px solid var(--rule)" }}>
+              <ul style={{ display: "flex", flexDirection: "column", gap: "0.4rem" }}>
                 {credentials.map((c) => (
                   <li
                     key={c}
@@ -101,7 +90,8 @@ export default function AboutPage() {
                       fontSize: "0.7rem",
                       textTransform: "uppercase",
                       letterSpacing: "0.12em",
-                      color: "color-mix(in srgb, var(--mid) 70%, transparent)",
+                      color: "var(--mid)",
+                      opacity: 0.7,
                     }}
                   >
                     {c}
@@ -111,13 +101,17 @@ export default function AboutPage() {
             </div>
           </div>
 
-          {/* RIGHT — fills all remaining space to viewport right edge, zero padding */}
-          <div style={{ flex: 1, position: "relative", minHeight: "700px" }}>
+          {/* RIGHT COLUMN — 45%, zero padding, bleeds to viewport edge */}
+          <div style={{
+            width: "45%",
+            position: "relative",
+            flexShrink: 0,
+          }}>
             <Image
               src="/martin-alderton.jpg"
               fill
-              style={{ objectFit: "cover", objectPosition: "50% 15%" }}
-              alt="Martin Alderton, psychotherapist"
+              style={{ objectFit: "cover", objectPosition: "50% 20%" }}
+              alt="Martin Alderton"
               priority
             />
           </div>
