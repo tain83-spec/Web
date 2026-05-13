@@ -43,7 +43,7 @@ export function Nav() {
         <Link href="/" className="flex flex-col leading-tight">
           <span
             className={cn(
-              "font-display text-lg font-bold tracking-tight transition-colors",
+              "font-display text-2xl font-bold tracking-tight transition-colors",
               solid ? "text-[var(--ink)]" : "text-white"
             )}
           >
@@ -51,7 +51,7 @@ export function Nav() {
           </span>
           <span
             className={cn(
-              "text-[0.65rem] uppercase tracking-[0.15em] transition-colors",
+              "text-[0.65rem] uppercase tracking-[0.15em] whitespace-nowrap transition-colors",
               solid ? "text-[var(--mid)]" : "text-white/60"
             )}
           >

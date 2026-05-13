@@ -21,23 +21,23 @@ export default function AboutPage() {
   return (
     <>
       {/* Hero — full-bleed portrait, same structure as home */}
-      <section className="relative h-[100dvh] min-h-[80vh] overflow-hidden">
+      <section className="relative h-[100dvh] min-h-[92vh] overflow-hidden">
         <Image
           src="/martin-alderton.jpg"
           fill
           priority
-          style={{ objectFit: "cover", objectPosition: "50% 20%" }}
+          style={{ objectFit: "cover", objectPosition: "65% 35%" }}
           alt="Martin Alderton, psychotherapeutic counsellor"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/45 to-black/10" />
 
-        <div className="absolute inset-0 flex items-end pb-24 px-[clamp(1.5rem,5vw,5rem)]">
+        <div className="absolute inset-0 flex items-start pt-32 px-[clamp(1.5rem,5vw,5rem)]">
           <div className="max-w-[700px]">
             <p className="font-body text-[0.7rem] uppercase tracking-[0.2em] text-white/50 mb-5">
               About
             </p>
             <h1 className="font-display text-white leading-[1.05] mb-6">
-              A therapist who understands what it means to need therapy
+              Therapy as an act of creation
             </h1>
             <p className="font-body text-lg text-white/60 max-w-[52ch]">
               UKCP-registered &mdash; over 20 years in mental health &amp; addiction services.
