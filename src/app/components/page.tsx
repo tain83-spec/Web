@@ -83,7 +83,7 @@ export default function ComponentsPage() {
                 <Button variant="default">Default</Button>
                 <Button variant="secondary">Secondary</Button>
                 <Button variant="ghost">Ghost</Button>
-                <Button variant="accent">Accent</Button>
+                <Button variant="dark">Dark</Button>
                 <Button variant="link">Link</Button>
               </div>
             </Demo>
