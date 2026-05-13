@@ -54,28 +54,49 @@ export default function AboutPage() {
             {/* Left — bio */}
             <div className="space-y-5 font-body text-[var(--mid)] leading-relaxed">
               <p className="text-lg text-[var(--ink)]">
-                I&apos;m Martin Alderton — a UKCP-registered psychotherapeutic counsellor
-                with over 20 years working in residential mental health and addiction services,
-                supporting people through some of the most complex and difficult experiences a person can face.
+                I am interested in finding out who you are at the deepest levels.
+                It doesn&apos;t matter where you&apos;ve been, what you&apos;ve seen, or where
+                you&apos;re at right now. I want to understand, and I want to help you
+                understand your self. Because the self is waiting to be witnessed
+                and acknowledged.
               </p>
               <p>
-                I became a therapist because I had to. What I found in therapy changed everything —
-                not just about a particular relationship, but about how I related to people generally.
-                That experience is at the heart of how I work.
+                I will be looking to create with you, to find as much space for
+                beauty, joy, and possibility in your life as we can build together.
               </p>
               <p>
-                My approach rests on a belief that a person is a social, embodied, meaning-making system —
-                shaped by relationships, carried in the body, and capable of genuine change through relationship.
+                I became a therapist because I had to. What I found in therapy
+                changed everything. Not just about a particular relationship, but
+                about how I related to people generally. Things changed for me when
+                I stopped adapting to fit someone else&apos;s world, and started
+                identifying what was actually mine. That shift is at the heart of
+                the work I offer.
               </p>
               <p>
-                I work relationally, which means the relationship between us is itself part of the therapy.
-                What happens between us in the room gives us live material to work with — not just history,
-                but the present moment.
+                What drives me in the room is curiosity. I want to know what I&apos;m
+                missing, but I can&apos;t see what you can&apos;t see. The question I bring
+                into every session is: how are we going to make that manifest
+                together? I notice beauty in the emergence of something new.
+                That&apos;s what I&apos;m looking for with you.
               </p>
               <p>
-                My focus is on what actually shifts something: developing the capacity to regulate,
-                recognising patterns as they happen, and gradually building a different relationship
-                with yourself and others that you can actually feel, not just describe.
+                My approach rests on a belief that a person is a social, embodied,
+                meaning-making system. Shaped by relationship, carried in the body,
+                and capable of genuine change. The therapeutic relationship itself
+                is the medium of change, not just the context for it.
+              </p>
+              <p>
+                The capacity for self-understanding exists in everyone. What it
+                needs is the right conditions: the biological safety of feeling
+                genuinely held. Therapy offers that: a starting point, and a launch
+                pad for finding that same feeling elsewhere in your life.
+              </p>
+              <p>
+                I work with anxiety, relationship patterns, low self-worth, trauma,
+                and the places where something keeps repeating. I&apos;m a
+                UKCP-registered psychotherapeutic counsellor with over 20 years&apos;
+                experience in residential mental health and addiction services, now
+                in private practice at Harley Street, London; Norwich; and online.
               </p>
             </div>
 
