@@ -20,23 +20,21 @@ const credentials = [
 export default function AboutPage() {
   return (
     <>
-      {/* Full-width dominant heading */}
-      <section className="pt-40 pb-16 px-[clamp(1.5rem,5vw,5rem)]">
-        <div className="mx-auto max-w-[1200px]">
-          <h1 className="font-display text-[var(--ink)]">
+      {/* Main section */}
+      <section style={{ padding: "8rem 0" }}>
+        {/* Full-width container for heading */}
+        <div className="container mx-auto px-[clamp(1.5rem,5vw,5rem)] max-w-[1200px]">
+          <p className="label mb-4">About</p>
+          <h1 className="font-display text-[clamp(2.5rem,5vw,4.5rem)] font-bold leading-tight mb-16 max-w-[900px] text-[var(--ink)]">
             A therapist who understands what it means to need therapy
           </h1>
         </div>
-      </section>
 
-      {/* Magazine split — photo fills full height of section */}
-      <section className="pb-32 overflow-hidden">
-        <div className="flex flex-col lg:flex-row lg:min-h-[720px]">
+        {/* Two-column split — no container wrapper, photo goes edge to edge on right */}
+        <div className="flex flex-col lg:flex-row">
 
-          {/* Left — label, bio, credentials small-caps list */}
-          <div className="lg:w-[55%] px-[clamp(1.5rem,5vw,5rem)] lg:pr-20 pb-16 flex flex-col">
-            <p className="label mb-10">About</p>
-
+          {/* Left column — 55% */}
+          <div className="w-full lg:w-[55%] px-[clamp(1.5rem,5vw,5rem)] lg:pl-[clamp(1.5rem,5vw,5rem)] lg:pr-16 pb-16 flex flex-col">
             <div className="space-y-5 font-body text-[var(--mid)] leading-relaxed">
               <p className="text-lg text-[var(--ink)]">
                 I&apos;m Martin Alderton — a UKCP-registered psychotherapeutic counsellor
@@ -64,7 +62,7 @@ export default function AboutPage() {
               </p>
             </div>
 
-            {/* Credentials — simple small-caps list, pushed to bottom */}
+            {/* Credentials — small-caps list, no box */}
             <div className="mt-auto pt-12 border-t border-[var(--rule)]">
               <ul className="space-y-2">
                 {credentials.map((c) => (
@@ -79,13 +77,13 @@ export default function AboutPage() {
             </div>
           </div>
 
-          {/* Right — portrait, full section height, edge to edge */}
-          <div className="lg:w-[45%] relative aspect-[3/4] lg:aspect-auto">
+          {/* Right column — 45%, full height, no padding */}
+          <div className="w-full lg:w-[45%] relative min-h-[600px] lg:min-h-0">
             <Image
               src="/martin-alderton.jpg"
               fill
               style={{ objectFit: "cover", objectPosition: "50% 15%" }}
-              alt="Martin Alderton, psychotherapeutic counsellor"
+              alt="Martin Alderton, psychotherapist"
               priority
             />
           </div>
