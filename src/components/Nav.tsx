@@ -51,7 +51,7 @@ export function Nav() {
           </span>
           <span
             className={cn(
-              "text-[0.65rem] uppercase tracking-[0.15em] transition-colors",
+              "text-[0.65rem] uppercase tracking-[0.15em] whitespace-nowrap transition-colors",
               solid ? "text-[var(--mid)]" : "text-white/60"
             )}
           >

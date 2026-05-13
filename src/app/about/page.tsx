@@ -21,7 +21,7 @@ export default function AboutPage() {
   return (
     <>
       {/* Hero — full-bleed portrait, same structure as home */}
-      <section className="relative h-[100dvh] min-h-[90vh] overflow-hidden">
+      <section className="relative h-[100dvh] min-h-[92vh] overflow-hidden">
         <Image
           src="/martin-alderton.jpg"
           fill
