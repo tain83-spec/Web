@@ -17,95 +17,103 @@ const credentials = [
   "Strict confidentiality as standard",
 ];
 
-const PORTRAIT_EXISTS = true;
-
 export default function AboutPage() {
   return (
     <>
-      {/* Hero */}
-      <section className="pt-40 pb-20 px-[clamp(1.5rem,5vw,5rem)]">
-        <div className="mx-auto max-w-[1200px]">
-          <p className="label mb-4">About</p>
-          <h1 className="font-display text-[var(--ink)] max-w-[700px]">
-            A therapist who understands what it means to need therapy
-          </h1>
+      {/* Hero — full-bleed portrait, same structure as home */}
+      <section className="relative h-[100dvh] min-h-[80vh] overflow-hidden">
+        <Image
+          src="/martin-alderton.jpg"
+          fill
+          priority
+          style={{ objectFit: "cover", objectPosition: "50% 20%" }}
+          alt="Martin Alderton, psychotherapeutic counsellor"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/45 to-black/10" />
+
+        <div className="absolute inset-0 flex items-end pb-24 px-[clamp(1.5rem,5vw,5rem)]">
+          <div className="max-w-[700px]">
+            <p className="font-body text-[0.7rem] uppercase tracking-[0.2em] text-white/50 mb-5">
+              About
+            </p>
+            <h1 className="font-display text-white leading-[1.05] mb-6">
+              A therapist who understands what it means to need therapy
+            </h1>
+            <p className="font-body text-lg text-white/60 max-w-[52ch]">
+              UKCP-registered &mdash; over 20 years in mental health &amp; addiction services.
+            </p>
+          </div>
         </div>
       </section>
 
-      {/* Main content — 60/40 split */}
-      <section className="pb-32 px-[clamp(1.5rem,5vw,5rem)]">
+      {/* Bio content */}
+      <section className="py-32 px-[clamp(1.5rem,5vw,5rem)]">
         <div className="mx-auto max-w-[1200px]">
-          <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-16 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-16">
 
-            {/* Left — bio + credentials */}
-            <div>
-              <div className="space-y-6 font-body text-[var(--mid)] leading-relaxed mb-12">
-                <p className="text-lg text-[var(--ink)]">
-                  I&apos;m Martin Alderton — a UKCP-registered psychotherapeutic counsellor
-                  with over 20 years working in residential mental health and addiction services,
-                  supporting people through some of the most complex and difficult experiences a person can face.
-                </p>
-                <p>
-                  I became a therapist because I had to. What I found in therapy changed everything —
-                  not just about a particular relationship, but about how I related to people generally.
-                  That experience is at the heart of how I work.
-                </p>
-                <p>
-                  My approach rests on a belief that a person is a social, embodied, meaning-making system —
-                  shaped by relationships, carried in the body, and capable of genuine change through relationship.
-                </p>
-                <p>
-                  I work relationally, which means the relationship between us is itself part of the therapy.
-                  What happens between us in the room gives us live material to work with — not just history,
-                  but the present moment.
-                </p>
-                <p>
-                  My focus is on what actually shifts something: developing the capacity to regulate,
-                  recognising patterns as they happen, and gradually building a different relationship
-                  with yourself and others that you can actually feel, not just describe.
-                </p>
-              </div>
+            {/* Left — bio */}
+            <div className="space-y-5 font-body text-[var(--mid)] leading-relaxed">
+              <p className="text-lg text-[var(--ink)]">
+                I am interested in finding out who you are at the deepest levels.
+                It doesn&apos;t matter where you&apos;ve been, what you&apos;ve seen, or where
+                you&apos;re at right now. I want to understand, and I want to help you
+                understand your self. Because the self is waiting to be witnessed
+                and acknowledged.
+              </p>
+              <p>
+                I will be looking to create with you, to find as much space for
+                beauty, joy, and possibility in your life as we can build together.
+              </p>
+              <p>
+                I became a therapist because I had to. What I found in therapy
+                changed everything. Not just about a particular relationship, but
+                about how I related to people generally. Things changed for me when
+                I stopped adapting to fit someone else&apos;s world, and started
+                identifying what was actually mine. That shift is at the heart of
+                the work I offer.
+              </p>
+              <p>
+                What drives me in the room is curiosity. I want to know what I&apos;m
+                missing, but I can&apos;t see what you can&apos;t see. The question I bring
+                into every session is: how are we going to make that manifest
+                together? I notice beauty in the emergence of something new.
+                That&apos;s what I&apos;m looking for with you.
+              </p>
+              <p>
+                My approach rests on a belief that a person is a social, embodied,
+                meaning-making system. Shaped by relationship, carried in the body,
+                and capable of genuine change. The therapeutic relationship itself
+                is the medium of change, not just the context for it.
+              </p>
+              <p>
+                The capacity for self-understanding exists in everyone. What it
+                needs is the right conditions: the biological safety of feeling
+                genuinely held. Therapy offers that: a starting point, and a launch
+                pad for finding that same feeling elsewhere in your life.
+              </p>
+              <p>
+                I work with anxiety, relationship patterns, low self-worth, trauma,
+                and the places where something keeps repeating. I&apos;m a
+                UKCP-registered psychotherapeutic counsellor with over 20 years&apos;
+                experience in residential mental health and addiction services, now
+                in private practice at Harley Street, London; Norwich; and online.
+              </p>
+            </div>
 
-              {/* Credentials */}
-              <div className="border border-[var(--rule)] p-8">
-                <h2 className="font-display text-xl font-bold text-[var(--ink)] mb-6">Credentials</h2>
-                <ul className="space-y-4">
+            {/* Right — credentials + quote */}
+            <div className="flex flex-col gap-8">
+              <div>
+                <p className="label mb-5">Credentials</p>
+                <ul className="space-y-3">
                   {credentials.map((c) => (
                     <li key={c} className="flex items-start gap-3">
-                      <div className="mt-2 h-1 w-5 bg-[var(--accent)] shrink-0" />
+                      <div className="mt-2 h-1 w-4 bg-[var(--accent)] shrink-0" />
                       <span className="font-body text-sm text-[var(--mid)]">{c}</span>
                     </li>
                   ))}
                 </ul>
               </div>
-            </div>
 
-            {/* Right — portrait + quote */}
-            <div className="flex flex-col gap-6">
-              {/* Portrait */}
-              <div className="relative w-full aspect-[3/4] overflow-hidden">
-                {PORTRAIT_EXISTS ? (
-                  <Image
-                    src="/martin-alderton.jpg"
-                    fill
-                    style={{ objectFit: "cover", objectPosition: "center top" }}
-                    alt="Martin Alderton, psychotherapeutic counsellor"
-                  />
-                ) : (
-                  <div className="absolute inset-0 bg-[var(--surface)] flex flex-col items-center justify-center gap-3 border border-dashed border-[var(--rule)]">
-                    <div className="h-16 w-16 rounded-full bg-[var(--rule)] flex items-center justify-center">
-                      <span className="font-display text-2xl font-bold text-[var(--mid)]">MA</span>
-                    </div>
-                    <p className="font-body text-sm text-[var(--mid)] text-center px-6">
-                      Portrait photo
-                      <br />
-                      <span className="text-xs text-[var(--mid)]/60">Upload as <code className="bg-[var(--rule)] px-1 rounded">public/martin-alderton.jpg</code></span>
-                    </p>
-                  </div>
-                )}
-              </div>
-
-              {/* Pull quote */}
               <div className="p-8 bg-[var(--surface)]">
                 <p className="font-display text-lg italic text-[var(--ink)]/75 leading-relaxed">
                   &ldquo;The relationship between us is itself part of the therapy.&rdquo;
