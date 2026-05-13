@@ -1,8 +1,13 @@
+import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, MapPin, Monitor, Shield } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { StatBlock } from "@/components/StatBlock";
+import { ArrowRight, MapPin, Monitor } from "lucide-react";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Martin Alderton | Psychotherapeutic Counselling",
+  description:
+    "UKCP-registered psychotherapeutic counsellor offering individual therapy in London (Harley Street), Norwich, and online. Specialising in anxiety, relationship difficulties, and repeating patterns.",
+};
 
 const specialisms = [
   {
@@ -23,123 +28,101 @@ const specialisms = [
 ];
 
 const locations = [
-  {
-    icon: MapPin,
-    name: "Harley Street",
-    detail: "Central London, W1G",
-    note: "In-person sessions",
-  },
-  {
-    icon: MapPin,
-    name: "Norwich",
-    detail: "Norfolk, NR1",
-    note: "In-person sessions",
-  },
-  {
-    icon: Monitor,
-    name: "Online",
-    detail: "Anywhere in the UK",
-    note: "Video sessions",
-  },
+  { icon: MapPin, name: "Harley Street", detail: "Central London, W1G" },
+  { icon: MapPin, name: "Norwich", detail: "Norfolk, NR1" },
+  { icon: Monitor, name: "Online", detail: "Anywhere in the UK" },
 ];
 
 export default function Home() {
   return (
     <>
       {/* Hero */}
-      <section className="pt-36 pb-24 px-6">
-        <div className="mx-auto max-w-6xl">
-          <div className="max-w-3xl">
-            <div className="flex items-center gap-3 mb-8">
-              <div className="h-px w-12 bg-[var(--accent)]" />
-              <span className="text-xs uppercase tracking-[0.25em] text-[var(--muted-foreground)]">
-                Psychotherapeutic Counselling
-              </span>
-            </div>
+      <section className="relative h-[100dvh] min-h-[80vh] overflow-hidden">
+        <Image
+          src="/norwich-practice.jpg"
+          alt="Therapy practice room"
+          fill
+          priority
+          className="object-cover object-center"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/45 to-black/20" />
 
-            <h1 className="font-serif text-5xl md:text-7xl font-light leading-[1.05] tracking-tight text-[var(--foreground)] mb-8">
-              A space to make sense of what&apos;s{" "}
-              <em className="text-[var(--accent)]">going on beneath the surface</em>
+        <div className="absolute inset-0 flex items-end pb-24 px-[clamp(1.5rem,5vw,5rem)]">
+          <div className="max-w-[750px]">
+            <h1 className="font-display text-white leading-[1.05] mb-6">
+              A space to make sense of what&apos;s going on beneath the surface
             </h1>
-
-            <p className="text-lg md:text-xl text-[var(--muted-foreground)] leading-relaxed max-w-2xl mb-12">
-              I offer calm, confidential individual therapy in London, Norwich, and online.
-              For people who feel stuck, overwhelmed, or caught in patterns they can&apos;t seem to shift.
+            <p className="font-body text-lg text-white/60 mb-10 max-w-[52ch]">
+              Individual therapy in London, Norwich, and online — for people who feel stuck,
+              overwhelmed, or caught in patterns they can&apos;t seem to shift.
             </p>
-
-            <div className="flex flex-wrap gap-4 items-center">
-              <Button asChild size="lg">
-                <a href="mailto:martin@martinalderton.co.uk">
-                  Email to arrange a conversation
-                </a>
-              </Button>
-              <Button asChild variant="ghost" size="lg" className="group">
-                <a href="tel:07799563910" className="flex items-center gap-2">
-                  07799 563 910
-                </a>
-              </Button>
-            </div>
-
-            <div className="flex flex-wrap gap-3 mt-10">
-              <Badge variant="outline">UKCP Registered</Badge>
-              <Badge variant="outline">20+ Years Experience</Badge>
-              <Badge variant="outline">Individual Therapy</Badge>
-            </div>
+            <a
+              href="mailto:martin@martinalderton.co.uk"
+              className="inline-flex items-center gap-2 px-7 py-3.5 bg-[var(--accent)] text-white font-body text-[0.875rem] uppercase tracking-[0.06em] hover:brightness-90 transition-all duration-200 rounded-[4px]"
+            >
+              Get in touch <ArrowRight size={15} />
+            </a>
           </div>
         </div>
       </section>
 
-      {/* Stats */}
-      <div className="mx-auto max-w-6xl px-6">
-        <div className="border-t border-[var(--border)] py-12">
-          <StatBlock
-            stats={[
+      {/* Stats strip */}
+      <div className="border-b border-[var(--rule)] bg-[var(--surface)]">
+        <div className="mx-auto max-w-[1200px] px-[clamp(1.5rem,5vw,5rem)] py-8">
+          <div className="flex flex-wrap gap-8 md:gap-0 md:divide-x md:divide-[var(--rule)]">
+            {[
               { value: "20+", label: "Years experience", note: "Mental health & addiction services" },
               { value: "3", label: "Locations", note: "London, Norwich & online" },
-              { value: "50min", label: "Sessions", note: "Same time each week" },
-            ]}
-          />
+              { value: "50 min", label: "Sessions", note: "Same time each week" },
+              { value: "UKCP", label: "Registered", note: "Full professional accreditation" },
+            ].map((s) => (
+              <div key={s.label} className="md:px-10 first:pl-0 last:pr-0 flex-1 min-w-[140px]">
+                <p className="font-display text-3xl font-bold text-[var(--ink)]">{s.value}</p>
+                <p className="font-body text-[0.8rem] uppercase tracking-[0.1em] text-[var(--mid)] mt-0.5">{s.label}</p>
+                <p className="font-body text-xs text-[var(--mid)]/70 mt-1">{s.note}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
-      {/* What brings people */}
-      <section className="py-24 px-6">
-        <div className="mx-auto max-w-6xl">
+      {/* Specialisms */}
+      <section className="py-32 px-[clamp(1.5rem,5vw,5rem)]">
+        <div className="mx-auto max-w-[1200px]">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
             <div>
-              <h2 className="font-serif text-4xl md:text-5xl font-light leading-tight mb-6">
+              <p className="label mb-4">What brings people</p>
+              <h2 className="font-display text-[var(--ink)] mb-6">
                 Many people come not knowing exactly what they need
               </h2>
-              <p className="text-[var(--muted-foreground)] leading-relaxed mb-6">
+              <p className="font-body text-[var(--mid)] leading-relaxed mb-4">
                 Only that something isn&apos;t working. Perhaps you&apos;re feeling overwhelmed,
                 or stuck in patterns you can&apos;t seem to shift. Maybe the same difficulties
                 keep returning — in relationships, at work, or in the way you feel about yourself.
               </p>
-              <p className="text-[var(--muted-foreground)] leading-relaxed">
+              <p className="font-body text-[var(--mid)] leading-relaxed">
                 My focus is on what actually shifts something: developing the capacity to regulate,
                 recognising patterns as they happen, and gradually building a different relationship
                 with yourself and others that you can <em>actually feel</em>, not just describe.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 gap-4">
+            <div className="flex flex-col gap-3">
               {specialisms.map((s) => (
                 <Link
                   key={s.href}
                   href={s.href}
-                  className="group flex items-start justify-between gap-4 p-6 border border-[var(--border)] hover:border-[var(--foreground)] transition-all duration-200"
+                  className="group flex items-start justify-between gap-4 p-7 border border-[var(--rule)] hover:border-[var(--ink)] transition-colors duration-200"
                 >
                   <div>
-                    <h3 className="font-serif text-xl font-medium mb-2 group-hover:text-[var(--accent)] transition-colors">
+                    <h3 className="font-display text-xl font-bold text-[var(--ink)] mb-1.5 group-hover:text-[var(--accent)] transition-colors">
                       {s.title}
                     </h3>
-                    <p className="text-sm text-[var(--muted-foreground)] leading-relaxed">
-                      {s.desc}
-                    </p>
+                    <p className="font-body text-sm text-[var(--mid)] leading-relaxed">{s.desc}</p>
                   </div>
                   <ArrowRight
-                    size={18}
-                    className="mt-1 shrink-0 text-[var(--muted-foreground)] group-hover:text-[var(--accent)] group-hover:translate-x-1 transition-all duration-200"
+                    size={17}
+                    className="mt-1 shrink-0 text-[var(--mid)] group-hover:text-[var(--accent)] group-hover:translate-x-1 transition-all duration-200"
                   />
                 </Link>
               ))}
@@ -149,15 +132,15 @@ export default function Home() {
       </section>
 
       {/* Quote */}
-      <section className="py-20 px-6 bg-[var(--primary)]">
-        <div className="mx-auto max-w-3xl text-center">
-          <blockquote className="font-serif text-2xl md:text-3xl font-light italic text-[var(--primary-foreground)]/90 leading-relaxed">
+      <section className="py-24 px-[clamp(1.5rem,5vw,5rem)] bg-[var(--bg-dark)]">
+        <div className="mx-auto max-w-[800px] text-center">
+          <blockquote className="font-display text-2xl md:text-[2rem] font-normal italic text-white/90 leading-[1.4]">
             &ldquo;I became a therapist because I had to. What I found in therapy changed
             everything — not just about that relationship, but about how I related to people generally.&rdquo;
           </blockquote>
-          <div className="mt-6 flex items-center justify-center gap-3">
+          <div className="mt-8 flex items-center justify-center gap-4">
             <div className="h-px w-8 bg-[var(--accent)]" />
-            <span className="text-xs uppercase tracking-[0.2em] text-[var(--primary-foreground)]/50">
+            <span className="font-body text-[0.7rem] uppercase tracking-[0.2em] text-white/40">
               Martin Alderton
             </span>
             <div className="h-px w-8 bg-[var(--accent)]" />
@@ -166,88 +149,87 @@ export default function Home() {
       </section>
 
       {/* Locations */}
-      <section className="py-24 px-6">
-        <div className="mx-auto max-w-6xl">
-          <div className="mb-12">
-            <h2 className="font-serif text-4xl font-light mb-3">Where we can meet</h2>
-            <p className="text-[var(--muted-foreground)]">
-              All locations offer the same professional, confidential standard of care.
-            </p>
-          </div>
-
+      <section className="py-32 px-[clamp(1.5rem,5vw,5rem)]">
+        <div className="mx-auto max-w-[1200px]">
+          <p className="label mb-4">Where we can meet</p>
+          <h2 className="font-display text-[var(--ink)] mb-12">
+            London, Norwich &amp; online
+          </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {locations.map((loc) => (
-              <div
-                key={loc.name}
-                className="p-8 border border-[var(--border)] flex flex-col gap-4"
-              >
-                <loc.icon size={20} className="text-[var(--accent)]" />
-                <div>
-                  <h3 className="font-serif text-xl font-medium">{loc.name}</h3>
-                  <p className="text-sm text-[var(--muted-foreground)] mt-1">{loc.detail}</p>
-                </div>
-                <Badge variant="outline" className="w-fit">{loc.note}</Badge>
+              <div key={loc.name} className="p-8 border border-[var(--rule)]">
+                <loc.icon size={18} className="text-[var(--accent)] mb-5" />
+                <h3 className="font-display text-xl font-bold text-[var(--ink)]">{loc.name}</h3>
+                <p className="font-body text-sm text-[var(--mid)] mt-1">{loc.detail}</p>
               </div>
             ))}
           </div>
+          <p className="font-body text-sm text-[var(--mid)] mt-6">
+            All locations offer the same professional, confidential standard of care.
+          </p>
         </div>
       </section>
 
       {/* About strip */}
-      <section className="py-20 px-6 bg-[var(--muted)]">
-        <div className="mx-auto max-w-6xl">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <section className="py-24 px-[clamp(1.5rem,5vw,5rem)] bg-[var(--surface)]">
+        <div className="mx-auto max-w-[1200px]">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
-              <p className="text-xs uppercase tracking-[0.2em] text-[var(--muted-foreground)] mb-4">About me</p>
-              <h2 className="font-serif text-4xl font-light leading-tight mb-6">
+              <p className="label mb-4">About me</p>
+              <h2 className="font-display text-[var(--ink)] mb-6">
                 Over 20 years working in mental health and addiction services
               </h2>
-              <p className="text-[var(--muted-foreground)] leading-relaxed">
+              <p className="font-body text-[var(--mid)] leading-relaxed mb-8">
                 I&apos;m a UKCP-registered psychotherapeutic counsellor. My approach rests on a belief
                 that a person is a social, embodied, meaning-making system — shaped by relationships,
                 carried in the body, and capable of genuine change.
               </p>
+              <Link
+                href="/about"
+                className="inline-flex items-center gap-2 font-body text-[0.875rem] uppercase tracking-[0.06em] text-[var(--ink)] hover:text-[var(--accent)] transition-colors"
+              >
+                Read more about me <ArrowRight size={14} />
+              </Link>
             </div>
-            <div className="flex flex-col gap-4">
+            <div className="space-y-4">
               {[
-                { icon: Shield, text: "UKCP Registered — full professional accreditation" },
-                { icon: Shield, text: "Supervised practice maintained throughout" },
-                { icon: Shield, text: "Strict confidentiality as standard" },
+                "UKCP Registered — full professional accreditation",
+                "Supervised practice maintained throughout",
+                "Strict confidentiality as standard",
               ].map((item) => (
-                <div key={item.text} className="flex items-start gap-4">
-                  <item.icon size={16} className="mt-0.5 shrink-0 text-[var(--accent)]" />
-                  <p className="text-sm text-[var(--muted-foreground)]">{item.text}</p>
+                <div key={item} className="flex items-start gap-3">
+                  <div className="mt-2 h-1 w-5 bg-[var(--accent)] shrink-0" />
+                  <p className="font-body text-[var(--mid)]">{item}</p>
                 </div>
               ))}
-              <div className="mt-4">
-                <Button asChild variant="secondary">
-                  <Link href="/about">Read more about me</Link>
-                </Button>
-              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="py-24 px-6">
-        <div className="mx-auto max-w-3xl text-center">
-          <h2 className="font-serif text-4xl md:text-5xl font-light mb-6">
+      <section className="py-32 px-[clamp(1.5rem,5vw,5rem)]">
+        <div className="mx-auto max-w-[700px] text-center">
+          <h2 className="font-display text-[var(--ink)] mb-6">
             Ready to take a first step?
           </h2>
-          <p className="text-[var(--muted-foreground)] leading-relaxed mb-10 max-w-xl mx-auto">
+          <p className="font-body text-[var(--mid)] leading-relaxed mb-10">
             If you&apos;re unsure whether counselling is right for you, or whether now is the right time,
             you&apos;re welcome to get in touch for an initial conversation. No pressure to commit.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <Button asChild size="lg">
-              <a href="mailto:martin@martinalderton.co.uk">
-                Email Martin <ArrowRight size={16} />
-              </a>
-            </Button>
-            <Button asChild variant="secondary" size="lg">
-              <Link href="/sessions">View sessions & fees</Link>
-            </Button>
+            <a
+              href="mailto:martin@martinalderton.co.uk"
+              className="inline-flex items-center gap-2 px-7 py-3.5 bg-[var(--accent)] text-white font-body text-[0.875rem] uppercase tracking-[0.06em] hover:brightness-90 transition-all duration-200 rounded-[4px]"
+            >
+              Email Martin <ArrowRight size={15} />
+            </a>
+            <Link
+              href="/sessions"
+              className="inline-flex items-center gap-2 px-7 py-3.5 border border-[var(--ink)] text-[var(--ink)] font-body text-[0.875rem] uppercase tracking-[0.06em] hover:bg-[var(--ink)] hover:text-white transition-all duration-200 rounded-[4px]"
+            >
+              Sessions &amp; fees
+            </Link>
           </div>
         </div>
       </section>

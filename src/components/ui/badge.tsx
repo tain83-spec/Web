@@ -9,9 +9,9 @@ function Badge({ className, variant = "default", ...props }: BadgeProps) {
   return (
     <span
       className={cn(
-        "inline-flex items-center rounded-full px-3 py-1 text-xs font-medium tracking-wide",
-        variant === "default" && "bg-[var(--muted)] text-[var(--muted-foreground)]",
-        variant === "outline" && "border border-[var(--border)] text-[var(--muted-foreground)]",
+        "inline-flex items-center px-3 py-1 font-body text-xs uppercase tracking-[0.08em]",
+        variant === "default" && "bg-[var(--surface)] text-[var(--mid)]",
+        variant === "outline" && "border border-[var(--rule)] text-[var(--mid)]",
         variant === "accent" && "bg-[var(--accent)] text-white",
         className
       )}

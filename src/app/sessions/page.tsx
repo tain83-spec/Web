@@ -1,8 +1,7 @@
 import Image from "next/image";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import { MapPin, Monitor, ArrowRight, Clock } from "lucide-react";
+import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -18,7 +17,6 @@ const locations = [
     address: "London, W1G",
     fee: "£120",
     per: "per 50-minute session",
-    note: "In-person sessions available",
   },
   {
     icon: MapPin,
@@ -26,7 +24,6 @@ const locations = [
     address: "Norfolk, NR1",
     fee: "£90",
     per: "per 50-minute session",
-    note: "In-person sessions available",
   },
   {
     icon: Monitor,
@@ -34,7 +31,6 @@ const locations = [
     address: "Anywhere in the UK",
     fee: "£90",
     per: "per 50-minute session",
-    note: "Secure video platform",
   },
 ];
 
@@ -45,19 +41,19 @@ const faqs = [
   },
   {
     q: "How many sessions will I need?",
-    a: "There is no set number. Some people come for a focused period of 12–20 sessions; others work with me for much longer. We&apos;ll review regularly and you&apos;re always free to stop.",
+    a: "There is no set number. Some people come for a focused period of 12–20 sessions; others work with me for much longer. We'll review regularly and you're always free to stop.",
   },
   {
     q: "What happens in the first session?",
-    a: "The first session is a chance for us to meet, for you to share what&apos;s bringing you and for me to get a sense of whether and how I can help. There&apos;s no pressure to commit after that.",
+    a: "The first session is a chance for us to meet, for you to share what's bringing you and for me to get a sense of whether and how I can help. There's no pressure to commit after that.",
   },
   {
     q: "Is everything confidential?",
-    a: "Yes. Everything discussed is confidential, with very limited exceptions required by law (such as risk of serious harm). I&apos;ll explain these at the start so there are no surprises.",
+    a: "Yes. Everything discussed is confidential, with very limited exceptions required by law (such as risk of serious harm). I'll explain these at the start so there are no surprises.",
   },
   {
     q: "What is your cancellation policy?",
-    a: "I ask for at least 48 hours&apos; notice to cancel or reschedule a session. Sessions cancelled with less notice will be charged in full.",
+    a: "I ask for at least 48 hours' notice to cancel or reschedule a session. Sessions cancelled with less notice will be charged in full.",
   },
 ];
 
@@ -65,26 +61,21 @@ export default function SessionsPage() {
   return (
     <>
       {/* Hero */}
-      <section className="pt-36 pb-20 px-6">
-        <div className="mx-auto max-w-6xl">
-          <div className="flex items-center gap-3 mb-8">
-            <div className="h-px w-12 bg-[var(--accent)]" />
-            <span className="text-xs uppercase tracking-[0.25em] text-[var(--muted-foreground)]">
-              Sessions
-            </span>
-          </div>
-          <h1 className="font-serif text-5xl md:text-6xl font-light leading-tight max-w-3xl">
-            What happens in sessions & what it costs
+      <section className="pt-40 pb-20 px-[clamp(1.5rem,5vw,5rem)]">
+        <div className="mx-auto max-w-[1200px]">
+          <p className="label mb-4">Sessions</p>
+          <h1 className="font-display text-[var(--ink)] max-w-[700px]">
+            What happens in sessions &amp; what it costs
           </h1>
         </div>
       </section>
 
       {/* What to expect */}
-      <section className="pb-20 px-6">
-        <div className="mx-auto max-w-6xl">
+      <section className="pb-24 px-[clamp(1.5rem,5vw,5rem)]">
+        <div className="mx-auto max-w-[1200px]">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-            <div className="space-y-6 text-[var(--muted-foreground)] leading-relaxed">
-              <h2 className="font-serif text-3xl font-light text-[var(--foreground)]">What to expect</h2>
+            <div className="space-y-5 font-body text-[var(--mid)] leading-relaxed">
+              <h2 className="font-display text-2xl font-bold text-[var(--ink)]">What to expect</h2>
               <p>
                 Sessions last 50 minutes and take place at the same time each week.
                 This regularity matters — it creates the consistency and safety that allows
@@ -103,11 +94,11 @@ export default function SessionsPage() {
             </div>
 
             <div className="flex flex-col gap-6">
-              <div className="flex items-center gap-4 p-8 bg-[var(--muted)]">
-                <Clock size={24} className="text-[var(--accent)] shrink-0" />
+              <div className="flex items-center gap-4 p-8 bg-[var(--surface)]">
+                <Clock size={22} className="text-[var(--accent)] shrink-0" />
                 <div>
-                  <p className="font-medium">50-minute sessions</p>
-                  <p className="text-sm text-[var(--muted-foreground)] mt-1">
+                  <p className="font-body font-medium text-[var(--ink)]">50-minute sessions</p>
+                  <p className="font-body text-sm text-[var(--mid)] mt-1">
                     Same time each week. Consistent, boundaried, reliable.
                   </p>
                 </div>
@@ -125,35 +116,32 @@ export default function SessionsPage() {
       </section>
 
       {/* Fees */}
-      <section className="py-20 px-6 bg-[var(--muted)]">
-        <div className="mx-auto max-w-6xl">
-          <h2 className="font-serif text-3xl font-light mb-12">Locations & fees</h2>
+      <section className="py-24 px-[clamp(1.5rem,5vw,5rem)] bg-[var(--surface)]">
+        <div className="mx-auto max-w-[1200px]">
+          <p className="label mb-4">Fees</p>
+          <h2 className="font-display text-[var(--ink)] mb-12">Locations &amp; fees</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {locations.map((loc) => (
-              <div key={loc.name} className="bg-[var(--card)] border border-[var(--border)] p-8 flex flex-col gap-6">
+              <div key={loc.name} className="bg-[var(--bg)] border border-[var(--rule)] p-8 flex flex-col gap-5">
                 <div className="flex items-start gap-3">
-                  <loc.icon size={18} className="mt-0.5 text-[var(--accent)]" />
+                  <loc.icon size={17} className="mt-0.5 text-[var(--accent)] shrink-0" />
                   <div>
-                    <h3 className="font-serif text-xl font-medium">{loc.name}</h3>
-                    <p className="text-sm text-[var(--muted-foreground)]">{loc.address}</p>
+                    <h3 className="font-display text-xl font-bold text-[var(--ink)]">{loc.name}</h3>
+                    <p className="font-body text-sm text-[var(--mid)]">{loc.address}</p>
                   </div>
                 </div>
-
                 <div>
-                  <p className="font-serif text-4xl font-light">{loc.fee}</p>
-                  <p className="text-xs text-[var(--muted-foreground)] mt-1">{loc.per}</p>
+                  <p className="font-display text-4xl font-bold text-[var(--ink)]">{loc.fee}</p>
+                  <p className="font-body text-xs text-[var(--mid)] mt-1">{loc.per}</p>
                 </div>
-
-                <Badge variant="outline" className="w-fit">{loc.note}</Badge>
               </div>
             ))}
           </div>
-          <p className="mt-6 text-sm text-[var(--muted-foreground)]">
+          <p className="font-body mt-6 text-sm text-[var(--mid)]">
             Payment is due at the time of the session. I accept bank transfer and card payments.
           </p>
 
-          {/* Norwich practice photo */}
-          <div className="mt-10">
+          <div className="mt-12">
             <div className="relative w-full aspect-[16/7] overflow-hidden">
               <Image
                 src="/norwich-practice.jpg"
@@ -162,22 +150,21 @@ export default function SessionsPage() {
                 className="object-cover object-center"
               />
             </div>
-            <p className="mt-3 text-xs text-[var(--muted-foreground)]">Norwich practice room</p>
+            <p className="font-body mt-3 text-xs text-[var(--mid)]">Norwich practice room</p>
           </div>
         </div>
       </section>
 
       {/* FAQs */}
-      <section className="py-24 px-6">
-        <div className="mx-auto max-w-3xl">
-          <h2 className="font-serif text-3xl font-light mb-8">Common questions</h2>
+      <section className="py-32 px-[clamp(1.5rem,5vw,5rem)]">
+        <div className="mx-auto max-w-[760px]">
+          <p className="label mb-4">Common questions</p>
+          <h2 className="font-display text-[var(--ink)] mb-10">Frequently asked</h2>
           <Accordion type="single" collapsible className="w-full">
             {faqs.map((faq, i) => (
               <AccordionItem key={faq.q} value={`faq-${i}`}>
                 <AccordionTrigger>{faq.q}</AccordionTrigger>
-                <AccordionContent>
-                  <span dangerouslySetInnerHTML={{ __html: faq.a }} />
-                </AccordionContent>
+                <AccordionContent>{faq.a}</AccordionContent>
               </AccordionItem>
             ))}
           </Accordion>
@@ -185,23 +172,27 @@ export default function SessionsPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-20 px-6 bg-[var(--primary)]">
-        <div className="mx-auto max-w-3xl text-center">
-          <h2 className="font-serif text-3xl md:text-4xl font-light text-[var(--primary-foreground)] mb-4">
+      <section className="py-24 px-[clamp(1.5rem,5vw,5rem)] bg-[var(--bg-dark)]">
+        <div className="mx-auto max-w-[700px] text-center">
+          <h2 className="font-display text-white mb-4">
             Not sure if now&apos;s the right time?
           </h2>
-          <p className="text-[var(--primary-foreground)]/70 mb-8">
+          <p className="font-body text-white/50 mb-10">
             Get in touch for a no-obligation initial conversation and we can go from there.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <Button asChild size="lg" className="bg-[var(--accent)] hover:opacity-90 border-0">
-              <a href="mailto:martin@martinalderton.co.uk">
-                Email Martin <ArrowRight size={16} />
-              </a>
-            </Button>
-            <Button asChild size="lg" variant="secondary" className="border-[var(--primary-foreground)]/30 text-[var(--primary-foreground)] hover:bg-[var(--primary-foreground)]/10 hover:text-[var(--primary-foreground)]">
-              <a href="tel:07799563910">07799 563 910</a>
-            </Button>
+            <a
+              href="mailto:martin@martinalderton.co.uk"
+              className="inline-flex items-center gap-2 px-7 py-3.5 bg-[var(--accent)] text-white font-body text-[0.875rem] uppercase tracking-[0.06em] hover:brightness-90 transition-all duration-200 rounded-[4px]"
+            >
+              Email Martin <ArrowRight size={15} />
+            </a>
+            <a
+              href="tel:07799563910"
+              className="inline-flex items-center gap-2 px-7 py-3.5 border border-white/30 text-white/70 font-body text-[0.875rem] uppercase tracking-[0.06em] hover:border-white hover:text-white transition-all duration-200 rounded-[4px]"
+            >
+              07799 563 910
+            </a>
           </div>
         </div>
       </section>

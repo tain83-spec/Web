@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import type { Metadata } from "next";
@@ -23,26 +22,21 @@ export default function RelationshipsPage() {
   return (
     <>
       {/* Hero */}
-      <section className="pt-36 pb-20 px-6">
-        <div className="mx-auto max-w-6xl">
-          <div className="flex items-center gap-3 mb-8">
-            <div className="h-px w-12 bg-[var(--accent)]" />
-            <span className="text-xs uppercase tracking-[0.25em] text-[var(--muted-foreground)]">
-              Relationships
-            </span>
-          </div>
-          <h1 className="font-serif text-5xl md:text-6xl font-light leading-tight max-w-3xl">
+      <section className="pt-40 pb-20 px-[clamp(1.5rem,5vw,5rem)]">
+        <div className="mx-auto max-w-[1200px]">
+          <p className="label mb-4">Relationships</p>
+          <h1 className="font-display text-[var(--ink)] max-w-[700px]">
             When the same difficulties keep coming back
           </h1>
         </div>
       </section>
 
       {/* Main */}
-      <section className="pb-24 px-6">
-        <div className="mx-auto max-w-6xl">
+      <section className="pb-32 px-[clamp(1.5rem,5vw,5rem)]">
+        <div className="mx-auto max-w-[1200px]">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-            <div className="space-y-6 text-[var(--muted-foreground)] leading-relaxed">
-              <p className="text-lg text-[var(--foreground)]">
+            <div className="space-y-5 font-body text-[var(--mid)] leading-relaxed">
+              <p className="text-lg text-[var(--ink)]">
                 Relationship difficulties rarely come out of nowhere. They have roots —
                 in early experiences, in what we learned about closeness, about safety,
                 about what we could expect from other people.
@@ -64,15 +58,15 @@ export default function RelationshipsPage() {
             </div>
 
             {/* Patterns */}
-            <div className="border border-[var(--border)] p-8">
-              <h2 className="font-serif text-2xl font-medium mb-6">
+            <div className="border border-[var(--rule)] p-8">
+              <h2 className="font-display text-2xl font-bold text-[var(--ink)] mb-6">
                 Patterns that might feel familiar
               </h2>
               <ul className="space-y-4">
                 {patterns.map((p) => (
                   <li key={p} className="flex items-start gap-3">
-                    <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-[var(--accent)] shrink-0" />
-                    <span className="text-sm text-[var(--muted-foreground)]">{p}</span>
+                    <div className="mt-2 h-1 w-5 bg-[var(--accent)] shrink-0" />
+                    <span className="font-body text-sm text-[var(--mid)]">{p}</span>
                   </li>
                 ))}
               </ul>
@@ -80,13 +74,13 @@ export default function RelationshipsPage() {
           </div>
 
           {/* Approach */}
-          <div className="mt-20 py-16 border-t border-[var(--border)]">
+          <div className="mt-20 py-16 border-t border-[var(--rule)]">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
               <div>
-                <h2 className="font-serif text-3xl font-light mb-6">
+                <h2 className="font-display text-[var(--ink)] mb-6">
                   Understanding, not just managing
                 </h2>
-                <div className="space-y-5 text-[var(--muted-foreground)] leading-relaxed">
+                <div className="space-y-5 font-body text-[var(--mid)] leading-relaxed">
                   <p>
                     The aim isn&apos;t to teach you better communication techniques —
                     though practical things may shift too. It&apos;s to understand why you
@@ -101,8 +95,8 @@ export default function RelationshipsPage() {
                 </div>
               </div>
 
-              <div className="bg-[var(--muted)] p-8">
-                <p className="font-serif text-xl italic text-[var(--foreground)]/80 leading-relaxed">
+              <div className="bg-[var(--surface)] p-8 flex items-center">
+                <p className="font-display text-xl italic text-[var(--ink)]/75 leading-relaxed">
                   &ldquo;How we relate in the room is live information — and it&apos;s where real change tends to happen.&rdquo;
                 </p>
               </div>
@@ -112,23 +106,25 @@ export default function RelationshipsPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-20 px-6 bg-[var(--primary)]">
-        <div className="mx-auto max-w-3xl text-center">
-          <h2 className="font-serif text-3xl md:text-4xl font-light text-[var(--primary-foreground)] mb-4">
-            The pattern can change
-          </h2>
-          <p className="text-[var(--primary-foreground)]/70 mb-8">
+      <section className="py-24 px-[clamp(1.5rem,5vw,5rem)] bg-[var(--bg-dark)]">
+        <div className="mx-auto max-w-[700px] text-center">
+          <h2 className="font-display text-white mb-4">The pattern can change</h2>
+          <p className="font-body text-white/50 mb-10">
             Get in touch to arrange an initial conversation — no pressure, no commitment.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <Button asChild size="lg" className="bg-[var(--accent)] hover:opacity-90 border-0">
-              <a href="mailto:martin@martinalderton.co.uk">
-                Email Martin <ArrowRight size={16} />
-              </a>
-            </Button>
-            <Button asChild size="lg" variant="secondary" className="border-[var(--primary-foreground)]/30 text-[var(--primary-foreground)] hover:bg-[var(--primary-foreground)]/10 hover:text-[var(--primary-foreground)]">
-              <Link href="/sessions">View sessions & fees</Link>
-            </Button>
+            <a
+              href="mailto:martin@martinalderton.co.uk"
+              className="inline-flex items-center gap-2 px-7 py-3.5 bg-[var(--accent)] text-white font-body text-[0.875rem] uppercase tracking-[0.06em] hover:brightness-90 transition-all duration-200 rounded-[4px]"
+            >
+              Email Martin <ArrowRight size={15} />
+            </a>
+            <Link
+              href="/sessions"
+              className="inline-flex items-center gap-2 px-7 py-3.5 border border-white/30 text-white/70 font-body text-[0.875rem] uppercase tracking-[0.06em] hover:border-white hover:text-white transition-all duration-200 rounded-[4px]"
+            >
+              Sessions &amp; fees
+            </Link>
           </div>
         </div>
       </section>

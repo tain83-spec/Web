@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import type { Metadata } from "next";
@@ -10,7 +9,7 @@ export const metadata: Metadata = {
 };
 
 const signs = [
-  "Constant worry that&apos;s hard to switch off",
+  "Constant worry that's hard to switch off",
   "Feeling overwhelmed by things that used to feel manageable",
   "Panic attacks or physical symptoms of anxiety",
   "Avoiding situations because of what might happen",
@@ -23,26 +22,21 @@ export default function AnxietyPage() {
   return (
     <>
       {/* Hero */}
-      <section className="pt-36 pb-20 px-6">
-        <div className="mx-auto max-w-6xl">
-          <div className="flex items-center gap-3 mb-8">
-            <div className="h-px w-12 bg-[var(--accent)]" />
-            <span className="text-xs uppercase tracking-[0.25em] text-[var(--muted-foreground)]">
-              Anxiety
-            </span>
-          </div>
-          <h1 className="font-serif text-5xl md:text-6xl font-light leading-tight max-w-3xl">
+      <section className="pt-40 pb-20 px-[clamp(1.5rem,5vw,5rem)]">
+        <div className="mx-auto max-w-[1200px]">
+          <p className="label mb-4">Anxiety</p>
+          <h1 className="font-display text-[var(--ink)] max-w-[700px]">
             When worry becomes something you can&apos;t switch off
           </h1>
         </div>
       </section>
 
       {/* Main */}
-      <section className="pb-24 px-6">
-        <div className="mx-auto max-w-6xl">
+      <section className="pb-32 px-[clamp(1.5rem,5vw,5rem)]">
+        <div className="mx-auto max-w-[1200px]">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-            <div className="space-y-6 text-[var(--muted-foreground)] leading-relaxed">
-              <p className="text-lg text-[var(--foreground)]">
+            <div className="space-y-5 font-body text-[var(--mid)] leading-relaxed">
+              <p className="text-lg text-[var(--ink)]">
                 Anxiety isn&apos;t just feeling nervous. At its worst, it can be exhausting —
                 a constant background hum of dread, a body that won&apos;t settle,
                 a mind that keeps returning to what might go wrong.
@@ -65,18 +59,15 @@ export default function AnxietyPage() {
             </div>
 
             {/* Signs */}
-            <div className="border border-[var(--border)] p-8">
-              <h2 className="font-serif text-2xl font-medium mb-6">
+            <div className="border border-[var(--rule)] p-8">
+              <h2 className="font-display text-2xl font-bold text-[var(--ink)] mb-6">
                 You might recognise some of these
               </h2>
               <ul className="space-y-4">
                 {signs.map((sign) => (
                   <li key={sign} className="flex items-start gap-3">
-                    <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-[var(--accent)] shrink-0" />
-                    <span
-                      className="text-sm text-[var(--muted-foreground)]"
-                      dangerouslySetInnerHTML={{ __html: sign }}
-                    />
+                    <div className="mt-2 h-1 w-5 bg-[var(--accent)] shrink-0" />
+                    <span className="font-body text-sm text-[var(--mid)]">{sign}</span>
                   </li>
                 ))}
               </ul>
@@ -84,10 +75,10 @@ export default function AnxietyPage() {
           </div>
 
           {/* Approach section */}
-          <div className="mt-20 py-16 border-t border-[var(--border)]">
-            <div className="max-w-2xl">
-              <h2 className="font-serif text-3xl font-light mb-6">How I work with anxiety</h2>
-              <div className="space-y-5 text-[var(--muted-foreground)] leading-relaxed">
+          <div className="mt-20 py-16 border-t border-[var(--rule)]">
+            <div className="max-w-[600px]">
+              <h2 className="font-display text-[var(--ink)] mb-6">How I work with anxiety</h2>
+              <div className="space-y-5 font-body text-[var(--mid)] leading-relaxed">
                 <p>
                   I work relationally and somatically. That means paying attention not just to
                   the thoughts that drive anxiety, but to the body — where the anxiety lives,
@@ -106,23 +97,27 @@ export default function AnxietyPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-20 px-6 bg-[var(--primary)]">
-        <div className="mx-auto max-w-3xl text-center">
-          <h2 className="font-serif text-3xl md:text-4xl font-light text-[var(--primary-foreground)] mb-4">
+      <section className="py-24 px-[clamp(1.5rem,5vw,5rem)] bg-[var(--bg-dark)]">
+        <div className="mx-auto max-w-[700px] text-center">
+          <h2 className="font-display text-white mb-4">
             You don&apos;t have to stay in this state
           </h2>
-          <p className="text-[var(--primary-foreground)]/70 mb-8">
+          <p className="font-body text-white/50 mb-10">
             Get in touch to arrange an initial conversation — no pressure, no commitment.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <Button asChild size="lg" className="bg-[var(--accent)] hover:opacity-90 border-0">
-              <a href="mailto:martin@martinalderton.co.uk">
-                Email Martin <ArrowRight size={16} />
-              </a>
-            </Button>
-            <Button asChild size="lg" variant="secondary" className="border-[var(--primary-foreground)]/30 text-[var(--primary-foreground)] hover:bg-[var(--primary-foreground)]/10 hover:text-[var(--primary-foreground)]">
-              <Link href="/sessions">View sessions & fees</Link>
-            </Button>
+            <a
+              href="mailto:martin@martinalderton.co.uk"
+              className="inline-flex items-center gap-2 px-7 py-3.5 bg-[var(--accent)] text-white font-body text-[0.875rem] uppercase tracking-[0.06em] hover:brightness-90 transition-all duration-200 rounded-[4px]"
+            >
+              Email Martin <ArrowRight size={15} />
+            </a>
+            <Link
+              href="/sessions"
+              className="inline-flex items-center gap-2 px-7 py-3.5 border border-white/30 text-white/70 font-body text-[0.875rem] uppercase tracking-[0.06em] hover:border-white hover:text-white transition-all duration-200 rounded-[4px]"
+            >
+              Sessions &amp; fees
+            </Link>
           </div>
         </div>
       </section>
