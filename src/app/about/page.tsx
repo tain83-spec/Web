@@ -20,22 +20,45 @@ const credentials = [
 export default function AboutPage() {
   return (
     <>
-      <section className="overflow-hidden">
-        {/* Full-width flex row — no container, photo bleeds to viewport edge */}
-        <div className="flex flex-col lg:flex-row lg:items-stretch">
+      {/* Magazine spread — flex row is the ONLY child of section, no preceding siblings */}
+      <section style={{ paddingTop: "5.5rem" }}> {/* clear fixed nav */}
+        <div style={{ display: "flex", alignItems: "stretch" }}>
 
-          {/* Left — 55%, handles its own padding, heading lives here */}
+          {/* LEFT — 55%, handles all internal spacing */}
           <div
-            className="w-full lg:w-[55%] flex flex-col"
-            style={{ padding: "8rem clamp(1.5rem, 5vw, 5rem) 6rem" }}
+            style={{
+              width: "55%",
+              padding: "4rem clamp(1.5rem, 5vw, 5rem) 6rem",
+              display: "flex",
+              flexDirection: "column",
+              flexShrink: 0,
+            }}
           >
-            <p className="label mb-6">About</p>
-            <h1 className="font-display text-[clamp(2.5rem,5vw,4.5rem)] font-bold leading-tight text-[var(--ink)] mb-10">
+            <p className="label" style={{ marginBottom: "1.5rem" }}>About</p>
+            <h1
+              className="font-display"
+              style={{
+                fontSize: "clamp(2.5rem, 5vw, 4.5rem)",
+                fontWeight: 700,
+                lineHeight: 1.05,
+                color: "var(--ink)",
+                marginBottom: "2.5rem",
+              }}
+            >
               A therapist who understands what it means to need therapy
             </h1>
 
-            <div className="space-y-5 font-body text-[var(--mid)] leading-relaxed">
-              <p className="text-lg text-[var(--ink)]">
+            <div
+              className="font-body"
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "1.25rem",
+                color: "var(--mid)",
+                lineHeight: 1.75,
+              }}
+            >
+              <p style={{ fontSize: "1.0625rem", color: "var(--ink)" }}>
                 I&apos;m Martin Alderton — a UKCP-registered psychotherapeutic counsellor
                 with over 20 years working in residential mental health and addiction services,
                 supporting people through some of the most complex and difficult experiences a person can face.
@@ -61,13 +84,25 @@ export default function AboutPage() {
               </p>
             </div>
 
-            {/* Credentials — small-caps list at bottom */}
-            <div className="mt-auto pt-12 border-t border-[var(--rule)]">
-              <ul className="space-y-2">
+            {/* Credentials — pushed to bottom, small-caps, no box */}
+            <div
+              style={{
+                marginTop: "auto",
+                paddingTop: "3rem",
+                borderTop: "1px solid var(--rule)",
+              }}
+            >
+              <ul style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
                 {credentials.map((c) => (
                   <li
                     key={c}
-                    className="font-body text-[0.7rem] uppercase tracking-[0.12em] text-[var(--mid)]/70"
+                    className="font-body"
+                    style={{
+                      fontSize: "0.7rem",
+                      textTransform: "uppercase",
+                      letterSpacing: "0.12em",
+                      color: "color-mix(in srgb, var(--mid) 70%, transparent)",
+                    }}
                   >
                     {c}
                   </li>
@@ -76,11 +111,8 @@ export default function AboutPage() {
             </div>
           </div>
 
-          {/* Right — 45%, zero padding, bleeds to viewport right edge */}
-          <div
-            className="w-full lg:w-[45%] relative"
-            style={{ minHeight: "700px" }}
-          >
+          {/* RIGHT — fills all remaining space to viewport right edge, zero padding */}
+          <div style={{ flex: 1, position: "relative", minHeight: "700px" }}>
             <Image
               src="/martin-alderton.jpg"
               fill
