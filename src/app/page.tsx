@@ -9,6 +9,28 @@ export const metadata: Metadata = {
     "UKCP-registered psychotherapeutic counsellor offering individual therapy in London (Harley Street), Norwich, and online. Specialising in anxiety, relationship difficulties, and repeating patterns.",
 };
 
+const heroCards = [
+  { src: "/cards/card-1.jpg", dur: "60s", delay:  "-5s", rot: -3, top: "12%" },
+  { src: "/cards/card-3.jpg", dur: "68s", delay: "-20s", rot:  2, top: "58%" },
+  { src: "/cards/card-6.jpg", dur: "54s", delay: "-35s", rot: -1, top: "25%" },
+  { src: "/cards/card-8.jpg", dur: "70s", delay: "-50s", rot:  4, top: "70%" },
+  { src: "/cards/card-2.jpg", dur: "58s", delay: "-12s", rot: -4, top:  "5%" },
+  { src: "/cards/card-4.jpg", dur: "65s", delay: "-42s", rot:  1, top: "42%" },
+  { src: "/cards/card-7.jpg", dur: "62s", delay: "-28s", rot:  3, top: "80%" },
+  { src: "/cards/card-9.jpg", dur: "52s", delay: "-18s", rot: -2, top: "35%" },
+];
+
+const stripCards = [
+  { src: "/cards/card-2.jpg", dur: "28s", delay:  "-0s", rot:  2, top: "20px" },
+  { src: "/cards/card-4.jpg", dur: "22s", delay:  "-4s", rot: -3, top: "80px" },
+  { src: "/cards/card-6.jpg", dur: "35s", delay:  "-8s", rot:  4, top: "10px" },
+  { src: "/cards/card-9.jpg", dur: "25s", delay: "-12s", rot: -1, top: "100px" },
+  { src: "/cards/card-1.jpg", dur: "30s", delay: "-16s", rot: -4, top: "50px" },
+  { src: "/cards/card-3.jpg", dur: "20s", delay: "-20s", rot:  3, top: "130px" },
+  { src: "/cards/card-7.jpg", dur: "38s", delay: "-24s", rot: -2, top: "70px" },
+  { src: "/cards/card-8.jpg", dur: "24s", delay: "-28s", rot:  1, top: "120px" },
+];
+
 const specialisms = [
   {
     href: "/anxiety",
@@ -45,9 +67,35 @@ export default function Home() {
           priority
           className="object-cover object-center"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/45 to-black/20" />
+        {/* Drifting cards — behind overlay */}
+        <div
+          className="absolute inset-0 z-[1] overflow-hidden pointer-events-none"
+          style={{ opacity: 0.35, filter: "blur(1px)" }}
+        >
+          {heroCards.map((card, i) => (
+            <div
+              key={i}
+              className="absolute"
+              style={{
+                top: card.top,
+                left: 0,
+                animationName: "drift",
+                animationDuration: card.dur,
+                animationTimingFunction: "linear",
+                animationDelay: card.delay,
+                animationIterationCount: "infinite",
+              }}
+            >
+              <div style={{ position: "relative", width: 180, aspectRatio: "3/4", transform: `rotate(${card.rot}deg)`, borderRadius: 2, overflow: "hidden" }}>
+                <Image src={card.src} alt="" fill style={{ objectFit: "cover" }} />
+              </div>
+            </div>
+          ))}
+        </div>
 
-        <div className="absolute inset-0 flex items-end pb-24 px-[clamp(1.5rem,5vw,5rem)]">
+        <div className="absolute inset-0 z-[2] bg-gradient-to-r from-black/70 via-black/45 to-black/20" />
+
+        <div className="absolute inset-0 z-[3] flex items-end pb-24 px-[clamp(1.5rem,5vw,5rem)]">
           <div className="max-w-[750px]">
             <h1 className="font-display text-white leading-[1.05] mb-6">
               A space to make sense of what&apos;s going on beneath the surface
@@ -64,6 +112,33 @@ export default function Home() {
             </a>
           </div>
         </div>
+      </section>
+
+      {/* Drifting cards strip */}
+      <section
+        className="relative overflow-hidden"
+        style={{ height: 400, background: "#F8F5F0" }}
+        aria-hidden="true"
+      >
+        {stripCards.map((card, i) => (
+          <div
+            key={i}
+            className="absolute"
+            style={{
+              top: card.top,
+              left: 0,
+              animationName: "drift",
+              animationDuration: card.dur,
+              animationTimingFunction: "linear",
+              animationDelay: card.delay,
+              animationIterationCount: "infinite",
+            }}
+          >
+            <div style={{ position: "relative", width: 180, aspectRatio: "3/4", transform: `rotate(${card.rot}deg)`, borderRadius: 2, overflow: "hidden" }}>
+              <Image src={card.src} alt="" fill style={{ objectFit: "cover" }} />
+            </div>
+          </div>
+        ))}
       </section>
 
       {/* Stats strip */}
