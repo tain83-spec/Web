@@ -17,7 +17,7 @@ const credentials = [
   "Strict confidentiality as standard",
 ];
 
-const PORTRAIT_EXISTS = false;
+const PORTRAIT_EXISTS = true;
 
 export default function AboutPage() {
   return (
