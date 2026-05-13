@@ -31,7 +31,7 @@ export default function AboutPage() {
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/45 to-black/10" />
 
-        <div className="absolute inset-0 flex items-end pb-24 px-[clamp(1.5rem,5vw,5rem)]">
+        <div className="absolute inset-0 flex items-start pt-32 px-[clamp(1.5rem,5vw,5rem)]">
           <div className="max-w-[700px]">
             <p className="font-body text-[0.7rem] uppercase tracking-[0.2em] text-white/50 mb-5">
               About
