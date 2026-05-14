@@ -18,18 +18,18 @@ const CARDS: CardDef[] = [
   { src: "/cards/card-7.jpg", label: "Boundaries",    href: "/boundaries" },
 ];
 
-// Zigzag: right → left → right → left → right
+// Zigzag within the left panel (x: 0.10–0.38)
 const FINAL = [
-  { x: 0.52, y: 0.05, rot: -5 },
-  { x: 0.26, y: 0.23, rot:  9 },
-  { x: 0.55, y: 0.37, rot: -7 },
-  { x: 0.24, y: 0.54, rot:  8 },
-  { x: 0.50, y: 0.68, rot: -5 },
+  { x: 0.28, y: 0.05, rot: -5 },
+  { x: 0.10, y: 0.22, rot:  9 },
+  { x: 0.30, y: 0.38, rot: -7 },
+  { x: 0.12, y: 0.54, rot:  8 },
+  { x: 0.27, y: 0.68, rot: -5 },
 ];
 
-// Pile starts top-left, pushed down so cards are visible
-const PILE_X = 0.05;
-const PILE_Y = 0.12;
+// Pile starts in the red-square zone
+const PILE_X = 0.20;
+const PILE_Y = 0.30;
 
 function easeOut(t: number) {
   return 1 - Math.pow(1 - t, 3);
@@ -61,7 +61,7 @@ export default function HeroCards() {
 
       const W     = sticky.offsetWidth;
       const H     = sticky.offsetHeight;
-      const cardW = Math.max(110, Math.min(180, W * 0.17));
+      const cardW = Math.max(160, Math.min(260, W * 0.22));
 
       CARDS.forEach((card, i) => {
         const outer   = outerRefs.current[i];
