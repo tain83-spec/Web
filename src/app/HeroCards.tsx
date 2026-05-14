@@ -21,19 +21,19 @@ const CARDS: CardDef[] = [
   { src: "/cards/card-7.jpg", specialism: { label: "Boundaries",    href: "/boundaries" } },
 ];
 
-// Full-width zigzag — alternates left / right across the whole screen
+// Hard left / hard right zigzag — full screen width
 const FINAL = [
-  { x: 0.54, y: 0.02, rot: -5 },  // right
-  { x: 0.06, y: 0.16, rot:  8 },  // left
-  { x: 0.50, y: 0.30, rot: -6 },  // right
-  { x: 0.05, y: 0.44, rot:  9 },  // left
-  { x: 0.52, y: 0.58, rot: -7 },  // right
-  { x: 0.06, y: 0.72, rot:  7 },  // left
-  { x: 0.50, y: 0.84, rot: -4 },  // right
+  { x: 0.62, y: 0.00, rot: -5 },  // far right
+  { x: 0.02, y: 0.14, rot:  8 },  // far left
+  { x: 0.60, y: 0.28, rot: -6 },  // far right
+  { x: 0.02, y: 0.42, rot:  9 },  // far left
+  { x: 0.60, y: 0.56, rot: -7 },  // far right
+  { x: 0.02, y: 0.72, rot:  7 },  // far left
+  { x: 0.60, y: 0.86, rot: -4 },  // far right — bleeds into next section
 ];
 
-const PILE_X = 0.32; // centred pile — deals outward left and right
-const PILE_Y = 0.28;
+const PILE_X = 0.35;
+const PILE_Y = 0.26;
 
 function easeOut(t: number) {
   return 1 - Math.pow(1 - t, 3);
