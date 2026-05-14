@@ -22,20 +22,6 @@ export default function Home() {
     <>
       {/* Hero — clean typographic, no photo */}
       <section className="relative overflow-hidden bg-[var(--bg)] min-h-[80vh] flex flex-col justify-end pb-28 px-[clamp(1.5rem,5vw,5rem)]">
-        {/* Faint watermark */}
-        <span
-          aria-hidden="true"
-          className="absolute bottom-0 left-0 right-0 font-display font-bold italic leading-none select-none pointer-events-none whitespace-nowrap overflow-hidden"
-          style={{
-            fontSize: "clamp(5rem, 18vw, 18rem)",
-            color: "var(--ink)",
-            opacity: 0.03,
-            lineHeight: 0.85,
-          }}
-        >
-          counselling
-        </span>
-
         <div className="relative z-10 max-w-[750px]">
           <p className="label mb-6">UKCP Registered Psychotherapeutic Counsellor</p>
           <h1 className="font-display text-[var(--ink)] leading-[1.05] mb-7">

@@ -27,7 +27,7 @@ export function Nav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const solid = !isHome || scrolled || open;
+  const solid = scrolled || open || !isHome || true;
 
   return (
     <header
