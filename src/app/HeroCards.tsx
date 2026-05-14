@@ -27,9 +27,9 @@ const FINAL = [
   { x: 0.50, y: 0.68, rot: -5 },
 ];
 
-// Pile starts top-left
+// Pile starts top-left, pushed down so cards are visible
 const PILE_X = 0.05;
-const PILE_Y = 0.03;
+const PILE_Y = 0.12;
 
 function easeOut(t: number) {
   return 1 - Math.pow(1 - t, 3);
@@ -81,8 +81,8 @@ export default function HeroCards() {
         const tx = lerp(sx, fx, eased);
         const ty = lerp(sy, fy, eased);
 
-        // 1.5 full rotations as card travels, settles at final tilt
-        const rot = FINAL[i].rot + (1 - eased) * 540;
+        // 1 full rotation as card travels — starts and ends face-up
+        const rot = FINAL[i].rot + (1 - eased) * 360;
 
         outer.style.transform = `translate(${tx}px, ${ty}px) rotate(${rot}deg)`;
         outer.style.width     = `${cardW}px`;
@@ -141,7 +141,7 @@ export default function HeroCards() {
               margin: 0,
             }}
           >
-            Space<br />to be
+            Space<br />t<span style={{ fontWeight: 300, fontStyle: "italic" }}>o</span> be
           </h1>
         </div>
 
