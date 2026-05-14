@@ -31,6 +31,20 @@
   to   { transform: translateY(-18px); }
 }
 
+/* Specialism cards — scroll-driven slide-in */
+[data-slide] {
+  opacity: 0;
+  transition:
+    transform 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94) var(--slide-delay, 0ms),
+    opacity   0.65s ease                                  var(--slide-delay, 0ms);
+}
+[data-slide="right"] { transform: translateX(70px); }
+[data-slide="left"]  { transform: translateX(-70px); }
+[data-slide].is-visible {
+  transform: translateX(0);
+  opacity: 1;
+}
+
 @keyframes accordion-down {
   from { height: 0 }
   to   { height: var(--radix-accordion-content-height) }
