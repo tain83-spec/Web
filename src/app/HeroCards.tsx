@@ -101,9 +101,11 @@ export default function HeroCards() {
         const ty = lerp(sy, fy, eased);
 
         // 2 full rotations — dealt face-up
-        const rot = FINAL[i].rot + (1 - eased) * 720;
+        const rot   = FINAL[i].rot + (1 - eased) * 720;
+        // Cards start full-size and shrink to half as they land
+        const scale = lerp(1, 0.5, eased);
 
-        outer.style.transform = `translate(${tx}px, ${ty}px) rotate(${rot}deg)`;
+        outer.style.transform = `translate(${tx}px, ${ty}px) rotate(${rot}deg) scale(${scale})`;
         outer.style.width     = `${cardW}px`;
 
         // All cards flip when they land
