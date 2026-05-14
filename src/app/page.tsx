@@ -9,26 +9,15 @@ export const metadata: Metadata = {
     "UKCP-registered psychotherapeutic counsellor offering individual therapy in London (Harley Street), Norwich, and online. Specialising in anxiety, relationship difficulties, and repeating patterns.",
 };
 
-const heroCards = [
-  { src: "/cards/card-1.jpg", dur: "60s", delay:  "-5s", rot: -3, top: "12%" },
-  { src: "/cards/card-3.jpg", dur: "68s", delay: "-20s", rot:  2, top: "58%" },
-  { src: "/cards/card-6.jpg", dur: "54s", delay: "-35s", rot: -1, top: "25%" },
-  { src: "/cards/card-8.jpg", dur: "70s", delay: "-50s", rot:  4, top: "70%" },
-  { src: "/cards/card-2.jpg", dur: "58s", delay: "-12s", rot: -4, top:  "5%" },
-  { src: "/cards/card-4.jpg", dur: "65s", delay: "-42s", rot:  1, top: "42%" },
-  { src: "/cards/card-7.jpg", dur: "62s", delay: "-28s", rot:  3, top: "80%" },
-  { src: "/cards/card-9.jpg", dur: "52s", delay: "-18s", rot: -2, top: "35%" },
-];
-
-const stripCards = [
-  { src: "/cards/card-2.jpg", dur: "28s", delay:  "-0s", rot:  2, top: "20px" },
-  { src: "/cards/card-4.jpg", dur: "22s", delay:  "-4s", rot: -3, top: "80px" },
-  { src: "/cards/card-6.jpg", dur: "35s", delay:  "-8s", rot:  4, top: "10px" },
-  { src: "/cards/card-9.jpg", dur: "25s", delay: "-12s", rot: -1, top: "100px" },
-  { src: "/cards/card-1.jpg", dur: "30s", delay: "-16s", rot: -4, top: "50px" },
-  { src: "/cards/card-3.jpg", dur: "20s", delay: "-20s", rot:  3, top: "130px" },
-  { src: "/cards/card-7.jpg", dur: "38s", delay: "-24s", rot: -2, top: "70px" },
-  { src: "/cards/card-8.jpg", dur: "24s", delay: "-28s", rot:  1, top: "120px" },
+const scatteredCards = [
+  { src: "/cards/card-1.jpg", left: "5%",  top: "8%",  rot: -6, dur: "8s",    delay: "0s"   },
+  { src: "/cards/card-2.jpg", left: "22%", top: "35%", rot:  4, dur: "10s",   delay: "-3s"  },
+  { src: "/cards/card-3.jpg", left: "42%", top: "5%",  rot: -3, dur: "9s",    delay: "-5s"  },
+  { src: "/cards/card-4.jpg", left: "58%", top: "22%", rot:  7, dur: "11s",   delay: "-2s"  },
+  { src: "/cards/card-6.jpg", left: "73%", top: "40%", rot: -5, dur: "8.5s",  delay: "-7s"  },
+  { src: "/cards/card-7.jpg", left: "15%", top: "52%", rot:  3, dur: "12s",   delay: "-4s"  },
+  { src: "/cards/card-8.jpg", left: "50%", top: "52%", rot: -7, dur: "9.5s",  delay: "-1s"  },
+  { src: "/cards/card-9.jpg", left: "83%", top: "8%",  rot:  2, dur: "10.5s", delay: "-6s"  },
 ];
 
 const specialisms = [
@@ -67,34 +56,7 @@ export default function Home() {
           priority
           className="object-cover object-center"
         />
-        {/* Drifting cards — behind overlay */}
-        <div
-          className="absolute inset-0 z-[1] overflow-hidden pointer-events-none"
-          style={{ opacity: 0.35, filter: "blur(1px)" }}
-        >
-          {heroCards.map((card, i) => (
-            <div
-              key={i}
-              className="absolute"
-              style={{
-                top: card.top,
-                left: 0,
-                animationName: "drift",
-                animationDuration: card.dur,
-                animationTimingFunction: "linear",
-                animationDelay: card.delay,
-                animationIterationCount: "infinite",
-              }}
-            >
-              <div style={{ position: "relative", width: 180, aspectRatio: "3/4", transform: `rotate(${card.rot}deg)`, borderRadius: 2, overflow: "hidden" }}>
-                <Image src={card.src} alt="" fill style={{ objectFit: "cover" }} />
-              </div>
-            </div>
-          ))}
-        </div>
-
         <div className="absolute inset-0 z-[2] bg-gradient-to-r from-black/70 via-black/45 to-black/20" />
-
         <div className="absolute inset-0 z-[3] flex items-end pb-24 px-[clamp(1.5rem,5vw,5rem)]">
           <div className="max-w-[750px]">
             <h1 className="font-display text-white leading-[1.05] mb-6">
@@ -114,27 +76,61 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Drifting cards strip */}
+      {/* Scattered cards — ning-h.com style */}
       <section
         className="relative overflow-hidden"
-        style={{ height: 400, background: "#F8F5F0" }}
+        style={{ height: "85vh", background: "#F8F5F0" }}
         aria-hidden="true"
       >
-        {stripCards.map((card, i) => (
+        {/* Typographic anchor */}
+        <p
+          style={{
+            position: "absolute",
+            bottom: "12%",
+            left: "6%",
+            right: "6%",
+            fontFamily: "var(--font-display)",
+            fontSize: "clamp(3.5rem, 8vw, 8rem)",
+            fontStyle: "italic",
+            fontWeight: 700,
+            lineHeight: 1.05,
+            color: "#1A1A1A",
+            opacity: 0.07,
+            margin: 0,
+            pointerEvents: "none",
+            userSelect: "none",
+          }}
+        >
+          therapy as an act of creation
+        </p>
+
+        {/* Scattered cards */}
+        {scatteredCards.map((card, i) => (
           <div
             key={i}
-            className="absolute"
             style={{
+              position: "absolute",
+              left: card.left,
               top: card.top,
-              left: 0,
-              animationName: "drift",
+              zIndex: 5 + i,
+              animationName: "cardFloat",
               animationDuration: card.dur,
-              animationTimingFunction: "linear",
               animationDelay: card.delay,
+              animationTimingFunction: "ease-in-out",
               animationIterationCount: "infinite",
+              animationDirection: "alternate",
             }}
           >
-            <div style={{ position: "relative", width: 180, aspectRatio: "3/4", transform: `rotate(${card.rot}deg)`, borderRadius: 2, overflow: "hidden" }}>
+            <div
+              style={{
+                transform: `rotate(${card.rot}deg)`,
+                position: "relative",
+                width: 260,
+                aspectRatio: "3/4",
+                borderRadius: 2,
+                overflow: "hidden",
+              }}
+            >
               <Image src={card.src} alt="" fill style={{ objectFit: "cover" }} />
             </div>
           </div>

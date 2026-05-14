@@ -26,9 +26,9 @@
   --animate-accordion-up:   accordion-up 0.2s ease-out;
 }
 
-@keyframes drift {
-  from { transform: translateX(calc(100vw + 220px)); }
-  to   { transform: translateX(-220px); }
+@keyframes cardFloat {
+  from { transform: translateY(0px); }
+  to   { transform: translateY(-18px); }
 }
 
 @keyframes accordion-down {
