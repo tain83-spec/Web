@@ -21,26 +21,27 @@ const CARDS: CardDef[] = [
   { src: "/cards/card-7.jpg", specialism: { label: "Boundaries",    href: "/boundaries" } },
 ];
 
-// Desktop: stat cards cascade tightly at top; specialism cards sit side-by-side in lower half
+// Desktop: stat cards cluster on the RIGHT; specialism cards spread full-width in the lower half
+// — completely separate screen regions so nothing overlaps
 const DESKTOP_FINAL = [
-  { x: 0.60, y: 0.02, rot: -5 },  // UKCP — right
-  { x: 0.03, y: 0.07, rot:  8 },  // 20 years — left
-  { x: 0.58, y: 0.14, rot: -6 },  // 3 locations — right
-  { x: 0.02, y: 0.21, rot:  9 },  // 50 min — left
-  { x: 0.01, y: 0.42, rot: -3 },  // Anxiety — left column
-  { x: 0.36, y: 0.40, rot:  2 },  // Relationships — centre column
-  { x: 0.70, y: 0.44, rot: -4 },  // Boundaries — right column
+  { x: 0.65, y: 0.02, rot: -5 },  // UKCP — right cluster
+  { x: 0.60, y: 0.08, rot:  7 },  // 20 years — right cluster
+  { x: 0.68, y: 0.16, rot: -8 },  // 3 locations — right cluster
+  { x: 0.62, y: 0.24, rot:  5 },  // 50 min — right cluster
+  { x: 0.02, y: 0.56, rot: -3 },  // Anxiety — left column
+  { x: 0.36, y: 0.54, rot:  2 },  // Relationships — centre column
+  { x: 0.70, y: 0.58, rot: -4 },  // Boundaries — right column
 ];
 
-// Mobile: 2-column cascade; specialism 2 side-by-side + 1 centred below
+// Mobile: stat cards 2-column top half; specialism 2+1 lower half
 const MOBILE_FINAL = [
-  { x: 0.50, y: 0.02, rot: -5 },
+  { x: 0.52, y: 0.02, rot: -5 },
   { x: 0.04, y: 0.10, rot:  8 },
-  { x: 0.48, y: 0.18, rot: -6 },
+  { x: 0.50, y: 0.18, rot: -6 },
   { x: 0.03, y: 0.26, rot:  9 },
-  { x: 0.03, y: 0.48, rot: -3 },  // Anxiety — left
-  { x: 0.52, y: 0.48, rot:  2 },  // Relationships — right
-  { x: 0.26, y: 0.72, rot: -2 },  // Boundaries — centred below
+  { x: 0.04, y: 0.58, rot: -3 },  // Anxiety — left
+  { x: 0.52, y: 0.58, rot:  2 },  // Relationships — right
+  { x: 0.26, y: 0.73, rot: -2 },  // Boundaries — centred below
 ];
 
 const PILE_X = 0.35;
@@ -78,7 +79,7 @@ export default function HeroCards() {
       const H     = sticky.offsetHeight;
       // Cards always proportional to viewport width — ensures 3-column specialism layout fits
       const isMobile = W < 600;
-      const cardW = isMobile ? W * 0.44 : Math.min(W * 0.28, 320);
+      const cardW = isMobile ? W * 0.44 : Math.min(W * 0.22, 280);
       const FINAL = isMobile ? MOBILE_FINAL : DESKTOP_FINAL;
 
       CARDS.forEach((card, i) => {
