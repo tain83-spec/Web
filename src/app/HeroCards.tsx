@@ -18,18 +18,18 @@ const CARDS: CardDef[] = [
   { src: "/cards/card-7.jpg", label: "Boundaries",    href: "/boundaries" },
 ];
 
-// Where each card lands (as fraction of container W/H) + small resting tilt
+// Zigzag: right → left → right → left → right
 const FINAL = [
-  { x: 0.04, y: 0.03, rot: -6 },
-  { x: 0.14, y: 0.19, rot:  8 },
-  { x: 0.04, y: 0.37, rot: -4 },
-  { x: 0.14, y: 0.55, rot:  6 },
-  { x: 0.05, y: 0.72, rot: -3 },
+  { x: 0.52, y: 0.05, rot: -5 },
+  { x: 0.26, y: 0.23, rot:  9 },
+  { x: 0.55, y: 0.37, rot: -7 },
+  { x: 0.24, y: 0.54, rot:  8 },
+  { x: 0.50, y: 0.68, rot: -5 },
 ];
 
-// All cards start here — the pile
-const PILE_X = 0.48;
-const PILE_Y = 0.28;
+// Pile starts top-left
+const PILE_X = 0.05;
+const PILE_Y = 0.03;
 
 function easeOut(t: number) {
   return 1 - Math.pow(1 - t, 3);
@@ -61,20 +61,18 @@ export default function HeroCards() {
 
       const W     = sticky.offsetWidth;
       const H     = sticky.offsetHeight;
-      const cardW = Math.min(155, W * 0.13);
+      const cardW = Math.max(110, Math.min(180, W * 0.17));
 
       CARDS.forEach((card, i) => {
         const outer   = outerRefs.current[i];
         const flipper = flipRefs.current[i];
         if (!outer || !flipper) return;
 
-        // Stagger: each card deals out slightly later
         const start = i * 0.13;
         const dur   = 0.42;
         const cp    = clamp((progress - start) / dur, 0, 1);
         const eased = easeOut(cp);
 
-        // Pile → final position
         const sx = W * PILE_X;
         const sy = H * PILE_Y;
         const fx = W * FINAL[i].x;
@@ -83,7 +81,7 @@ export default function HeroCards() {
         const tx = lerp(sx, fx, eased);
         const ty = lerp(sy, fy, eased);
 
-        // Spin 1.5 full rotations as the card travels — settles at final tilt
+        // 1.5 full rotations as card travels, settles at final tilt
         const rot = FINAL[i].rot + (1 - eased) * 540;
 
         outer.style.transform = `translate(${tx}px, ${ty}px) rotate(${rot}deg)`;
@@ -111,7 +109,7 @@ export default function HeroCards() {
   }, []);
 
   return (
-    <div ref={wrapperRef} style={{ height: "200vh", position: "relative" }}>
+    <div ref={wrapperRef} style={{ height: "220vh", position: "relative" }}>
       <div
         ref={stickyRef}
         style={{
@@ -122,6 +120,32 @@ export default function HeroCards() {
           overflow: "hidden",
         }}
       >
+        {/* "Space to be" headline — bottom-right, behind cards */}
+        <div
+          style={{
+            position: "absolute",
+            bottom: "clamp(2rem, 6vh, 5rem)",
+            right: "clamp(1.5rem, 5vw, 5rem)",
+            zIndex: 2,
+            pointerEvents: "none",
+            textAlign: "right",
+          }}
+        >
+          <h1
+            style={{
+              fontFamily: "var(--font-display)",
+              fontSize: "clamp(4.5rem, 14vw, 15rem)",
+              fontWeight: 700,
+              lineHeight: 0.9,
+              color: "var(--ink)",
+              margin: 0,
+            }}
+          >
+            Space<br />to be
+          </h1>
+        </div>
+
+        {/* Cards */}
         {CARDS.map((card, i) => (
           <div
             key={i}

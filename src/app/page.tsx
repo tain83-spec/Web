@@ -20,14 +20,14 @@ const locations = [
 export default function Home() {
   return (
     <>
-      {/* Hero — clean typographic, no photo */}
-      <section className="relative overflow-hidden bg-[var(--bg)] min-h-[80vh] flex flex-col justify-end pb-28 px-[clamp(1.5rem,5vw,5rem)]">
-        <div className="relative z-10 max-w-[750px]">
-          <p className="label mb-6">UKCP Registered Psychotherapeutic Counsellor</p>
-          <h1 className="font-display text-[var(--ink)] leading-[1.05] mb-7">
-            A space to make sense of what&apos;s going on beneath the surface
-          </h1>
-          <p className="font-body text-lg text-[var(--mid)] mb-10 max-w-[52ch]">
+      {/* Scroll-driven cards with "Space to be" headline */}
+      <HeroCards />
+
+      {/* Intro strip */}
+      <section className="py-20 px-[clamp(1.5rem,5vw,5rem)] bg-[var(--bg)]">
+        <div className="max-w-[600px]">
+          <p className="label mb-5">UKCP Registered Psychotherapeutic Counsellor</p>
+          <p className="font-body text-lg text-[var(--mid)] mb-8 max-w-[52ch]">
             Individual therapy in London, Norwich, and online — for people who feel stuck,
             overwhelmed, or caught in patterns they can&apos;t seem to shift.
           </p>
@@ -39,9 +39,6 @@ export default function Home() {
           </a>
         </div>
       </section>
-
-      {/* Scattered cards — mouse parallax + flip to reveal specialisms */}
-      <HeroCards />
 
       {/* Stats strip */}
       <div className="border-b border-[var(--rule)] bg-[var(--surface)]">
