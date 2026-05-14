@@ -18,18 +18,18 @@ const CARDS: CardDef[] = [
   { src: "/cards/card-7.jpg", label: "Boundaries",    href: "/boundaries" },
 ];
 
-// Zigzag within the left panel (x: 0.10–0.38)
+// Cascade down the left panel — last two cards overlap the headline
 const FINAL = [
-  { x: 0.28, y: 0.05, rot: -5 },
-  { x: 0.10, y: 0.22, rot:  9 },
-  { x: 0.30, y: 0.38, rot: -7 },
-  { x: 0.12, y: 0.54, rot:  8 },
-  { x: 0.27, y: 0.68, rot: -5 },
+  { x: 0.26, y: 0.02, rot: -5 },
+  { x: 0.06, y: 0.18, rot:  8 },
+  { x: 0.28, y: 0.35, rot: -7 },
+  { x: 0.05, y: 0.52, rot:  9 },
+  { x: 0.24, y: 0.70, rot: -4 },
 ];
 
-// Pile starts in the red-square zone
-const PILE_X = 0.20;
-const PILE_Y = 0.30;
+// Pile starts top-centre-left, fan out from here
+const PILE_X = 0.18;
+const PILE_Y = 0.25;
 
 function easeOut(t: number) {
   return 1 - Math.pow(1 - t, 3);
@@ -61,7 +61,8 @@ export default function HeroCards() {
 
       const W     = sticky.offsetWidth;
       const H     = sticky.offsetHeight;
-      const cardW = Math.max(160, Math.min(260, W * 0.22));
+      // Double the previous size
+      const cardW = Math.max(280, Math.min(480, W * 0.38));
 
       CARDS.forEach((card, i) => {
         const outer   = outerRefs.current[i];
@@ -81,8 +82,8 @@ export default function HeroCards() {
         const tx = lerp(sx, fx, eased);
         const ty = lerp(sy, fy, eased);
 
-        // 1 full rotation as card travels — starts and ends face-up
-        const rot = FINAL[i].rot + (1 - eased) * 360;
+        // 2 full rotations as card is dealt — starts and ends face-up
+        const rot = FINAL[i].rot + (1 - eased) * 720;
 
         outer.style.transform = `translate(${tx}px, ${ty}px) rotate(${rot}deg)`;
         outer.style.width     = `${cardW}px`;
@@ -109,7 +110,7 @@ export default function HeroCards() {
   }, []);
 
   return (
-    <div ref={wrapperRef} style={{ height: "220vh", position: "relative" }}>
+    <div ref={wrapperRef} style={{ height: "250vh", position: "relative" }}>
       <div
         ref={stickyRef}
         style={{
@@ -158,7 +159,7 @@ export default function HeroCards() {
               willChange: "transform",
             }}
           >
-            <div style={{ perspective: "900px", width: "100%", aspectRatio: "3/4" }}>
+            <div style={{ perspective: "1200px", width: "100%", aspectRatio: "3/4" }}>
               <div
                 ref={(el) => { flipRefs.current[i] = el; }}
                 style={{
@@ -168,18 +169,28 @@ export default function HeroCards() {
                   transformStyle: "preserve-3d",
                 }}
               >
-                {/* Front — photo */}
+                {/* Front — photo with print-quality frame */}
                 <div
                   style={{
                     position: "absolute", inset: 0,
                     backfaceVisibility: "hidden",
                     WebkitBackfaceVisibility: "hidden",
-                    borderRadius: 4,
+                    borderRadius: 3,
                     overflow: "hidden",
-                    boxShadow: "0 4px 20px rgba(0,0,0,0.18)",
+                    boxShadow:
+                      "0 2px 4px rgba(0,0,0,0.10), 0 8px 24px rgba(0,0,0,0.14), 0 24px 48px rgba(0,0,0,0.10)",
+                    outline: "1px solid rgba(255,255,255,0.9)",
+                    outlineOffset: "-1px",
                   }}
                 >
-                  <Image src={card.src} alt="" fill style={{ objectFit: "cover" }} />
+                  <Image
+                    src={card.src}
+                    alt=""
+                    fill
+                    sizes="(max-width: 768px) 80vw, 40vw"
+                    style={{ objectFit: "cover" }}
+                    quality={90}
+                  />
                 </div>
 
                 {/* Back — specialism label */}
@@ -192,31 +203,33 @@ export default function HeroCards() {
                       WebkitBackfaceVisibility: "hidden",
                       transform: "rotateY(180deg)",
                       background: "#1A1A1A",
-                      borderRadius: 4,
-                      boxShadow: "0 4px 20px rgba(0,0,0,0.18)",
+                      borderRadius: 3,
+                      boxShadow:
+                        "0 2px 4px rgba(0,0,0,0.10), 0 8px 24px rgba(0,0,0,0.14), 0 24px 48px rgba(0,0,0,0.10)",
                       display: "flex",
                       flexDirection: "column",
                       alignItems: "center",
                       justifyContent: "center",
-                      gap: 10,
+                      gap: 12,
                       textDecoration: "none",
                     }}
                   >
                     <span style={{
                       fontFamily: "var(--font-display)",
-                      fontSize: "clamp(0.85rem, 1.3vw, 1.2rem)",
+                      fontSize: "clamp(1rem, 1.8vw, 1.6rem)",
                       color: "#F8F5F0",
                       fontWeight: 700,
+                      letterSpacing: "-0.01em",
                     }}>
                       {card.label}
                     </span>
                     <span style={{
                       fontFamily: "var(--font-body)",
-                      fontSize: "0.55rem",
+                      fontSize: "clamp(0.55rem, 0.7vw, 0.7rem)",
                       color: "#F8F5F0",
-                      opacity: 0.5,
+                      opacity: 0.45,
                       textTransform: "uppercase",
-                      letterSpacing: "0.15em",
+                      letterSpacing: "0.18em",
                     }}>
                       Explore →
                     </span>
