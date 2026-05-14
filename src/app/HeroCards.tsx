@@ -21,19 +21,30 @@ const CARDS: CardDef[] = [
   { src: "/cards/card-7.jpg", specialism: { label: "Boundaries",    href: "/boundaries" } },
 ];
 
-// Hard left / hard right zigzag — full screen width
-const FINAL = [
-  { x: 0.62, y: 0.00, rot: -5 },  // far right
-  { x: 0.02, y: 0.14, rot:  8 },  // far left
-  { x: 0.60, y: 0.28, rot: -6 },  // far right
-  { x: 0.02, y: 0.42, rot:  9 },  // far left
-  { x: 0.60, y: 0.56, rot: -7 },  // far right
-  { x: 0.02, y: 0.72, rot:  7 },  // far left
-  { x: 0.60, y: 0.86, rot: -4 },  // far right — bleeds into next section
+// Desktop: stat cards cascade tightly at top; specialism cards sit side-by-side in lower half
+const DESKTOP_FINAL = [
+  { x: 0.60, y: 0.02, rot: -5 },  // UKCP — right
+  { x: 0.03, y: 0.07, rot:  8 },  // 20 years — left
+  { x: 0.58, y: 0.14, rot: -6 },  // 3 locations — right
+  { x: 0.02, y: 0.21, rot:  9 },  // 50 min — left
+  { x: 0.01, y: 0.42, rot: -3 },  // Anxiety — left column
+  { x: 0.36, y: 0.40, rot:  2 },  // Relationships — centre column
+  { x: 0.70, y: 0.44, rot: -4 },  // Boundaries — right column
+];
+
+// Mobile: 2-column cascade; specialism 2 side-by-side + 1 centred below
+const MOBILE_FINAL = [
+  { x: 0.50, y: 0.02, rot: -5 },
+  { x: 0.04, y: 0.10, rot:  8 },
+  { x: 0.48, y: 0.18, rot: -6 },
+  { x: 0.03, y: 0.26, rot:  9 },
+  { x: 0.03, y: 0.48, rot: -3 },  // Anxiety — left
+  { x: 0.52, y: 0.48, rot:  2 },  // Relationships — right
+  { x: 0.26, y: 0.72, rot: -2 },  // Boundaries — centred below
 ];
 
 const PILE_X = 0.35;
-const PILE_Y = 0.26;
+const PILE_Y = 0.22;
 
 function easeOut(t: number) {
   return 1 - Math.pow(1 - t, 3);
@@ -65,7 +76,10 @@ export default function HeroCards() {
 
       const W     = sticky.offsetWidth;
       const H     = sticky.offsetHeight;
-      const cardW = Math.max(220, Math.min(400, W * 0.30));
+      // Cards always proportional to viewport width — ensures 3-column specialism layout fits
+      const isMobile = W < 600;
+      const cardW = isMobile ? W * 0.44 : Math.min(W * 0.28, 320);
+      const FINAL = isMobile ? MOBILE_FINAL : DESKTOP_FINAL;
 
       CARDS.forEach((card, i) => {
         const outer   = outerRefs.current[i];
