@@ -21,18 +21,18 @@ const CARDS: CardDef[] = [
   { src: "/cards/card-7.jpg", specialism: { label: "Boundaries",    href: "/boundaries" } },
 ];
 
-// Zigzag down the left side — specialism cards extend toward/past viewport bottom
+// Full-width zigzag — alternates left / right across the whole screen
 const FINAL = [
-  { x: 0.27, y: 0.02, rot: -5 },
-  { x: 0.07, y: 0.16, rot:  8 },
-  { x: 0.28, y: 0.30, rot: -6 },
-  { x: 0.06, y: 0.44, rot:  9 },
-  { x: 0.26, y: 0.58, rot: -7 },
-  { x: 0.07, y: 0.72, rot:  7 },
-  { x: 0.25, y: 0.84, rot: -4 },
+  { x: 0.54, y: 0.02, rot: -5 },  // right
+  { x: 0.06, y: 0.16, rot:  8 },  // left
+  { x: 0.50, y: 0.30, rot: -6 },  // right
+  { x: 0.05, y: 0.44, rot:  9 },  // left
+  { x: 0.52, y: 0.58, rot: -7 },  // right
+  { x: 0.06, y: 0.72, rot:  7 },  // left
+  { x: 0.50, y: 0.84, rot: -4 },  // right
 ];
 
-const PILE_X = 0.18;
+const PILE_X = 0.32; // centred pile — deals outward left and right
 const PILE_Y = 0.28;
 
 function easeOut(t: number) {
@@ -65,7 +65,7 @@ export default function HeroCards() {
 
       const W     = sticky.offsetWidth;
       const H     = sticky.offsetHeight;
-      const cardW = Math.max(260, Math.min(460, W * 0.36));
+      const cardW = Math.max(220, Math.min(400, W * 0.30));
 
       CARDS.forEach((card, i) => {
         const outer   = outerRefs.current[i];
