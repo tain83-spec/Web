@@ -21,13 +21,12 @@ const CARDS: CardDef[] = [
   { src: "/cards/card-7.jpg", specialism: { label: "Boundaries",    href: "/boundaries" } },
 ];
 
-// Desktop: stat cards cluster on the RIGHT; specialism cards spread full-width in the lower half
-// — completely separate screen regions so nothing overlaps
+// Desktop: stat cards cluster on the FAR RIGHT; specialism cards spread full-width in the lower half
 const DESKTOP_FINAL = [
-  { x: 0.65, y: 0.02, rot: -5 },  // UKCP — right cluster
-  { x: 0.60, y: 0.08, rot:  7 },  // 20 years — right cluster
-  { x: 0.68, y: 0.16, rot: -8 },  // 3 locations — right cluster
-  { x: 0.62, y: 0.24, rot:  5 },  // 50 min — right cluster
+  { x: 0.74, y: 0.03, rot: -5 },  // UKCP — far right
+  { x: 0.78, y: 0.16, rot:  7 },  // 20 years — far right
+  { x: 0.74, y: 0.29, rot: -8 },  // 3 locations — far right
+  { x: 0.78, y: 0.42, rot:  5 },  // 50 min — far right
   { x: 0.02, y: 0.56, rot: -3 },  // Anxiety — left column
   { x: 0.36, y: 0.54, rot:  2 },  // Relationships — centre column
   { x: 0.70, y: 0.58, rot: -4 },  // Boundaries — right column
@@ -87,8 +86,8 @@ export default function HeroCards() {
         const flipper = flipRefs.current[i];
         if (!outer || !flipper) return;
 
-        const start = i * 0.10;
-        const dur   = 0.38;
+        const start = i * 0.07;
+        const dur   = 0.30;
         const cp    = clamp((progress - start) / dur, 0, 1);
         const eased = easeOut(cp);
 
