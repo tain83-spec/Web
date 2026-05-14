@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, MapPin, Monitor } from "lucide-react";
 import type { Metadata } from "next";
-import SpecialismSection from "./SpecialismSection";
 import HeroCards from "./HeroCards";
 
 export const metadata: Metadata = {
@@ -23,13 +22,12 @@ export default function Home() {
       {/* Scroll-driven cards with "Space to be" headline */}
       <HeroCards />
 
-      {/* Intro strip */}
+      {/* Intro — simple CTA after cards */}
       <section className="py-20 px-[clamp(1.5rem,5vw,5rem)] bg-[var(--bg)]">
         <div className="max-w-[600px]">
-          <p className="label mb-5">UKCP Registered Psychotherapeutic Counsellor</p>
           <p className="font-body text-lg text-[var(--mid)] mb-8 max-w-[52ch]">
-            Individual therapy in London, Norwich, and online — for people who feel stuck,
-            overwhelmed, or caught in patterns they can&apos;t seem to shift.
+            Individual therapy for people who feel stuck, overwhelmed,
+            or caught in patterns they can&apos;t seem to shift.
           </p>
           <a
             href="mailto:martin@martinalderton.co.uk"
@@ -39,29 +37,6 @@ export default function Home() {
           </a>
         </div>
       </section>
-
-      {/* Stats strip */}
-      <div className="border-b border-[var(--rule)] bg-[var(--surface)]">
-        <div className="mx-auto max-w-[1200px] px-[clamp(1.5rem,5vw,5rem)] py-8">
-          <div className="flex flex-wrap gap-8 md:gap-0 md:divide-x md:divide-[var(--rule)]">
-            {[
-              { value: "20+", label: "Years experience", note: "Mental health & addiction services" },
-              { value: "3", label: "Locations", note: "London, Norwich & online" },
-              { value: "50 min", label: "Sessions", note: "Same time each week" },
-              { value: "UKCP", label: "Registered", note: "Full professional accreditation" },
-            ].map((s) => (
-              <div key={s.label} className="md:px-10 first:pl-0 last:pr-0 flex-1 min-w-[140px]">
-                <p className="font-display text-3xl font-bold text-[var(--ink)]">{s.value}</p>
-                <p className="font-body text-[0.8rem] uppercase tracking-[0.1em] text-[var(--mid)] mt-0.5">{s.label}</p>
-                <p className="font-body text-xs text-[var(--mid)]/70 mt-1">{s.note}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Specialisms */}
-      <SpecialismSection />
 
       {/* Quote */}
       <section className="py-24 px-[clamp(1.5rem,5vw,5rem)] bg-[var(--bg-dark)]">

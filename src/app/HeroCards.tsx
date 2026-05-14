@@ -6,30 +6,34 @@ import Link from "next/link";
 
 type CardDef = {
   src: string;
-  label?: string;
-  href?: string;
+  stat?: { value: string; label: string; note: string };
+  specialism?: { label: string; href: string };
 };
 
+// 4 stat cards, then 3 specialism cards
 const CARDS: CardDef[] = [
-  { src: "/cards/card-9.jpg" },
-  { src: "/cards/card-1.jpg" },
-  { src: "/cards/card-2.jpg", label: "Anxiety",       href: "/anxiety" },
-  { src: "/cards/card-4.jpg", label: "Relationships", href: "/relationships" },
-  { src: "/cards/card-7.jpg", label: "Boundaries",    href: "/boundaries" },
+  { src: "/cards/card-9.jpg", stat: { value: "UKCP",   label: "Registered",  note: "Psychotherapeutic Counsellor" } },
+  { src: "/cards/card-1.jpg", stat: { value: "20+",    label: "Years",        note: "Mental health & addiction" } },
+  { src: "/cards/card-3.jpg", stat: { value: "3",      label: "Locations",    note: "London · Norwich · Online" } },
+  { src: "/cards/card-8.jpg", stat: { value: "50 min", label: "Sessions",     note: "Same time each week" } },
+  { src: "/cards/card-2.jpg", specialism: { label: "Anxiety",       href: "/anxiety" } },
+  { src: "/cards/card-4.jpg", specialism: { label: "Relationships", href: "/relationships" } },
+  { src: "/cards/card-7.jpg", specialism: { label: "Boundaries",    href: "/boundaries" } },
 ];
 
-// Cascade down the left panel — last two cards overlap the headline
+// Zigzag down the left side — specialism cards extend toward/past viewport bottom
 const FINAL = [
-  { x: 0.26, y: 0.02, rot: -5 },
-  { x: 0.06, y: 0.18, rot:  8 },
-  { x: 0.28, y: 0.35, rot: -7 },
-  { x: 0.05, y: 0.52, rot:  9 },
-  { x: 0.24, y: 0.70, rot: -4 },
+  { x: 0.27, y: 0.02, rot: -5 },
+  { x: 0.07, y: 0.16, rot:  8 },
+  { x: 0.28, y: 0.30, rot: -6 },
+  { x: 0.06, y: 0.44, rot:  9 },
+  { x: 0.26, y: 0.58, rot: -7 },
+  { x: 0.07, y: 0.72, rot:  7 },
+  { x: 0.25, y: 0.84, rot: -4 },
 ];
 
-// Pile starts top-centre-left, fan out from here
 const PILE_X = 0.18;
-const PILE_Y = 0.25;
+const PILE_Y = 0.28;
 
 function easeOut(t: number) {
   return 1 - Math.pow(1 - t, 3);
@@ -61,16 +65,15 @@ export default function HeroCards() {
 
       const W     = sticky.offsetWidth;
       const H     = sticky.offsetHeight;
-      // Double the previous size
-      const cardW = Math.max(280, Math.min(480, W * 0.38));
+      const cardW = Math.max(260, Math.min(460, W * 0.36));
 
       CARDS.forEach((card, i) => {
         const outer   = outerRefs.current[i];
         const flipper = flipRefs.current[i];
         if (!outer || !flipper) return;
 
-        const start = i * 0.13;
-        const dur   = 0.42;
+        const start = i * 0.10;
+        const dur   = 0.38;
         const cp    = clamp((progress - start) / dur, 0, 1);
         const eased = easeOut(cp);
 
@@ -82,23 +85,21 @@ export default function HeroCards() {
         const tx = lerp(sx, fx, eased);
         const ty = lerp(sy, fy, eased);
 
-        // 2 full rotations as card is dealt — starts and ends face-up
+        // 2 full rotations — dealt face-up
         const rot = FINAL[i].rot + (1 - eased) * 720;
 
         outer.style.transform = `translate(${tx}px, ${ty}px) rotate(${rot}deg)`;
         outer.style.width     = `${cardW}px`;
 
-        // Flip specialism cards as they land
-        if (card.label) {
-          if (cp > 0.88 && !flipped.current[i]) {
-            flipped.current[i] = true;
-            flipper.style.transform  = "rotateY(180deg)";
-            flipper.style.transition = "transform 0.65s cubic-bezier(0.4,0,0.2,1)";
-          } else if (cp < 0.78 && flipped.current[i]) {
-            flipped.current[i] = false;
-            flipper.style.transform  = "rotateY(0deg)";
-            flipper.style.transition = "transform 0.45s ease";
-          }
+        // All cards flip when they land
+        if (cp > 0.88 && !flipped.current[i]) {
+          flipped.current[i] = true;
+          flipper.style.transform  = "rotateY(180deg)";
+          flipper.style.transition = "transform 0.65s cubic-bezier(0.4,0,0.2,1)";
+        } else if (cp < 0.78 && flipped.current[i]) {
+          flipped.current[i] = false;
+          flipper.style.transform  = "rotateY(0deg)";
+          flipper.style.transition = "transform 0.45s ease";
         }
       });
 
@@ -110,7 +111,7 @@ export default function HeroCards() {
   }, []);
 
   return (
-    <div ref={wrapperRef} style={{ height: "250vh", position: "relative" }}>
+    <div ref={wrapperRef} style={{ height: "290vh", position: "relative" }}>
       <div
         ref={stickyRef}
         style={{
@@ -118,7 +119,7 @@ export default function HeroCards() {
           top: 0,
           height: "100vh",
           background: "#F8F5F0",
-          overflow: "hidden",
+          overflow: "visible", // cards allowed to extend past bottom edge
         }}
       >
         {/* "Space to be" headline — bottom-right, behind cards */}
@@ -169,7 +170,7 @@ export default function HeroCards() {
                   transformStyle: "preserve-3d",
                 }}
               >
-                {/* Front — photo with print-quality frame */}
+                {/* Front — photo */}
                 <div
                   style={{
                     position: "absolute", inset: 0,
@@ -193,10 +194,63 @@ export default function HeroCards() {
                   />
                 </div>
 
-                {/* Back — specialism label */}
-                {card.label && card.href && (
+                {/* Back — stat card */}
+                {card.stat && (
+                  <div
+                    style={{
+                      position: "absolute", inset: 0,
+                      backfaceVisibility: "hidden",
+                      WebkitBackfaceVisibility: "hidden",
+                      transform: "rotateY(180deg)",
+                      background: "#1A1A1A",
+                      borderRadius: 3,
+                      boxShadow:
+                        "0 2px 4px rgba(0,0,0,0.10), 0 8px 24px rgba(0,0,0,0.14), 0 24px 48px rgba(0,0,0,0.10)",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      gap: 6,
+                      padding: "1.5rem",
+                    }}
+                  >
+                    <span style={{
+                      fontFamily: "var(--font-display)",
+                      fontSize: "clamp(1.8rem, 3.5vw, 3.5rem)",
+                      color: "#F8F5F0",
+                      fontWeight: 700,
+                      lineHeight: 1,
+                      letterSpacing: "-0.02em",
+                    }}>
+                      {card.stat.value}
+                    </span>
+                    <span style={{
+                      fontFamily: "var(--font-body)",
+                      fontSize: "clamp(0.55rem, 0.8vw, 0.75rem)",
+                      color: "#F8F5F0",
+                      opacity: 0.5,
+                      textTransform: "uppercase",
+                      letterSpacing: "0.18em",
+                    }}>
+                      {card.stat.label}
+                    </span>
+                    <span style={{
+                      fontFamily: "var(--font-body)",
+                      fontSize: "clamp(0.6rem, 0.85vw, 0.8rem)",
+                      color: "#F8F5F0",
+                      opacity: 0.35,
+                      textAlign: "center",
+                      marginTop: 4,
+                    }}>
+                      {card.stat.note}
+                    </span>
+                  </div>
+                )}
+
+                {/* Back — specialism card (clickable link) */}
+                {card.specialism && (
                   <Link
-                    href={card.href}
+                    href={card.specialism.href}
                     style={{
                       position: "absolute", inset: 0,
                       backfaceVisibility: "hidden",
@@ -221,7 +275,7 @@ export default function HeroCards() {
                       fontWeight: 700,
                       letterSpacing: "-0.01em",
                     }}>
-                      {card.label}
+                      {card.specialism.label}
                     </span>
                     <span style={{
                       fontFamily: "var(--font-body)",
