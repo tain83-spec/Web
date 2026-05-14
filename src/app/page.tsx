@@ -1,25 +1,14 @@
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, MapPin, Monitor } from "lucide-react";
 import type { Metadata } from "next";
 import SpecialismSection from "./SpecialismSection";
+import HeroCards from "./HeroCards";
 
 export const metadata: Metadata = {
   title: "Martin Alderton | Psychotherapeutic Counselling",
   description:
     "UKCP-registered psychotherapeutic counsellor offering individual therapy in London (Harley Street), Norwich, and online. Specialising in anxiety, relationship difficulties, and repeating patterns.",
 };
-
-const scatteredCards = [
-  { src: "/cards/card-1.jpg", left: "5%",  top: "8%",  rot: -6, dur: "8s",    delay: "0s"   },
-  { src: "/cards/card-2.jpg", left: "22%", top: "35%", rot:  4, dur: "10s",   delay: "-3s"  },
-  { src: "/cards/card-3.jpg", left: "42%", top: "5%",  rot: -3, dur: "9s",    delay: "-5s"  },
-  { src: "/cards/card-4.jpg", left: "58%", top: "22%", rot:  7, dur: "11s",   delay: "-2s"  },
-  { src: "/cards/card-6.jpg", left: "73%", top: "40%", rot: -5, dur: "8.5s",  delay: "-7s"  },
-  { src: "/cards/card-7.jpg", left: "15%", top: "52%", rot:  3, dur: "12s",   delay: "-4s"  },
-  { src: "/cards/card-8.jpg", left: "50%", top: "52%", rot: -7, dur: "9.5s",  delay: "-1s"  },
-  { src: "/cards/card-9.jpg", left: "83%", top: "8%",  rot:  2, dur: "10.5s", delay: "-6s"  },
-];
 
 
 const locations = [
@@ -31,95 +20,42 @@ const locations = [
 export default function Home() {
   return (
     <>
-      {/* Hero */}
-      <section className="relative h-[100dvh] min-h-[80vh] overflow-hidden">
-        <Image
-          src="/norwich-practice.jpg"
-          alt="Therapy practice room"
-          fill
-          priority
-          className="object-cover object-center"
-        />
-        <div className="absolute inset-0 z-[2] bg-gradient-to-r from-black/70 via-black/45 to-black/20" />
-        <div className="absolute inset-0 z-[3] flex items-end pb-24 px-[clamp(1.5rem,5vw,5rem)]">
-          <div className="max-w-[750px]">
-            <h1 className="font-display text-white leading-[1.05] mb-6">
-              A space to make sense of what&apos;s going on beneath the surface
-            </h1>
-            <p className="font-body text-lg text-white/60 mb-10 max-w-[52ch]">
-              Individual therapy in London, Norwich, and online — for people who feel stuck,
-              overwhelmed, or caught in patterns they can&apos;t seem to shift.
-            </p>
-            <a
-              href="mailto:martin@martinalderton.co.uk"
-              className="inline-flex items-center gap-2 px-7 py-3.5 bg-[var(--accent)] text-white font-body text-[0.875rem] uppercase tracking-[0.06em] hover:brightness-90 transition-all duration-200 rounded-[4px]"
-            >
-              Get in touch <ArrowRight size={15} />
-            </a>
-          </div>
+      {/* Hero — clean typographic, no photo */}
+      <section className="relative overflow-hidden bg-[var(--bg)] min-h-[80vh] flex flex-col justify-end pb-28 px-[clamp(1.5rem,5vw,5rem)]">
+        {/* Faint watermark */}
+        <span
+          aria-hidden="true"
+          className="absolute bottom-0 left-0 right-0 font-display font-bold italic leading-none select-none pointer-events-none whitespace-nowrap overflow-hidden"
+          style={{
+            fontSize: "clamp(5rem, 18vw, 18rem)",
+            color: "var(--ink)",
+            opacity: 0.03,
+            lineHeight: 0.85,
+          }}
+        >
+          counselling
+        </span>
+
+        <div className="relative z-10 max-w-[750px]">
+          <p className="label mb-6">UKCP Registered Psychotherapeutic Counsellor</p>
+          <h1 className="font-display text-[var(--ink)] leading-[1.05] mb-7">
+            A space to make sense of what&apos;s going on beneath the surface
+          </h1>
+          <p className="font-body text-lg text-[var(--mid)] mb-10 max-w-[52ch]">
+            Individual therapy in London, Norwich, and online — for people who feel stuck,
+            overwhelmed, or caught in patterns they can&apos;t seem to shift.
+          </p>
+          <a
+            href="mailto:martin@martinalderton.co.uk"
+            className="inline-flex items-center gap-2 px-7 py-3.5 bg-[var(--accent)] text-white font-body text-[0.875rem] uppercase tracking-[0.06em] hover:brightness-90 transition-all duration-200 rounded-[4px]"
+          >
+            Get in touch <ArrowRight size={15} />
+          </a>
         </div>
       </section>
 
-      {/* Scattered cards — ning-h.com style */}
-      <section
-        className="relative overflow-hidden"
-        style={{ height: "85vh", background: "#F8F5F0" }}
-        aria-hidden="true"
-      >
-        {/* Typographic anchor */}
-        <p
-          style={{
-            position: "absolute",
-            bottom: "12%",
-            left: "6%",
-            right: "6%",
-            fontFamily: "var(--font-display)",
-            fontSize: "clamp(3.5rem, 8vw, 8rem)",
-            fontStyle: "italic",
-            fontWeight: 700,
-            lineHeight: 1.05,
-            color: "#1A1A1A",
-            opacity: 0.07,
-            margin: 0,
-            pointerEvents: "none",
-            userSelect: "none",
-          }}
-        >
-          therapy as an act of creation
-        </p>
-
-        {/* Scattered cards */}
-        {scatteredCards.map((card, i) => (
-          <div
-            key={i}
-            style={{
-              position: "absolute",
-              left: card.left,
-              top: card.top,
-              zIndex: 5 + i,
-              animationName: "cardFloat",
-              animationDuration: card.dur,
-              animationDelay: card.delay,
-              animationTimingFunction: "ease-in-out",
-              animationIterationCount: "infinite",
-              animationDirection: "alternate",
-            }}
-          >
-            <div
-              style={{
-                transform: `rotate(${card.rot}deg)`,
-                position: "relative",
-                width: 260,
-                aspectRatio: "3/4",
-                borderRadius: 2,
-                overflow: "hidden",
-              }}
-            >
-              <Image src={card.src} alt="" fill style={{ objectFit: "cover" }} />
-            </div>
-          </div>
-        ))}
-      </section>
+      {/* Scattered cards — mouse parallax + flip to reveal specialisms */}
+      <HeroCards />
 
       {/* Stats strip */}
       <div className="border-b border-[var(--rule)] bg-[var(--surface)]">
