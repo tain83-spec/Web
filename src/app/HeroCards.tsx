@@ -75,8 +75,8 @@ export default function HeroCards() {
       const scrollRange = wRect.height - window.innerHeight;
       const progress    = clamp(-wRect.top / scrollRange, 0, 1);
 
-      const W     = sticky.offsetWidth;
-      const H     = sticky.offsetHeight;
+      const W = window.innerWidth;
+      const H = window.innerHeight;
       // Cards always proportional to viewport width — ensures 3-column specialism layout fits
       const isMobile = W < 600;
       const cardW = isMobile ? W * 0.44 : Math.min(W * 0.22, 280);
