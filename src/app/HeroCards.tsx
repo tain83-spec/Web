@@ -44,7 +44,7 @@ export default function HeroCards() {
   const outerRefs = useRef<(HTMLDivElement | null)[]>([]);
   const flipRefs  = useRef<(HTMLDivElement | null)[]>([]);
   const flipped   = useRef<boolean[]>(CARDS.map(() => false));
-  const rafId     = useRef<number>();
+  const rafId     = useRef<number>(0);
 
   useEffect(() => {
     function tick() {
@@ -102,7 +102,7 @@ export default function HeroCards() {
     }
 
     rafId.current = requestAnimationFrame(tick);
-    return () => { if (rafId.current) cancelAnimationFrame(rafId.current); };
+    return () => { cancelAnimationFrame(rafId.current); };
   }, []);
 
   return (
